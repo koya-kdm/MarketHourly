@@ -87,9 +87,8 @@ $connection = new TwitterOAuth($consumer_key,
                                $access_token,
                                $access_token_secret); 
 
-$req = $connection->OAuthRequest("https://api.twitter.com/1.1/statuses/update.json",
-                                 "POST",
-                                 array("status"=> $msg)
-                                );
+$res = $connection->post('statuses/update', array('status' => $msg));
+
+var_dump($res);
 
 ?>
