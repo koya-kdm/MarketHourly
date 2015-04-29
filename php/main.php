@@ -18,26 +18,19 @@ $access_token_secret = "VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
 // つぶやき
 
 
-
-$tickers = array('USDJPY=X', //USD
-                 'INDU',     //Dow
-                 '^IXIC',    //Nasdaq
+$assets = array(array('title' => 'USD',  'ticker' => 'USDJPY=X', 'unit' => '円'),
+                array('title' => '日経', 'ticker' => '^N225',    'unit' => '円'),
+                array('title' => 'Nsdq', 'ticker' => '^IXIC',    'unit' => 'pt'),
                 );
 
-$params  = array('s',  //USD
-                 'n',  //Dow
-                 'l1', //Nasdaq
-                 'd1', //Nasdaq
-                 't1', //Nasdaq
-                 'c',  //Nasdaq
-                 'v',  //Nasdaq
+$params  = array('s',  //
+                 'n',  //
+                 'l1', //
+                 'd1', //
+                 't1', //
+                 'c',  //
+                 'v',  //
                 );
-
-
-$url= "http://finance.yahoo.com/d/quotes.csv?s=".implode("+", $tickers)."&f=". implode('', $params);
-
-//http://finance.yahoo.com/d/quotes.csv?s=INDU+^IXIC+USDJPY=X+^N225&f=snl1c1p2d1t1
-
 /*
 s  = Symbol
 n  = Name
@@ -49,13 +42,35 @@ v  = Volume
 */
 
 
+$tickerString = '';
+foreach ($assets as $key => $asset)
+{
+  $tickerString = $tickerString . $asset['ticker'] . '+';
+}
+
+$url= "http://finance.yahoo.com/d/quotes.csv?s=" . $tickerString . "&f=" . implode('', $params);
+
+//http://finance.yahoo.com/d/quotes.csv?s=INDU+^IXIC+USDJPY=X+^N225&f=snl1c1p2d1t1
+
+
+
+$i = 0;
 $handle = fopen($url, "r");
 while (($data = fgetcsv($handle, 1000, ",")) !== FALSE)
 {
-  foreach($data as $d)
-    echo "$d";
+  
+  $assets[$i]['price' ] = $data[2];
+  $assets[$i]['change'] = $data[5];
+  
+  $i++;
 }
 fclose($handle);
+
+
+foreach ($assets as $key => $asset)
+{
+  echo '■' . $asset['title'] . '：' . $asset['price'] . '（' . $asset['change'] . '）';
+}
 
 
 // つぶやく
