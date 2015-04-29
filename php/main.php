@@ -1,10 +1,11 @@
 <?php
 
 // 設定
-require "./config.php";
+require_once('./config.php');
 
 // OAuthスクリプト
-require "./lib/twitteroauth/autoload.php";
+require_once('./twitteroauth/src/TwitterOAuth.php');
+
 
 
 // つぶやき
@@ -68,7 +69,7 @@ foreach ($assets as $key => $asset)
   
   if ($asset['displays_change'])
   {
-    $msg = $message .  '（' . $asset['change'] . '）';
+    $msg = $msg .  '（' . $asset['change'] . '）';
   }
   
   $msg = $msg . ' ';
