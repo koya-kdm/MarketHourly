@@ -1,10 +1,7 @@
 <?php
 
-
-
-
 // OAuthスクリプトの読み込み
-require_once('twitteroauth/twitteroauth.php');
+//require_once('twitteroauth/twitteroauth.php');
  
 // Consumer key
 $consumer_key = "XXXXXXXXXXXXXXXXXXXXX";
@@ -22,8 +19,24 @@ $access_token_secret = "VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
 
 
 
-$arr = array('^IXIC','^GSPC');
-$url= "http://finance.yahoo.com/d/quotes.csv?s=".implode("+", $arr)."&f="."snl1c1p2d1t1";
+$tickers = array('USDJPY=X', //USD
+                 'INDU',     //Dow
+                 '^IXIC',    //Nasdaq
+                );
+
+$params  = array('s',  //USD
+                 'n',  //Dow
+                 'l1', //Nasdaq
+                 'd1', //Nasdaq
+                 't1', //Nasdaq
+                 'c',  //Nasdaq
+                 'v',  //Nasdaq
+                );
+
+
+$url= "http://finance.yahoo.com/d/quotes.csv?s=".implode("+", $tickers)."&f=". implode('', $params);
+
+//http://finance.yahoo.com/d/quotes.csv?s=INDU+^IXIC+USDJPY=X+^N225&f=snl1c1p2d1t1
 
 /*
 s  = Symbol
@@ -35,25 +48,18 @@ c  = Change and Percent Change
 v  = Volume
 */
 
-echo "<table>";
+
 $handle = fopen($url, "r");
 while (($data = fgetcsv($handle, 1000, ",")) !== FALSE)
 {
-  echo "<tr>";
   foreach($data as $d)
-    echo "<td>$d</td>";
-  echo "</tr>";
+    echo "$d";
 }
 fclose($handle);
-echo "</table>";
-
-$message = 'aaaa';
-
-
-
 
 
 // つぶやく
+/*
 $connection = new TwitterOAuth($consumer_key,
                                $consumer_secret,
                                $access_token,
@@ -65,4 +71,5 @@ $req = $connection->OAuthRequest("https://api.twitter.com/1.1/statuses/update.js
                                 );
 
 
+*/
 ?>
