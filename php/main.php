@@ -3,10 +3,11 @@
 $applicationPath = '/home/ec2-user/markethourly';
 
 // 設定
-require_once($applicationPath . '/php/config.php');
+require_once $applicationPath . '/php/config.php';
 
 // OAuthスクリプト
-require_once($applicationPath . '/php/lib/twitteroauth/src/TwitterOAuth.php');
+require $applicationPath . '/php/lib/twitteroauth/autoload.php';
+use Abraham\TwitterOAuth\TwitterOAuth;
 
 
 
