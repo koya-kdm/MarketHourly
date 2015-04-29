@@ -1,7 +1,9 @@
 <?php
 
-// OAuthスクリプトの読み込み
-//require_once('twitteroauth/twitteroauth.php');
+require "./config.php";
+
+// OAuthスクリプト
+require "./lib/twitteroauth/autoload.php";
  
 // Consumer key
 $consumer_key = "XXXXXXXXXXXXXXXXXXXXX";
@@ -18,9 +20,9 @@ $access_token_secret = "VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
 // つぶやき
 
 
-$assets = array(array('title' => 'USD',  'ticker' => 'USDJPY=X', 'unit' => '円'),
-                array('title' => '日経', 'ticker' => '^N225',    'unit' => '円'),
-                array('title' => 'Nsdq', 'ticker' => '^IXIC',    'unit' => 'pt'),
+$assets = array(array('title' => 'USD',  'ticker' => 'USDJPY=X', 'unit' => '円', 'displays_change' => false),
+                array('title' => '日経', 'ticker' => '^N225',    'unit' => '円', 'displays_change' => true ),
+                array('title' => 'Nsdq', 'ticker' => '^IXIC',    'unit' => 'pt', 'displays_change' => true ),
                 );
 
 $params  = array('s',  //
@@ -29,7 +31,6 @@ $params  = array('s',  //
                  'd1', //
                  't1', //
                  'p2',  //
-                 'v',  //
                 );
 /*
 s  = Symbol
@@ -70,11 +71,20 @@ while (($data = fgetcsv($handle, 1000, ",")) !== FALSE)
 }
 fclose($handle);
 
-
+$msg = '';
 foreach ($assets as $key => $asset)
 {
-  echo '■' . $asset['title'] . '：' . $asset['price'] . '（' . $asset['change'] . '）';
+  $msg = $msg . '■' . $asset['title'] . '：' . $asset['price'] . $asset['unit'];
+  
+  if ($asset['displays_change'])
+  {
+    $msg = $message .  '（' . $asset['change'] . '）';
+  }
+  
+  $msg = $msg . ' ';
 }
+
+echo $message . '\n';
 
 
 // つぶやく
