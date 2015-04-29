@@ -1,22 +1,12 @@
 <?php
 
+// 設定
 require "./config.php";
 
 // OAuthスクリプト
 require "./lib/twitteroauth/autoload.php";
- 
-// Consumer key
-$consumer_key = "XXXXXXXXXXXXXXXXXXXXX";
 
-// Consumer secret
-$consumer_secret = "YYYYYYYYYYYYYYYYYYYYYYYYYYYY";
 
-// Access token
-$access_token = "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ";
-
-// Access token secret
-$access_token_secret = "VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
- 
 // つぶやき
 
 
@@ -84,11 +74,10 @@ foreach ($assets as $key => $asset)
   $msg = $msg . ' ';
 }
 
-echo $message . '\n';
+echo $msg . '\n';
 
 
 // つぶやく
-/*
 $connection = new TwitterOAuth($consumer_key,
                                $consumer_secret,
                                $access_token,
@@ -96,9 +85,7 @@ $connection = new TwitterOAuth($consumer_key,
 
 $req = $connection->OAuthRequest("https://api.twitter.com/1.1/statuses/update.json",
                                  "POST",
-                                 array("status"=> $message)
+                                 array("status"=> $msg)
                                 );
 
-
-*/
 ?>
