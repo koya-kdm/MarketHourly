@@ -28,7 +28,7 @@ $params  = array('s',  //
                  'l1', //
                  'd1', //
                  't1', //
-                 'c',  //
+                 'p2',  //
                  'v',  //
                 );
 /*
@@ -39,6 +39,10 @@ d1 = Last Trade Date
 t1 = Last Trade Time
 c  = Change and Percent Change
 v  = Volume
+
+c6: Change (Realtime)
+k2: Change Percent (Realtime)	
+p2: Change in Percent
 */
 
 
