@@ -1,10 +1,12 @@
 <?php
 
+$applicationPath = '/home/ec2-user/markethourly';
+
 // 設定
-require_once('./config.php');
+require_once($applicationPath . '/php/config.php');
 
 // OAuthスクリプト
-require_once('./twitteroauth/src/TwitterOAuth.php');
+require_once($applicationPath . '/php/lib/twitteroauth/src/TwitterOAuth.php');
 
 
 
