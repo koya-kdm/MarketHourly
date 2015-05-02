@@ -85,7 +85,7 @@ postTweet($twitterAuth, $tweet);
 /*--------------------
   createUrl
 ---------------------*/
-function string createUrl(string $yahooBaseUrl, array $yahooParams, array $assets)
+function createUrl(string $yahooBaseUrl, array $yahooParams, array $assets)
 {
   // e.g.) http://finance.yahoo.com/d/quotes.csv?s=INDU+^IXIC+USDJPY=X+^N225&f=snl1c1p2d1t1
   
@@ -125,7 +125,7 @@ function retrieveStockPrice(string $url, array &$assets)
 /*--------------------
   createMessage
  ---------------------*/
-function string createMessage(array $assets, array $tweetHours)
+function createMessage(array $assets, array $tweetHours)
 {
   $tweet = '';
   $currentHour = (int)date('G');
