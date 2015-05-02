@@ -1,5 +1,26 @@
 <?php
 
+// 仕様
+/*
+
+取引時間
+FX     :24h
+Tokyo  : 9:00〜15:00
+NewYork:22:30〜 5:00 (summer time)
+        23:30〜 6:00
+
+*/
+
+$MARKET_FX = 'FX';
+$MARKET_JP = 'JP';
+$MARKET_US = 'US';
+
+$tweetHours = array($MARKET_FX => array(0, 1, 2, 3 ,4 ,5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,),
+                    $MARKET_JP => array(                           9, 10, 11, 12, 13, 14, 15,                                ),
+                    $MARKET_US => array(0, 1, 2, 3 ,4 ,5, 6,                                                              23,),
+                    );
+
+// Where I am
 $applicationPath = '/home/ec2-user/markethourly';
 
 // 設定の読込み
@@ -10,9 +31,10 @@ require $applicationPath . '/php/lib/twitteroauth/autoload.php';
 use Abraham\TwitterOAuth\TwitterOAuth;
 
 // アセット定義
-$assets = array(array('title' => 'USD',  'ticker' => 'USDJPY=X', 'unit' => '円', 'displays_change' => false),
-                array('title' => '日経',  'ticker' => '^N225',    'unit' => '円', 'displays_change' => true ),
-                array('title' => 'Nsdq', 'ticker' => '^IXIC',    'unit' => 'pt', 'displays_change' => true ),
+$assets = array(array('title' => 'USD',    'ticker' => 'USDJPY=X', 'unit' => '円', 'market' => $MARKET_FX, 'displays_change' => false),
+                array('title' => '日経',    'ticker' => '^N225',    'unit' => '円', 'market' => $MARKET_JP, 'displays_change' => true ),
+                array('title' => 'S&P500', 'ticker' => '^GSPC',    'unit' => 'pt', 'market' => $MARKET_US, 'displays_change' => true ),
+                array('title' => 'Nsdq',   'ticker' => '^IXIC',    'unit' => 'pt', 'market' => $MARKET_US, 'displays_change' => true ),
                 );
 
 // Yahoo Finance パラメータ
@@ -60,8 +82,14 @@ fclose($handle);
 
 // つぶやきの作成
 $msg = '';
+$currentHour = (int)date('G');
 foreach ($assets as $key => $asset)
 {
+  if (false == in_array($currentHour, $tweetHours[$asset['market']]))
+  {
+    continue;
+  }
+
   $msg = $msg . '' . $asset['title'] . '：' . $asset['price'] . $asset['unit'];
   
   if ($asset['displays_change'])
@@ -72,7 +100,7 @@ foreach ($assets as $key => $asset)
   $msg = $msg . ' ';
 }
 
-echo $msg . '\n';
+echo $msg . PHP_EOL;
 
 
 // つぶやきの投稿
