@@ -11,6 +11,8 @@ NewYork:22:30〜 5:00 (summer time)
 
 */
 
+date_default_timezone_set('Asia/Tokyo');
+    
 $MARKET_FX = 'FX';
 $MARKET_JP = 'JP';
 $MARKET_US = 'US';
