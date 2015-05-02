@@ -1,29 +1,34 @@
-<?php
+
 
 // 仕様
-/*
 
-取引時間
-FX     :24h
-Tokyo  : 9:00〜15:00
-NewYork:22:30〜 5:00 (summer time)
-        23:30〜 6:00
+//---------------------------------
+// 定義
+//---------------------------------
 
-*/
+// アプリ格納場所
+$applicationPath = '/home/ec2-user/markethourly';
 
+// タイムゾーン
 date_default_timezone_set('Asia/Tokyo');
-    
+
+// 市場
 $MARKET_FX = 'FX';
 $MARKET_JP = 'JP';
 $MARKET_US = 'US';
 
+// つぶやく時間
+/*
+取引時間
+FX      :24h
+Tokyo   : 9:00〜15:00
+NewYork :22:30〜 5:00 (summer time)
+         23:30〜 6:00
+*/
 $tweetHours = array($MARKET_FX => array(0, 1, 2, 3 ,4 ,5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,),
                     $MARKET_JP => array(                           9, 10, 11, 12, 13, 14, 15,                                ),
                     $MARKET_US => array(0, 1, 2, 3 ,4 ,5, 6,                                                              23,),
                     );
-
-// Where I am
-$applicationPath = '/home/ec2-user/markethourly';
 
 // 設定の読込み
 require_once $applicationPath . '/php/config.php';
@@ -39,6 +44,9 @@ $assets = array(array('title' => 'USD',    'ticker' => 'USDJPY=X', 'unit' => '�
                 array('title' => 'Nsdq',   'ticker' => '^IXIC',    'unit' => 'pt', 'market' => $MARKET_US, 'displays_change' => true ),
                 );
 
+// Yahoo Finace ベースURL
+$yahooBaseUrl= 'http://finance.yahoo.com/d/quotes.csv';
+
 // Yahoo Finance パラメータ
 /*
 s  = Symbol
@@ -52,66 +60,110 @@ c6 = Change (Realtime)
 k2 = Change Percent (Realtime)
 p2 = Change in Percent
 */
-$params  = array('s',
-                 'n',
-                 'l1',
-                 'd1',
-                 't1',
-                 'p2',
-                );
+$yahooParams  = array('s', 'n', 'l1', 'd1', 't1', 'p2', );
+
+//---------------------------------
+// メイン
+//---------------------------------
 
 // URLの作成
-// e.g.) http://finance.yahoo.com/d/quotes.csv?s=INDU+^IXIC+USDJPY=X+^N225&f=snl1c1p2d1t1
-$tickerString = '';
-foreach ($assets as $key => $asset)
-{
-  $tickerString = $tickerString . $asset['ticker'] . '+';
-}
-$baseUrl= 'http://finance.yahoo.com/d/quotes.csv';
-$url= $baseUrl . '?s=' . $tickerString . '&f=' . implode('', $params);
+$url = createUrl($yahooBaseUrl, $yahooParams, $assets);
 
 // 株価の取得
-$i = 0;
-$handle = fopen($url, "r");
-while (($data = fgetcsv($handle, 1000, ",")) !== FALSE)
-{
-  $assets[$i]['price' ] = $data[2];
-  $assets[$i]['change'] = $data[5];
-  
-  $i++;
-}
-fclose($handle);
+retrieveStockPrice($url, $assets);
 
 // つぶやきの作成
-$msg = '';
-$currentHour = (int)date('G');
-foreach ($assets as $key => $asset)
-{
-  if (false == in_array($currentHour, $tweetHours[$asset['market']]))
-  {
-    continue;
-  }
-
-  $msg = $msg . '' . $asset['title'] . '：' . $asset['price'] . $asset['unit'];
-  
-  if ($asset['displays_change'])
-  {
-    $msg = $msg .  '（' . $asset['change'] . '）';
-  }
-  
-  $msg = $msg . ' ';
-}
-
-echo $msg . PHP_EOL;
-
+$tweet = createMessage($assets, $tweetHours);
+echo $tweet . PHP_EOL;
 
 // つぶやきの投稿
-/*
-$connection = new TwitterOAuth($consumer_key,
-                               $consumer_secret,
-                               $access_token,
-                               $access_token_secret); 
+postTweet($twitterAuth, $tweet);
 
-$res = $connection->post('statuses/update', array('status' => $msg));
-*/
+//---------------------------------
+// 関数
+//---------------------------------
+
+/*--------------------
+  createUrl
+---------------------*/
+function string createUrl(string $yahooBaseUrl, array $yahooParams, array $assets)
+{
+  // e.g.) http://finance.yahoo.com/d/quotes.csv?s=INDU+^IXIC+USDJPY=X+^N225&f=snl1c1p2d1t1
+  
+  $tickerString = '';
+  
+  foreach ($assets as $key => $asset)
+  {
+    $tickerString = $tickerString . $asset['ticker'] . '+';
+  }
+  
+  $url= $yahooBaseUrl . '?s=' . $tickerString . '&f=' . implode('', $yahooParams);
+
+  return $url;
+}
+
+/*--------------------
+  retrieveStockPrice
+ ---------------------*/
+function retrieveStockPrice(string $url, array &$assets)
+{
+  $handle = fopen($url, "r");
+
+  $i = 0;
+  while (($data = fgetcsv($handle, 10, ",")) !== FALSE)
+  {
+    $assets[$i]['price' ] = $data[2];
+    $assets[$i]['change'] = $data[5];
+    
+    $i++;
+  }
+  
+  fclose($handle);
+
+  return;
+}
+
+/*--------------------
+  createMessage
+ ---------------------*/
+function string createMessage(array $assets, array $tweetHours)
+{
+  $tweet = '';
+  $currentHour = (int)date('G');
+ 
+  foreach ($assets as $key => $asset)
+  {
+    if (false == in_array($currentHour, $tweetHours[$asset['market']]))
+    {
+      continue;
+    }
+    
+    $tweet = $tweet . '' . $asset['title'] . '：' . $asset['price'] . $asset['unit'];
+    
+    if ($asset['displays_change'])
+    {
+      $tweet = $tweet .  '（' . $asset['change'] . '）';
+    }
+    
+    $tweet = $tweet . ' ';
+  }
+  
+  return $tweet;
+}
+
+/*--------------------
+  postTweet
+ ---------------------*/
+function postTweet(array $twitterAuth, array $tweet)
+{
+  $connection = new TwitterOAuth($twitterAuth['consumer_key'       ],
+                                 $twitterAuth['consumer_secret'    ],
+                                 $twitterAuth['access_token'       ],
+                                 $twitterAuth['access_token_secret']);
+  
+  $res = $connection->post('statuses/update', array('status' => $tweet));
+  
+  return;
+}
+
 ?>

@@ -1,9 +1,9 @@
 <?php
 
 // Twitter
-$consumer_key        = '';
-$consumer_secret     = '';
-$access_token        = '';
-$access_token_secret = '';
+$twitterAuth['consumer_key'       ] = '';
+$twitterAuth['consumer_secret'    ] = '';
+$twitterAuth['access_token'       ] = '';
+$twitterAuth['access_token_secret'] = '';
 
 ?>
