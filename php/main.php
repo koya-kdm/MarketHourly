@@ -8,7 +8,7 @@
 $applicationPath = dirname(__FILE__);
 
 // 設定の読込み
-require_once $applicationPath . '/php/config.php';
+require_once $applicationPath . '/config.php';
 
 // OAuthスクリプトの読込み
 require $applicationPath . '/php/lib/twitteroauth/autoload.php';
