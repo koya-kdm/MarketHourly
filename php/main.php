@@ -44,7 +44,7 @@ $assets = array(array('title' => 'USD',    'ticker' => 'USDJPY=X',  'unit' => '�
                 array('title' => 'EUR',    'ticker' => 'EURJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'price' => '', 'change' => ''),
                 array('title' => '日経',    'ticker' => '^N225',     'unit' => '円', 'market' => MARKET_JP, 'displays_change' => true,  'price' => '', 'change' => ''),
                 array('title' => '香港',    'ticker' => '^HSI',      'unit' => 'pt', 'market' => MARKET_CN, 'displays_change' => true,  'price' => '', 'change' => ''),
-                array('title' => '上海',    'ticker' => '000001.SS', 'unit' => 'pt', 'market' => MARKET_CN, 'displays_change' => true,  'price' => '', 'change' => , 'retrieves_from_gogole' => true, 'g_code' => '7521596'),
+                array('title' => '上海',    'ticker' => '000001.SS', 'unit' => 'pt', 'market' => MARKET_CN, 'displays_change' => true,  'price' => '', 'change' => '', 'retrieves_from_gogole' => true, 'g_code' => '7521596'),
                 array('title' => 'Dow',    'ticker' => '^DJI',      'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'price' => '', 'change' => '', 'retrieves_from_gogole' => true, 'g_code' => '983582'),
                 array('title' => 'S&P500', 'ticker' => '^GSPC',     'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'price' => '', 'change' => ''),
                 array('title' => 'Nasdaq', 'ticker' => '^IXIC',     'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'price' => '', 'change' => ''),
