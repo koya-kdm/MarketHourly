@@ -14,6 +14,7 @@ date_default_timezone_set('Asia/Tokyo');
 // 市場
 define('MARKET_FX', 'fx');
 define('MARKET_JP', 'jp');
+define('MARKET_CN', 'cn');  
 define('MARKET_US', 'us');
   
 
