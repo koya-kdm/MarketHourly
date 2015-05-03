@@ -5,13 +5,13 @@
 //===============================
 
 // アプリ格納場所
-$applicationPath = dirname(__FILE__);
+$applicationPhpPath = dirname(__FILE__);
 
 // 設定の読込み
-require_once $applicationPath . '/config.php';
+require_once $applicationPhpPath . '/config.php';
 
 // OAuthスクリプトの読込み
-require $applicationPath . '/php/lib/twitteroauth/autoload.php';
+require $applicationPhpPath . '/lib/twitteroauth/autoload.php';
 use Abraham\TwitterOAuth\TwitterOAuth;
 
 // タイムゾーン
