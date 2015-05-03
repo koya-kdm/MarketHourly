@@ -38,10 +38,10 @@ require $applicationPath . '/php/lib/twitteroauth/autoload.php';
 use Abraham\TwitterOAuth\TwitterOAuth;
 
 // アセット定義
-$assets = array(array('title' => 'USD',    'ticker' => 'USDJPY=X', 'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false),
-                array('title' => '日経',    'ticker' => '^N225',    'unit' => '円', 'market' => MARKET_JP, 'displays_change' => true ),
-                array('title' => 'S&P500', 'ticker' => '^GSPC',    'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true ),
-                array('title' => 'Nsdq',   'ticker' => '^IXIC',    'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true ),
+$assets = array(array('title' => 'USD',    'ticker' => 'USDJPY=X', 'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'price' => '', 'change' => ''),
+                array('title' => '日経',    'ticker' => '^N225',    'unit' => '円', 'market' => MARKET_JP, 'displays_change' => true,  'price' => '', 'change' => ''),
+                array('title' => 'S&P500', 'ticker' => '^GSPC',    'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'price' => '', 'change' => ''),
+                array('title' => 'Nasdaq', 'ticker' => '^IXIC',    'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'price' => '', 'change' => ''),
                 );
 
 // Yahoo Finace ベースURL
@@ -77,7 +77,7 @@ $tweet = createTweet($assets, $tweetHours);
 echo $tweet . PHP_EOL;
 
 // つぶやきの投稿
-postTweet($twitterAuth, $tweet);
+//postTweet($twitterAuth, $tweet);
 
 //---------------------------------
 // 関数
