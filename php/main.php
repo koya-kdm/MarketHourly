@@ -120,7 +120,7 @@ function retrieveStockPrice($url, &$assets)
     if (true == isset($assets[$i]['retrieves_from_gogole']) AND
         true == $assets[$i]['retrieves_from_gogole'])
     {
-      retrieveStockPriceFromGoogle($assets[$i])
+      retrieveStockPriceFromGoogle($assets[$i]);
     }
     else
     {
