@@ -1,9 +1,9 @@
 <?php
 // 仕様
 
-//---------------------------------
+//===============================
 // 定義
-//---------------------------------
+//===============================
 
 // アプリ格納場所
 $applicationPath = '/home/ec2-user/markethourly';
@@ -17,17 +17,20 @@ define('MARKET_JP', 'jp');
 define('MARKET_US', 'us');
   
 
-// つぶやく時間
+// ツイートする時間
 /*
 取引時間
 FX      :24h
 Tokyo   : 9:00〜15:00
+Shanghi :10:30〜16:00
+HongKong:10:30〜16:00
 NewYork :22:30〜 5:00 (summer time)
          23:30〜 6:00
 */
 $tweetHours = array(MARKET_FX => array(0, 1, 2, 3 ,4 ,5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,),
-                    MARKET_JP => array(                           9, 10, 11, 12, 13, 14, 15,                                ),
-                    MARKET_US => array(0, 1, 2, 3 ,4 ,5, 6,                                                              23,),
+                    MARKET_JP => array(                           9, 10, 11, 12, 13, 14, 15, 16,                            ),
+                    MARKET_CN => array(                                  11, 12, 13, 14, 15, 16, 17,                        ),
+                    MARKET_US => array(0, 1, 2, 3 ,4 ,5, 6, 7,                                                           23,),
                     );
 
 // 設定の読込み
@@ -38,10 +41,13 @@ require $applicationPath . '/php/lib/twitteroauth/autoload.php';
 use Abraham\TwitterOAuth\TwitterOAuth;
 
 // アセット定義
-$assets = array(array('title' => 'USD',    'ticker' => 'USDJPY=X', 'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'price' => '', 'change' => ''),
-                array('title' => '日経',    'ticker' => '^N225',    'unit' => '円', 'market' => MARKET_JP, 'displays_change' => true,  'price' => '', 'change' => ''),
-                array('title' => 'S&P500', 'ticker' => '^GSPC',    'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'price' => '', 'change' => ''),
-                array('title' => 'Nasdaq', 'ticker' => '^IXIC',    'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'price' => '', 'change' => ''),
+$$tweet = array(array('title' => 'USD',    'ticker' => 'USDJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'price' => '', 'change' => ''),
+                array('title' => 'EUR',    'ticker' => 'EURJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'price' => '', 'change' => ''),
+                array('title' => '日経',    'ticker' => '^N225',     'unit' => '円', 'market' => MARKET_JP, 'displays_change' => true,  'price' => '', 'change' => ''),
+                array('title' => '香港',    'ticker' => '^HSI',      'unit' => '円', 'market' => MARKET_CN, 'displays_change' => true,  'price' => '', 'change' => ''),
+                array('title' => '上海',    'ticker' => '000001.SS', 'unit' => 'pt', 'market' => MARKET_CN, 'displays_change' => true,  'price' => '', 'change' => ''),
+                array('title' => 'S&P500', 'ticker' => '^GSPC',     'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'price' => '', 'change' => ''),
+                array('title' => 'Nasdaq', 'ticker' => '^IXIC',     'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'price' => '', 'change' => ''),
                 );
 
 // Yahoo Finace ベースURL
@@ -62,26 +68,25 @@ p2 = Change in Percent
 */
 $yahooParams  = array('s', 'n', 'l1', 'd1', 't1', 'p2', );
 
-//---------------------------------
+//===============================
 // メイン
-//---------------------------------
-
+//===============================
 // URLの作成
-$url = createUrl($yahooBaseUrl, $yahooParams, $assets);
+$url = createUrl($yahooBaseUrl, $yahooParams, $$tweet);
 
 // 株価の取得
 retrieveStockPrice($url, $assets);
 
-// つぶやきの作成
+// ツイートの作成
 $tweet = createTweet($assets, $tweetHours);
 echo $tweet . PHP_EOL;
 
-// つぶやきの投稿
+// ツイートの投稿
 //postTweet($twitterAuth, $tweet);
 
-//---------------------------------
+//===============================
 // 関数
-//---------------------------------
+//===============================
 
 /*--------------------
   createUrl
@@ -113,7 +118,7 @@ function retrieveStockPrice($url, &$assets)
   while (($data = fgetcsv($handle, 1000, ',')) != false)
   {
     $assets[$i]['price' ] = $data[2];
-    $assets[$i]['change'] = str_replace(array('+', '-'), array('△', '▼'), $data[5]);
+    $assets[$i]['change'] = $data[5];
     
     $i++;
   }
@@ -125,35 +130,47 @@ function retrieveStockPrice($url, &$assets)
 
 /*--------------------
   createTweet
- ---------------------*/
+---------------------*/
 function createTweet($assets, $tweetHours)
 {
   $tweet = '';
+  $tweetTail = '';
   $currentHour = (int)date('G');
  
   foreach ($assets as $key => $asset)
   {
+    // 時間外アセットはツイートの後方に
     if (false == in_array($currentHour, $tweetHours[$asset['market']]))
     {
+      $tweetTail = $tweetTail . '' . createTweetOfOneAsset($asset) . ' ';
       continue;
     }
     
-    $tweet = $tweet . '' . $asset['title'] . '：' . $asset['price'] . $asset['unit'];
-    
-    if ($asset['displays_change'])
-    {
-      $tweet = $tweet .  '（' . $asset['change'] . '）';
-    }
-    
-    $tweet = $tweet . ' ';
+    $tweet = $tweet . '' . createTweetOfOneAsset($asset) . ' ';
   }
   
-  return $tweet;
+  return $tweet . $tweetTail;
+}
+
+/*--------------------
+  createTweetOfOneAsset
+---------------------*/
+function createTweetOfOneAsset($asset)
+{
+  $tweetOfOneAsset = $asset['title'] . '：' . $asset['price'] . $asset['unit'];
+  
+  if ($asset['displays_change'])
+  {
+    $tweetOfOneAsset = $tweetOfOneAsset
+                     . '（' . str_replace(array('+', '-'), array('△', '▼'), $asset['change']) . '）';
+  }
+  
+  return $tweetOfOneAsset;
 }
 
 /*--------------------
   postTweet
- ---------------------*/
+---------------------*/
 function postTweet($twitterAuth, $tweet)
 {
   $connection = new TwitterOAuth($twitterAuth['consumer_key'       ],
