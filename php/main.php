@@ -39,16 +39,29 @@ $tweetHours = array(MARKET_FX => array(0, 1, 2, 3 ,4 ,5, 6, 7, 8, 9, 10, 11, 12,
                     MARKET_US => array(0, 1, 2, 3 ,4 ,5, 6, 7,                                                           23,),
                     );
 
+// 休場日
+$holidays = array(MARKET_FX => '2015' = array(),
+                  MARKET_JP => '2015' = array(),
+                  MARKET_CN => '2015' = array(),
+                  MARKET_US => '2015' = array(),
+                  );
+
 // アセット定義
-$assets = array(array('title' => 'USD',    'ticker' => 'USDJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'price' => '', 'change' => ''),
-                array('title' => 'EUR',    'ticker' => 'EURJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'price' => '', 'change' => ''),
-                array('title' => '日経',    'ticker' => '^N225',     'unit' => '円', 'market' => MARKET_JP, 'displays_change' => true,  'price' => '', 'change' => ''),
-                array('title' => '香港',    'ticker' => '^HSI',      'unit' => 'pt', 'market' => MARKET_CN, 'displays_change' => true,  'price' => '', 'change' => ''),
-                array('title' => '上海',    'ticker' => '000001.SS', 'unit' => 'pt', 'market' => MARKET_CN, 'displays_change' => true,  'price' => '', 'change' => '', 'retrieves_from_gogole' => true, 'g_code' => '7521596'),
-                array('title' => 'Dow',    'ticker' => '^DJI',      'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'price' => '', 'change' => '', 'retrieves_from_gogole' => true, 'g_code' => '983582'),
-                array('title' => 'S&P500', 'ticker' => '^GSPC',     'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'price' => '', 'change' => ''),
-                array('title' => 'Nasdaq', 'ticker' => '^IXIC',     'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'price' => '', 'change' => ''),
-                );
+$assets
+  = array(
+    0 => array('title' => 'USD',    'ticker' => 'USDJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'price' => '', 'change' => ''),
+    1 => array('title' => 'EUR',    'ticker' => 'EURJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'price' => '', 'change' => ''),
+    2 => array('title' => '日経',    'ticker' => '^N225',     'unit' => '円', 'market' => MARKET_JP, 'displays_change' => true,  'price' => '', 'change' => ''),
+    3 => array('title' => '香港',    'ticker' => '^HSI',      'unit' => 'pt', 'market' => MARKET_CN, 'displays_change' => true,  'price' => '', 'change' => ''),
+    4 => array('title' => '上海',    'ticker' => '000001.SS', 'unit' => 'pt', 'market' => MARKET_CN, 'displays_change' => true,  'price' => '', 'change' => ''),
+    5 => array('title' => 'Dow',    'ticker' => '^DJI',      'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'price' => '', 'change' => ''),
+    6 => array('title' => 'S&P500', 'ticker' => '^GSPC',     'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'price' => '', 'change' => ''),
+    7 => array('title' => 'Nasdaq', 'ticker' => '^IXIC',     'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'price' => '', 'change' => ''),
+    );
+
+// アセット追加定義（Yahoo非対応アセットはGoogleから取得）
+array_push($assets[4], array('retrieves_from_gogole' => true, 'g_code' => '7521596')); //上海
+array_push($assets[5], array('retrieves_from_gogole' => true, 'g_code' => '983582' )); //Dow
 
 // Yahoo Finace ベースURL
 define('YAHOO_BASE_URL', 'http://finance.yahoo.com/d/quotes.csv');
@@ -207,7 +220,8 @@ function retrieveStockPriceFromGoogle(&$asset)
   
   if (preg_match('/<span class="chg" id="ref_' . $asset['g_code'] . '_cp">\((.*)\)<\/span>/is', $html, $matches))
   {
-    $asset['change'] = $matches[1];
+    $asset['change'] = '△' . $matches[1];
+    $asset['change'] = str_replace('△-', '▼', $asset['change']);
   }
   
   return;
