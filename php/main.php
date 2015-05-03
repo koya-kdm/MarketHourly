@@ -42,7 +42,7 @@ require $applicationPath . '/php/lib/twitteroauth/autoload.php';
 use Abraham\TwitterOAuth\TwitterOAuth;
 
 // アセット定義
-$asset = array(array('title' => 'USD',    'ticker' => 'USDJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'price' => '', 'change' => ''),
+$assets = array(array('title' => 'USD',    'ticker' => 'USDJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'price' => '', 'change' => ''),
                 array('title' => 'EUR',    'ticker' => 'EURJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'price' => '', 'change' => ''),
                 array('title' => '日経',    'ticker' => '^N225',     'unit' => '円', 'market' => MARKET_JP, 'displays_change' => true,  'price' => '', 'change' => ''),
                 array('title' => '香港',    'ticker' => '^HSI',      'unit' => '円', 'market' => MARKET_CN, 'displays_change' => true,  'price' => '', 'change' => ''),
@@ -73,7 +73,7 @@ $yahooParams  = array('s', 'n', 'l1', 'd1', 't1', 'p2', );
 // メイン
 //===============================
 // URLの作成
-$url = createUrl($yahooBaseUrl, $yahooParams, $$tweet);
+$url = createUrl($yahooBaseUrl, $yahooParams, $assets);
 
 // 株価の取得
 retrieveStockPrice($url, $assets);
