@@ -12,9 +12,10 @@ $applicationPath = '/home/ec2-user/markethourly';
 date_default_timezone_set('Asia/Tokyo');
 
 // 市場
-$MARKET_FX = 'FX';
-$MARKET_JP = 'JP';
-$MARKET_US = 'US';
+define('MARKET_FX', 'fx');
+define('MARKET_JP', 'jp');
+define('MARKET_US', 'us');
+  
 
 // つぶやく時間
 /*
@@ -24,9 +25,9 @@ Tokyo   : 9:00〜15:00
 NewYork :22:30〜 5:00 (summer time)
          23:30〜 6:00
 */
-$tweetHours = array($MARKET_FX => array(0, 1, 2, 3 ,4 ,5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,),
-                    $MARKET_JP => array(                           9, 10, 11, 12, 13, 14, 15,                                ),
-                    $MARKET_US => array(0, 1, 2, 3 ,4 ,5, 6,                                                              23,),
+$tweetHours = array(MARKET_FX => array(0, 1, 2, 3 ,4 ,5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,),
+                    MARKET_JP => array(                           9, 10, 11, 12, 13, 14, 15,                                ),
+                    MARKET_US => array(0, 1, 2, 3 ,4 ,5, 6,                                                              23,),
                     );
 
 // 設定の読込み
@@ -37,10 +38,10 @@ require $applicationPath . '/php/lib/twitteroauth/autoload.php';
 use Abraham\TwitterOAuth\TwitterOAuth;
 
 // アセット定義
-$assets = array(array('title' => 'USD',    'ticker' => 'USDJPY=X', 'unit' => '円', 'market' => $MARKET_FX, 'displays_change' => false),
-                array('title' => '日経',    'ticker' => '^N225',    'unit' => '円', 'market' => $MARKET_JP, 'displays_change' => true ),
-                array('title' => 'S&P500', 'ticker' => '^GSPC',    'unit' => 'pt', 'market' => $MARKET_US, 'displays_change' => true ),
-                array('title' => 'Nsdq',   'ticker' => '^IXIC',    'unit' => 'pt', 'market' => $MARKET_US, 'displays_change' => true ),
+$assets = array(array('title' => 'USD',    'ticker' => 'USDJPY=X', 'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false),
+                array('title' => '日経',    'ticker' => '^N225',    'unit' => '円', 'market' => MARKET_JP, 'displays_change' => true ),
+                array('title' => 'S&P500', 'ticker' => '^GSPC',    'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true ),
+                array('title' => 'Nsdq',   'ticker' => '^IXIC',    'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true ),
                 );
 
 // Yahoo Finace ベースURL
@@ -72,7 +73,7 @@ $url = createUrl($yahooBaseUrl, $yahooParams, $assets);
 retrieveStockPrice($url, $assets);
 
 // つぶやきの作成
-$tweet = createMessage($assets, $tweetHours);
+$tweet = createTweet($assets, $tweetHours);
 echo $tweet . PHP_EOL;
 
 // つぶやきの投稿
@@ -109,7 +110,7 @@ function retrieveStockPrice($url, &$assets)
   $handle = fopen($url, "r");
 
   $i = 0;
-  while (($data = fgetcsv($handle, 10, ",")) !== FALSE)
+  while (($data = fgetcsv($handle, 10, ",")) != false)
   {
     $assets[$i]['price' ] = $data[2];
     $assets[$i]['change'] = $data[5];
@@ -123,9 +124,9 @@ function retrieveStockPrice($url, &$assets)
 }
 
 /*--------------------
-  createMessage
+  createTweet
  ---------------------*/
-function createMessage($assets, $tweetHours)
+function createTweet($assets, $tweetHours)
 {
   $tweet = '';
   $currentHour = (int)date('G');
