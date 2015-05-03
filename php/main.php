@@ -107,13 +107,13 @@ function createUrl($yahooBaseUrl, $yahooParams, $assets)
  ---------------------*/
 function retrieveStockPrice($url, &$assets)
 {
-  $handle = fopen($url, "r");
+  $handle = fopen($url, 'r');
 
   $i = 0;
-  while (($data = fgetcsv($handle, 10, ",")) != false)
+  while (($data = fgetcsv($handle, 1000, ',')) != false)
   {
     $assets[$i]['price' ] = $data[2];
-    $assets[$i]['change'] = $data[5];
+    $assets[$i]['change'] = str_replace(array('+', '-'), array('△', '▼'), $data[5]);
     
     $i++;
   }
