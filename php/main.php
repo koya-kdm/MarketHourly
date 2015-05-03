@@ -104,7 +104,7 @@ function createUrl(string $yahooBaseUrl, array $yahooParams, array $assets)
 /*--------------------
   retrieveStockPrice
  ---------------------*/
-function retrieveStockPrice(string $url, array &$assets)
+function retrieveStockPrice($url, &$assets)
 {
   $handle = fopen($url, "r");
 
@@ -125,7 +125,7 @@ function retrieveStockPrice(string $url, array &$assets)
 /*--------------------
   createMessage
  ---------------------*/
-function createMessage(array $assets, array $tweetHours)
+function createMessage($assets, $tweetHours)
 {
   $tweet = '';
   $currentHour = (int)date('G');
@@ -153,7 +153,7 @@ function createMessage(array $assets, array $tweetHours)
 /*--------------------
   postTweet
  ---------------------*/
-function postTweet(array $twitterAuth, array $tweet)
+function postTweet($twitterAuth, $tweet)
 {
   $connection = new TwitterOAuth($twitterAuth['consumer_key'       ],
                                  $twitterAuth['consumer_secret'    ],
