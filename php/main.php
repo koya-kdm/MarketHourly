@@ -14,7 +14,7 @@ date_default_timezone_set('Asia/Tokyo');
 // 市場
 define('MARKET_FX', 'fx');
 define('MARKET_JP', 'jp');
-define('MARKET_CN', 'cn');  
+define('MARKET_CN', 'cn');
 define('MARKET_US', 'us');
   
 
@@ -42,7 +42,7 @@ require $applicationPath . '/php/lib/twitteroauth/autoload.php';
 use Abraham\TwitterOAuth\TwitterOAuth;
 
 // アセット定義
-$$tweet = array(array('title' => 'USD',    'ticker' => 'USDJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'price' => '', 'change' => ''),
+$asset = array(array('title' => 'USD',    'ticker' => 'USDJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'price' => '', 'change' => ''),
                 array('title' => 'EUR',    'ticker' => 'EURJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'price' => '', 'change' => ''),
                 array('title' => '日経',    'ticker' => '^N225',     'unit' => '円', 'market' => MARKET_JP, 'displays_change' => true,  'price' => '', 'change' => ''),
                 array('title' => '香港',    'ticker' => '^HSI',      'unit' => '円', 'market' => MARKET_CN, 'displays_change' => true,  'price' => '', 'change' => ''),
