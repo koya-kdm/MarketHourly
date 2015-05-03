@@ -45,7 +45,7 @@ use Abraham\TwitterOAuth\TwitterOAuth;
 $assets = array(array('title' => 'USD',    'ticker' => 'USDJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'price' => '', 'change' => ''),
                 array('title' => 'EUR',    'ticker' => 'EURJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'price' => '', 'change' => ''),
                 array('title' => '日経',    'ticker' => '^N225',     'unit' => '円', 'market' => MARKET_JP, 'displays_change' => true,  'price' => '', 'change' => ''),
-                array('title' => '香港',    'ticker' => '^HSI',      'unit' => '円', 'market' => MARKET_CN, 'displays_change' => true,  'price' => '', 'change' => ''),
+                array('title' => '香港',    'ticker' => '^HSI',      'unit' => 'pt', 'market' => MARKET_CN, 'displays_change' => true,  'price' => '', 'change' => ''),
                 array('title' => '上海',    'ticker' => '000001.SS', 'unit' => 'pt', 'market' => MARKET_CN, 'displays_change' => true,  'price' => '', 'change' => ''),
                 array('title' => 'S&P500', 'ticker' => '^GSPC',     'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'price' => '', 'change' => ''),
                 array('title' => 'Nasdaq', 'ticker' => '^IXIC',     'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'price' => '', 'change' => ''),
@@ -134,6 +134,8 @@ function retrieveStockPrice($url, &$assets)
 ---------------------*/
 function createTweet($assets, $tweetHours)
 {
+  // e.g.) USD：120.2050円 EUR：134.6356円 日経：19531.63円（△0.06%） 香港：28133.00円（▼0.94%） 上海：N/Apt（N/A） S&P500：2108.29pt（△1.09%） Nasdaq：5005.39pt（△1.29%）
+  
   $tweet = '';
   $tweetTail = '';
   $currentHour = (int)date('G');
@@ -158,12 +160,12 @@ function createTweet($assets, $tweetHours)
 ---------------------*/
 function createTweetOfOneAsset($asset)
 {
-  $tweetOfOneAsset = $asset['title'] . '：' . $asset['price'] . $asset['unit'];
+  $tweetOfOneAsset = $asset['title'] . '=' . round($asset['price'], 2) . $asset['unit'];
   
   if ($asset['displays_change'])
   {
     $tweetOfOneAsset = $tweetOfOneAsset
-                     . '（' . str_replace(array('+', '-'), array('△', '▼'), $asset['change']) . '）';
+                     . '(' . str_replace(array('+', '-'), array('△', '▼'), $asset['change']) . ')';
   }
   
   return $tweetOfOneAsset;
