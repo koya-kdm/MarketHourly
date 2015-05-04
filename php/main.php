@@ -40,10 +40,10 @@ $tweetHours = array(MARKET_FX => array(0, 1, 2, 3 ,4 ,5, 6, 7, 8, 9, 10, 11, 12,
                     );
 
 // 休場日
-$holidays = array(MARKET_FX => '2015' = array(),
-                  MARKET_JP => '2015' = array(),
-                  MARKET_CN => '2015' = array(),
-                  MARKET_US => '2015' = array(),
+$holidays = array(MARKET_FX => array('2015' = array()),
+                  MARKET_JP => array('2015' = array()),
+                  MARKET_CN => array('2015' = array()),
+                  MARKET_US => array('2015' = array()),
                   );
 
 // アセット定義
