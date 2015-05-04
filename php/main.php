@@ -60,8 +60,10 @@ $assets
     );
 
 // アセット追加定義（Yahoo非対応アセットはGoogleから取得）
-array_push($assets[4], array('retrieves_from_gogole' => true, 'g_code' => '7521596')); //上海
-array_push($assets[5], array('retrieves_from_gogole' => true, 'g_code' => '983582' )); //Dow
+$assets[4] = array_merge($assets[4], array('retrieves_from_gogole' => true, 'g_code' => '7521596')); //上海
+$assets[5] = array_merge($assets[5], array('retrieves_from_gogole' => true, 'g_code' => '983582' )); //Dow
+
+print_r($assets);
 
 // Yahoo Finace ベースURL
 define('YAHOO_BASE_URL', 'http://finance.yahoo.com/d/quotes.csv');
