@@ -92,9 +92,10 @@ retrieveStockPrice($url, $assets);
 
 // ツイートの作成
 $tweet = createTweet($assets, $tweetHours);
-echo $tweet . PHP_EOL;
 
-print_r($assets);
+// Debug
+//print_r($assets);
+echo $tweet . PHP_EOL;
 
 // ツイートの投稿
 postTweet($twitterAuth, $tweet);
@@ -206,6 +207,8 @@ function postTweet($twitterAuth, $tweet)
                                  $twitterAuth['access_token_secret']);
   
   $res = $connection->post('statuses/update', array('status' => mb_substr($tweet, 0, 140)));
+  
+  // var_dump($res);
   
   return;
 }
