@@ -217,13 +217,15 @@ function retrieveStockPriceFromGoogle(&$asset)
   
   if (preg_match('/<span id="ref_' . $asset['g_code'] . '_l">([\d,.]*)<\/span>/is', $html, $matches))
   {
+    print_r($matches);
+    
     $asset['price'] = $matches[1];
   }
   
   if (preg_match('/<span class="chg" id="ref_' . $asset['g_code'] . '_cp">\(([\d.-]*%)\)<\/span>/is', $html, $matches))
   {
-    $asset['change'] = '△' . $matches[1];
-    $asset['change'] = str_replace('△-', '▼', $asset['change']);
+    $asset['change'] = '+' . $matches[1];
+    $asset['change'] = str_replace('+-', '-', $asset['change']);
   }
   
   return;
