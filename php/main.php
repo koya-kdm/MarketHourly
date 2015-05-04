@@ -1,4 +1,4 @@
-//<?php
+<?php
 
 //===============================
 // 定義
@@ -63,8 +63,6 @@ $assets
 $assets[4] = array_merge($assets[4], array('retrieves_from_gogole' => true, 'g_code' => '7521596')); //上海
 $assets[5] = array_merge($assets[5], array('retrieves_from_gogole' => true, 'g_code' => '983582' )); //Dow
 
-print_r($assets);
-
 // Yahoo Finace ベースURL
 define('YAHOO_BASE_URL', 'http://finance.yahoo.com/d/quotes.csv');
 
@@ -95,6 +93,8 @@ retrieveStockPrice($url, $assets);
 // ツイートの作成
 $tweet = createTweet($assets, $tweetHours);
 echo $tweet . PHP_EOL;
+
+print_r($assets);
 
 // ツイートの投稿
 postTweet($twitterAuth, $tweet);
@@ -182,7 +182,7 @@ function createTweet($assets, $tweetHours)
 ---------------------*/
 function createTweetOfOneAsset($asset)
 {
-  $tweetOfOneAsset = $asset['title'] . '=' . round($asset['price'], 2) . $asset['unit'];
+  $tweetOfOneAsset = $asset['title'] . ' ' . round($asset['price'], 2) . $asset['unit'];
   
   if ($asset['displays_change'])
   {
