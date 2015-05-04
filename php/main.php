@@ -49,16 +49,16 @@ $holidays = array(MARKET_FX => array('2015' => array()),
 // アセット定義
 $assets
   = array(
-    0 => array('title' => 'USD',    'ticker' => 'USDJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'price' => '', 'change' => ''),
-    1 => array('title' => 'EUR',    'ticker' => 'EURJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'price' => '', 'change' => ''),
-    2 => array('title' => '日経',    'ticker' => '^N225',     'unit' => '円', 'market' => MARKET_JP, 'displays_change' => true,  'price' => '', 'change' => ''),
-    3 => array('title' => '香港',    'ticker' => '^HSI',      'unit' => 'pt', 'market' => MARKET_CN, 'displays_change' => true,  'price' => '', 'change' => ''),
-    4 => array('title' => '上海',    'ticker' => '000001.SS', 'unit' => 'pt', 'market' => MARKET_CN, 'displays_change' => true,  'price' => '', 'change' => ''),
-    5 => array('title' => 'Dow',    'ticker' => '^DJI',      'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'price' => '', 'change' => ''),
-    6 => array('title' => 'S&P500', 'ticker' => '^GSPC',     'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'price' => '', 'change' => ''),
-    7 => array('title' => 'Nasdaq', 'ticker' => '^IXIC',     'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'price' => '', 'change' => ''),
+    0 => array('title' => '米ド', 'ticker' => 'USDJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'decimals' => 2, 'price' => '', 'change' => ''),
+    1 => array('title' => 'ユロ', 'ticker' => 'EURJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'decimals' => 2, 'price' => '', 'change' => ''),
+    2 => array('title' => '日経', 'ticker' => '^N225',     'unit' => '円', 'market' => MARKET_JP, 'displays_change' => true, 'decimals' => 0, 'price' => '', 'change' => ''),
+    3 => array('title' => '香港', 'ticker' => '^HSI',      'unit' => 'pt', 'market' => MARKET_CN, 'displays_change' => true, 'decimals' => 0, 'price' => '', 'change' => ''),
+    4 => array('title' => '上海', 'ticker' => '000001.SS', 'unit' => 'pt', 'market' => MARKET_CN, 'displays_change' => true, 'decimals' => 0, 'price' => '', 'change' => ''),
+    5 => array('title' => 'ダウ', 'ticker' => '^DJI',      'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true, 'decimals' => 0, 'price' => '', 'change' => ''),
+    6 => array('title' => 'ナス', 'ticker' => '^IXIC',     'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true, 'decimals' => 0, 'price' => '', 'change' => ''),
     );
-
+//6 => array('title' => 'S&P500', 'ticker' => '^GSPC',     'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true, 'decimals' => 0, 'price' => '', 'change' => ''),
+  
 // アセット追加定義（Yahoo非対応アセットはGoogleから取得）
 $assets[4] = array_merge($assets[4], array('retrieves_from_gogole' => true, 'g_code' => '7521596')); //上海
 $assets[5] = array_merge($assets[5], array('retrieves_from_gogole' => true, 'g_code' => '983582' )); //Dow
@@ -171,7 +171,7 @@ function createTweet($assets, $tweetHours)
       continue;
     }
     
-    $tweet = $tweet . '' . createTweetOfOneAsset($asset) . ',';
+    $tweet = $tweet . '' . createTweetOfOneAsset($asset) . ' ';
   }
   
   return $tweet . $tweetTail;
@@ -182,7 +182,9 @@ function createTweet($assets, $tweetHours)
 ---------------------*/
 function createTweetOfOneAsset($asset)
 {
-  $tweetOfOneAsset = $asset['title'] . ' ' . number_format($asset['price'], 2) . $asset['unit'];
+  $tweetOfOneAsset = $asset['title']
+                   . ''
+                   . number_format($asset['price'], $asset['decimals']);
   
   if ($asset['displays_change'])
   {
@@ -203,7 +205,7 @@ function postTweet($twitterAuth, $tweet)
                                  $twitterAuth['access_token'       ],
                                  $twitterAuth['access_token_secret']);
   
-  $res = $connection->post('statuses/update', array('status' => $tweet));
+  $res = $connection->post('statuses/update', array('status' => mb_substr($tweet, 0, 140)));
   
   return;
 }
