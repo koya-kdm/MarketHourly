@@ -49,8 +49,8 @@ $holidays = array(MARKET_FX => array('2015' => array()),
 // アセット定義
 $assets
   = array(
-    0 => array('title' => '米', 　'ticker' => 'USDJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'decimals' => 2, 'price' => '', 'change' => ''),
-    1 => array('title' => '欧',　 'ticker' => 'EURJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'decimals' => 2, 'price' => '', 'change' => ''),
+    0 => array('title' => '米',  'ticker' => 'USDJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'decimals' => 2, 'price' => '', 'change' => ''),
+    1 => array('title' => '欧',  'ticker' => 'EURJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'decimals' => 2, 'price' => '', 'change' => ''),
     2 => array('title' => '日経', 'ticker' => '^N225',     'unit' => '円', 'market' => MARKET_JP, 'displays_change' => true, 'decimals' => 0, 'price' => '', 'change' => ''),
     3 => array('title' => '香港', 'ticker' => '^HSI',      'unit' => 'pt', 'market' => MARKET_CN, 'displays_change' => true, 'decimals' => 0, 'price' => '', 'change' => ''),
     4 => array('title' => '上海', 'ticker' => '000001.SS', 'unit' => 'pt', 'market' => MARKET_CN, 'displays_change' => true, 'decimals' => 0, 'price' => '', 'change' => ''),
