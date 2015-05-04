@@ -182,7 +182,7 @@ function createTweet($assets, $tweetHours)
 ---------------------*/
 function createTweetOfOneAsset($asset)
 {
-  $tweetOfOneAsset = $asset['title'] . ' ' . round($asset['price'], 2) . $asset['unit'];
+  $tweetOfOneAsset = $asset['title'] . ' ' . number_format($asset['price'], 2) . $asset['unit'];
   
   if ($asset['displays_change'])
   {
@@ -217,9 +217,7 @@ function retrieveStockPriceFromGoogle(&$asset)
   
   if (preg_match('/<span id="ref_' . $asset['g_code'] . '_l">([\d,.]*)<\/span>/is', $html, $matches))
   {
-    print_r($matches);
-    
-    $asset['price'] = $matches[1];
+    $asset['price'] = str_replace(',', '', $matches[1]);
   }
   
   if (preg_match('/<span class="chg" id="ref_' . $asset['g_code'] . '_cp">\(([\d.-]*%)\)<\/span>/is', $html, $matches))
