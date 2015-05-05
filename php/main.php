@@ -127,18 +127,6 @@ $tweet = createTweet($assets, $tweetHours, $emojiDict);
 //print_r($assets);
 echo $tweet . PHP_EOL;
 
-// emoji test
-$tweet = 'emoji test:';
-foreach ($emojiDict['face'] as $key => $value)
-{
-  $tweet = $tweet . getEmoji($emojiDict, 'face', $key);
-}
-
-
-//emoji test
-
-
-
 // ツイートの投稿
 postTweet($twitterAuth, $tweet);
 
