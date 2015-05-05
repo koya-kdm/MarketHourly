@@ -79,7 +79,39 @@ c6 = Change (Realtime)
 k2 = Change Percent (Realtime)
 p2 = Change in Percent
 */
-$yahooParams  = array('s', 'n', 'l1', 'd1', 't1', 'p2', );
+$yahooParams  = array('s', 'l1', 'p2');
+
+// 絵文字辞書
+// http://apps.timwhitlock.info/emoji/tables/unicode
+$emojiDictionary = array('face'  => array('smiley' => '1F603',
+                                          'dizzy'  => '1F635',),
+                         'clock' => array(       0 => '1F55B',
+                                                 1 => '1F550',
+                                                 2 => '1F551',
+                                                 3 => '1F552',
+                                                 4 => '1F553',
+                                                 5 => '1F554',
+                                                 6 => '1F555',
+                                                 7 => '1F556',
+                                                 8 => '1F557',
+                                                 9 => '1F558',
+                                                10 => '1F559',
+                                                11 => '1F55A',
+                                                12 => '1F55B',
+                                                13 => '1F550',
+                                                14 => '1F551',
+                                                15 => '1F552',
+                                                16 => '1F553',
+                                                17 => '1F554',
+                                                18 => '1F555',
+                                                19 => '1F556',
+                                                20 => '1F557',
+                                                21 => '1F558',
+                                                22 => '1F559',
+                                                23 => '1F55A',
+                                                ),
+                         );
+
 
 //===============================
 // メイン
@@ -91,7 +123,7 @@ $url = createUrl(YAHOO_BASE_URL, $yahooParams, $assets);
 retrieveStockPrice($url, $assets);
 
 // ツイートの作成
-$tweet = createTweet($assets, $tweetHours);
+$tweet = createTweet($assets, $tweetHours, $emojiDictionary);
 
 // Debug
 //print_r($assets);
@@ -140,8 +172,8 @@ function retrieveStockPrice($url, &$assets)
     }
     else
     {
-      $assets[$i]['price' ] = $data[2];
-      $assets[$i]['change'] = $data[5];
+      $assets[$i]['price' ] = $data[1];
+      $assets[$i]['change'] = $data[2];
     }
     
     $i++;
@@ -155,14 +187,17 @@ function retrieveStockPrice($url, &$assets)
 /*--------------------
   createTweet
 ---------------------*/
-function createTweet($assets, $tweetHours)
+function createTweet($assets, $tweetHours, $emojiDictionary)
 {
   // e.g.) USD=120.21円 EUR=134.64円 日経=19531.63円(△0.06%) 香港=28133pt(▼0.94%) 上海=0pt(N/A) S&P500=2108.29pt(△1.09%) Nasdaq=5005.39pt(△1.29%)
   
   $tweet = '';
   $tweetTail = '';
   $currentHour = (int)date('G');
- 
+  
+  $bin = hex2bin(str_repeat('0', 8 - strlen($emojiDictionary['clock'][$currentHour])) . $emojiDictionary['clock'][$currentHour]);
+  $tweet =  mb_convert_encoding($bin, 'UTF-8', 'UTF-32BE');
+  
   foreach ($assets as $key => $asset)
   {
     // 時間外アセットはツイートの後方に
@@ -189,6 +224,8 @@ function createTweetOfOneAsset($asset)
   
   if ($asset['displays_change'])
   {
+    
+    
     $tweetOfOneAsset = $tweetOfOneAsset
                      . '(' . str_replace(array('+', '-'), array('△', '▼'), $asset['change']) . ')';
   }
