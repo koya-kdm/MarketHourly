@@ -195,7 +195,7 @@ function createTweet($assets, $tweetHours, $emojiDictionary)
   $tweetTail = '';
   $currentHour = (int)date('G');
   
-  $bin = hex2bin(str_repeat('0', 8 - strlen($emojiDictionary['clock'][$currentHour])) . $emojiDictionary['clock'][$currentHour]);
+  $bin = pack('H*', (str_repeat('0', 8 - strlen($emojiDictionary['clock'][$currentHour])) . $emojiDictionary['clock'][$currentHour]));
   $tweet =  mb_convert_encoding($bin, 'UTF-8', 'UTF-32BE');
   
   foreach ($assets as $key => $asset)
