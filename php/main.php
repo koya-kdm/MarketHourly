@@ -260,7 +260,7 @@ function createTweetOfOneAsset($asset, &$emojiDict)
     
     //顔アイコン
     $changeIcon = '';
-    $change = (int) str_replace($asset['change'], '%', '');
+    $change = (float) str_replace($asset['change'], '%', '');
     
     if     ($change >=  5) { $key = 'pppppp'; }
     elseif ($change >=  4) { $key =  'ppppp'; }
