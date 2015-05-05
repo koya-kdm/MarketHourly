@@ -83,18 +83,18 @@ $yahooParams  = array('s', 'l1', 'p2');
 
 // 絵文字辞書
 // http://apps.timwhitlock.info/emoji/tables/unicode
-$emojiDict = array('face'  => array('pppppp' => array('unicode' =>  '3297'), //circled ideograph congratulation
-                                    'ppppp'  => array('unicode' => '1F60D'), //smiling face with heart-shaped eyes
-                                    'pppp'   => array('unicode' => '1F606'), //smiling face with open mouth and tightly-closed eyes
-                                    'ppp'    => array('unicode' => '1F603'), //smiling face with open mouth
-                                    'pp'     => array('unicode' => '1F619'), //kissing face with smiling eyes
-                                    'p'      => array('unicode' => '1F60C'), //relieved face
-                                    'm'      => array('unicode' => '1F61E'), //disappointed face
-                                    'mm'     => array('unicode' => '1F623'), //persevering face
-                                    'mmm'    => array('unicode' => '1F629'), //weary face
-                                    'mmmm'   => array('unicode' => '1F62D'), //loudly crying face
-                                    'mmmmm'  => array('unicode' => '1F631'), //face screaming in fear
-                                    'mmmmmm' => array('unicode' => '1F480'), //skull
+$emojiDict = array('face'  => array('pppppp' => array('unicode' =>  '3297'), // ≧+5% circled ideograph congratulation
+                                    'ppppp'  => array('unicode' => '1F60D'), // ≧+4% smiling face with heart-shaped eyes
+                                    'pppp'   => array('unicode' => '1F606'), // ≧+3% smiling face with open mouth and tightly-closed eyes
+                                    'ppp'    => array('unicode' => '1F603'), // ≧+2% smiling face with open mouth
+                                    'pp'     => array('unicode' => '1F619'), // ≧+1% kissing face with smiling eyes
+                                    'p'      => array('unicode' => '1F60C'), // ≧+0% relieved face
+                                    'm'      => array('unicode' => '1F61E'), // ＜-0% disappointed face
+                                    'mm'     => array('unicode' => '1F623'), // ≦-1% persevering face
+                                    'mmm'    => array('unicode' => '1F629'), // ≦-2% weary face
+                                    'mmmm'   => array('unicode' => '1F62D'), // ≦-3% loudly crying face
+                                    'mmmmm'  => array('unicode' => '1F631'), // ≦-4% face screaming in fear
+                                    'mmmmmm' => array('unicode' => '1F480'), // ≦-5% skull
                                     ),
                    'clock' => array(       0 => array('unicode' => '1F55B'),
                                            1 => array('unicode' => '1F550'),
@@ -222,11 +222,11 @@ function createTweet($assets, $tweetHours, &$emojiDict)
     // 時間外アセットはツイートの後方に
     if (false == in_array($currentHour, $tweetHours[$asset['market']]))
     {
-      $tweetTail = $tweetTail . '' . createTweetOfOneAsset($asset) . ' ';
+      $tweetTail = $tweetTail . '' . createTweetOfOneAsset($asset, $emojiDict) . ' ';
       continue;
     }
     
-    $tweet = $tweet . '' . createTweetOfOneAsset($asset) . ' ';
+    $tweet = $tweet . '' . createTweetOfOneAsset($asset, $emojiDict) . ' ';
   }
   
   return $tweet . $tweetTail;
@@ -235,7 +235,7 @@ function createTweet($assets, $tweetHours, &$emojiDict)
 /*--------------------
   createTweetOfOneAsset
 ---------------------*/
-function createTweetOfOneAsset($asset)
+function createTweetOfOneAsset($asset, &$emojiDict)
 {
   $tweetOfOneAsset = $asset['title']
                    . ''
@@ -244,9 +244,27 @@ function createTweetOfOneAsset($asset)
   if ($asset['displays_change'])
   {
     
+    //顔アイコン
+    $changeIcon = '';
+    $change = (int) str_replace($asset['change'], '%', '');
+    
+    if     ($change >=  5) { $key = 'pppppp'; }
+    elseif ($change >=  4) { $key =  'ppppp'; }
+    elseif ($change >=  3) { $key =   'pppp'; }
+    elseif ($change >=  2) { $key =    'ppp'; }
+    elseif ($change >=  1) { $key =     'pp'; }
+    elseif ($change >=  0) { $key =      'p'; }
+    elseif ($change <= -5) { $key = 'mmmmmm'; }
+    elseif ($change <= -4) { $key =  'mmmmm'; }
+    elseif ($change <= -3) { $key =   'mmmm'; }
+    elseif ($change <= -2) { $key =    'mmm'; }
+    elseif ($change <= -1) { $key =     'mm'; }
+    elseif ($change <   0) { $key =      'm'; }
+    
+    $changeIcon = getEmoji($emojiDict, 'face', $key);
     
     $tweetOfOneAsset = $tweetOfOneAsset
-                     . '(' . str_replace(array('+', '-'), array('△', '▼'), $asset['change']) . ')';
+                     . '(' . str_replace(array('+', '-'), array('△', '▼'), $asset['change']) . $changeIcon . ')';
   }
   
   return $tweetOfOneAsset;
