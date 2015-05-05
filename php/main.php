@@ -107,7 +107,19 @@ $emojiDict = array('face'  => array('pppppp' => array('unicode' =>  '3297'), // 
                                            8 => array('unicode' => '1F557'),
                                            9 => array('unicode' => '1F558'),
                                           10 => array('unicode' => '1F559'),
-                                          11 => array('unicode' => '1F55A'),),
+                                          11 => array('unicode' => '1F55A'),
+                                          12 => array('unicode' => '1F55B'),
+                                          13 => array('unicode' => '1F550'),
+                                          14 => array('unicode' => '1F551'),
+                                          15 => array('unicode' => '1F552'),
+                                          16 => array('unicode' => '1F553'),
+                                          17 => array('unicode' => '1F554'),
+                                          18 => array('unicode' => '1F555'),
+                                          19 => array('unicode' => '1F556'),
+                                          20 => array('unicode' => '1F557'),
+                                          21 => array('unicode' => '1F558'),
+                                          22 => array('unicode' => '1F559'),
+                                          23 => array('unicode' => '1F55A'),),
                    );
 
 
@@ -120,6 +132,8 @@ $url = createUrl(YAHOO_BASE_URL, $yahooParams, $assets);
 // 株価の取得
 retrieveStockPrice($url, $assets);
 
+print_r($assets);
+
 // ツイートの作成
 $tweet = createTweet($assets, $tweetHours, $emojiDict);
 
@@ -128,7 +142,7 @@ $tweet = createTweet($assets, $tweetHours, $emojiDict);
 echo $tweet . PHP_EOL;
 
 // ツイートの投稿
-postTweet($twitterAuth, $tweet);
+//postTweet($twitterAuth, $tweet);
 
 //===============================
 // 関数
