@@ -83,34 +83,32 @@ $yahooParams  = array('s', 'l1', 'p2');
 
 // 絵文字辞書
 // http://apps.timwhitlock.info/emoji/tables/unicode
-$emojiDictionary = array('face'  => array('smiley' => '1F603',
-                                          'dizzy'  => '1F635',),
-                         'clock' => array(       0 => '1F55B',
-                                                 1 => '1F550',
-                                                 2 => '1F551',
-                                                 3 => '1F552',
-                                                 4 => '1F553',
-                                                 5 => '1F554',
-                                                 6 => '1F555',
-                                                 7 => '1F556',
-                                                 8 => '1F557',
-                                                 9 => '1F558',
-                                                10 => '1F559',
-                                                11 => '1F55A',
-                                                12 => '1F55B',
-                                                13 => '1F550',
-                                                14 => '1F551',
-                                                15 => '1F552',
-                                                16 => '1F553',
-                                                17 => '1F554',
-                                                18 => '1F555',
-                                                19 => '1F556',
-                                                20 => '1F557',
-                                                21 => '1F558',
-                                                22 => '1F559',
-                                                23 => '1F55A',
-                                                ),
-                         );
+$emojiDict = array('face'  => array('pppppp' => array('unicode' =>  '3297'), //circled ideograph congratulation
+                                    'ppppp'  => array('unicode' => '1F60D'), //smiling face with heart-shaped eyes
+                                    'pppp'   => array('unicode' => '1F606'), //smiling face with open mouth and tightly-closed eyes
+                                    'ppp'    => array('unicode' => '1F603'), //smiling face with open mouth
+                                    'pp'     => array('unicode' => '1F619'), //kissing face with smiling eyes
+                                    'p'      => array('unicode' => '1F60C'), //relieved face
+                                    'm'      => array('unicode' => '1F61E'), //disappointed face
+                                    'mm'     => array('unicode' => '1F623'), //persevering face
+                                    'mmm'    => array('unicode' => '1F629'), //weary face
+                                    'mmmm'   => array('unicode' => '1F62D'), //loudly crying face
+                                    'mmmmm'  => array('unicode' => '1F631'), //face screaming in fear
+                                    'mmmmmm' => array('unicode' => '1F480'), //skull
+                                    ),
+                   'clock' => array(       0 => array('unicode' => '1F55B'),
+                                           1 => array('unicode' => '1F550'),
+                                           2 => array('unicode' => '1F551'),
+                                           3 => array('unicode' => '1F552'),
+                                           4 => array('unicode' => '1F553'),
+                                           5 => array('unicode' => '1F554'),
+                                           6 => array('unicode' => '1F555'),
+                                           7 => array('unicode' => '1F556'),
+                                           8 => array('unicode' => '1F557'),
+                                           9 => array('unicode' => '1F558'),
+                                          10 => array('unicode' => '1F559'),
+                                          11 => array('unicode' => '1F55A'),),
+                   );
 
 
 //===============================
@@ -123,11 +121,23 @@ $url = createUrl(YAHOO_BASE_URL, $yahooParams, $assets);
 retrieveStockPrice($url, $assets);
 
 // ツイートの作成
-$tweet = createTweet($assets, $tweetHours, $emojiDictionary);
+$tweet = createTweet($assets, $tweetHours, $emojiDict);
 
 // Debug
 //print_r($assets);
 echo $tweet . PHP_EOL;
+
+// emoji test
+$tweet = 'emoji test:';
+foreach ($emojiDict['face'] as $key => $value)
+{
+  $tweet = $tweet . getEmoji($emojiDict, 'face', $value);
+}
+
+
+//emoji test
+
+
 
 // ツイートの投稿
 postTweet($twitterAuth, $tweet);
@@ -185,9 +195,30 @@ function retrieveStockPrice($url, &$assets)
 }
 
 /*--------------------
+  retrieveStockPriceFromGoogle
+---------------------*/
+function retrieveStockPriceFromGoogle(&$asset)
+{
+  $html = file_get_contents('https://www.google.com/finance?q=' . $asset['g_code']);
+  
+  if (preg_match('/<span id="ref_' . $asset['g_code'] . '_l">([\d,.]*)<\/span>/is', $html, $matches))
+  {
+    $asset['price'] = str_replace(',', '', $matches[1]);
+  }
+  
+  if (preg_match('/<span class=".*" id="ref_' . $asset['g_code'] . '_cp">\(([\d.-]*%)\)<\/span>/is', $html, $matches))
+  {
+    $asset['change'] = '+' . $matches[1];
+    $asset['change'] = str_replace('+-', '-', $asset['change']);
+  }
+  
+  return;
+}
+
+/*--------------------
   createTweet
 ---------------------*/
-function createTweet($assets, $tweetHours, $emojiDictionary)
+function createTweet($assets, $tweetHours, &$emojiDict)
 {
   // e.g.) USD=120.21円 EUR=134.64円 日経=19531.63円(△0.06%) 香港=28133pt(▼0.94%) 上海=0pt(N/A) S&P500=2108.29pt(△1.09%) Nasdaq=5005.39pt(△1.29%)
   
@@ -195,8 +226,8 @@ function createTweet($assets, $tweetHours, $emojiDictionary)
   $tweetTail = '';
   $currentHour = (int)date('G');
   
-  $bin = pack('H*', (str_repeat('0', 8 - strlen($emojiDictionary['clock'][$currentHour])) . $emojiDictionary['clock'][$currentHour]));
-  $tweet =  mb_convert_encoding($bin, 'UTF-8', 'UTF-32BE');
+  // 時計アイコン
+  $tweet = getEmoji($emojiDict, 'clock', $currentHour);
   
   foreach ($assets as $key => $asset)
   {
@@ -234,6 +265,25 @@ function createTweetOfOneAsset($asset)
 }
 
 /*--------------------
+  getEmoji
+---------------------*/
+function getEmoji(&$emojiDict, $group, $key)
+{
+  if (false == isset($emojiDict[$group][$key]['char']))
+  {
+    $target = str_repeat('0', 8 - strlen($emojiDict[$group][$key]['unicode']))
+            . $emojiDict[$group][$key]['unicode'];
+    
+    $bin = pack('H*', $target);
+    
+    $emojiDict[$group][$key]['char'] = mb_convert_encoding($bin, 'UTF-8', 'UTF-32BE');
+  }
+  
+  return $emojiDict[$group][$key]['char'];
+}
+
+
+/*--------------------
   postTweet
 ---------------------*/
 function postTweet($twitterAuth, $tweet)
@@ -246,27 +296,6 @@ function postTweet($twitterAuth, $tweet)
   $res = $connection->post('statuses/update', array('status' => mb_substr($tweet, 0, 140)));
   
   // var_dump($res);
-  
-  return;
-}
-
-/*--------------------
-  retrieveStockPriceFromGoogle
----------------------*/
-function retrieveStockPriceFromGoogle(&$asset)
-{
-  $html = file_get_contents('https://www.google.com/finance?q=' . $asset['g_code']);
-  
-  if (preg_match('/<span id="ref_' . $asset['g_code'] . '_l">([\d,.]*)<\/span>/is', $html, $matches))
-  {
-    $asset['price'] = str_replace(',', '', $matches[1]);
-  }
-  
-  if (preg_match('/<span class=".*" id="ref_' . $asset['g_code'] . '_cp">\(([\d.-]*%)\)<\/span>/is', $html, $matches))
-  {
-    $asset['change'] = '+' . $matches[1];
-    $asset['change'] = str_replace('+-', '-', $asset['change']);
-  }
   
   return;
 }
