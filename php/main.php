@@ -131,7 +131,7 @@ echo $tweet . PHP_EOL;
 $tweet = 'emoji test:';
 foreach ($emojiDict['face'] as $key => $value)
 {
-  $tweet = $tweet . getEmoji($emojiDict, 'face', $value);
+  $tweet = $tweet . getEmoji($emojiDict, 'face', $key);
 }
 
 
