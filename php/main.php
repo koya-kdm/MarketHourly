@@ -132,8 +132,6 @@ $url = createUrl(YAHOO_BASE_URL, $yahooParams, $assets);
 // 株価の取得
 retrieveStockPrice($url, $assets);
 
-print_r($assets);
-
 // ツイートの作成
 $tweet = createTweet($assets, $tweetHours, $emojiDict);
 
@@ -142,7 +140,7 @@ $tweet = createTweet($assets, $tweetHours, $emojiDict);
 echo $tweet . PHP_EOL;
 
 // ツイートの投稿
-//postTweet($twitterAuth, $tweet);
+postTweet($twitterAuth, $tweet);
 
 //===============================
 // 関数
@@ -260,7 +258,7 @@ function createTweetOfOneAsset($asset, &$emojiDict)
     
     //顔アイコン
     $changeIcon = '';
-    $change = (float) str_replace($asset['change'], '%', '');
+    $change = (float) str_replace('%', '', $asset['change']);
     
     if     ($change >=  5) { $key = 'pppppp'; }
     elseif ($change >=  4) { $key =  'ppppp'; }
