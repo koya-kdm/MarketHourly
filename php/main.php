@@ -125,7 +125,7 @@ $assets
   
 // アセット追加定義（Yahoo非対応アセットはGoogleから取得）
 $assets[4] = array_merge($assets[4], array('retrieves_from_gogole' => true, 'g_code' => '7521596')); //上海
-$assets[5] = array_merge($assets[5], array('retrieves_from_gogole' => true, 'g_code' => '983582' )); //Dow
+$assets[5] = array_merge($assets[7], array('retrieves_from_gogole' => true, 'g_code' => '983582' )); //Dow
 
 // 各時間における表示順
 $order = array( 0 => array(MARKET_US, MARKET_EU, MARKET_JP, MARKET_SH, MARKET_HK),
