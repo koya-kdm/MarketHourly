@@ -31,6 +31,8 @@ FX      :24h
 Tokyo   : 9:00〜15:00
 Shanghai:10:30〜16:00
 HongKong:10:30〜16:00
+EU      :16:00〜 0:30 (summer time)
+         17:00〜 1:30
 NewYork :22:30〜 5:00 (summer time)
          23:30〜 6:00
 */
@@ -38,6 +40,7 @@ $tweetHours = array(MARKET_FX => array(0, 1, 2, 3 ,4 ,5, 6, 7, 8, 9, 10, 11, 12,
                     MARKET_JP => array(                           9, 10, 11, 12, 13, 14, 15, 16,                            ),
                     MARKET_HK => array(                                  11, 12, 13, 14, 15, 16, 17,                        ),
                     MARKET_SH => array(                                  11, 12, 13, 14, 15, 16, 17,                        ),
+                    MARKET_EU => array(0, 1,                                                 16, 17, 18, 19, 20, 21, 22, 23,),
                     MARKET_US => array(0, 1, 2, 3 ,4 ,5, 6, 7,                                                           23,),
                    );
 
@@ -91,6 +94,7 @@ $holidays = array(MARKET_FX => array(),
                                      '2015-10-06',  //  建国記念日
                                      '2015-10-07',  //  建国記念日
                                     ),
+                  MARKET_EU => array(),
                   MARKET_US => array('2015-01-01',  //  New Years Day
                                      '2015-01-19',  //  Martin Luther King, Jr. Day
                                      '2015-02-16',  //  Washington's Birthday
@@ -111,8 +115,10 @@ $assets
     2 => array('title' => '日経', 'ticker' => '^N225',     'unit' => '円', 'market' => MARKET_JP, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
     3 => array('title' => '香港', 'ticker' => '^HSI',      'unit' => 'pt', 'market' => MARKET_HK, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
     4 => array('title' => '上海', 'ticker' => '000001.SS', 'unit' => 'pt', 'market' => MARKET_SH, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
-    5 => array('title' => 'ダウ', 'ticker' => '^DJI',      'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
-    6 => array('title' => 'ナス', 'ticker' => '^IXIC',     'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
+    5 => array('title' => '英',   'ticker' => '^FTSE',     'unit' => 'pt', 'market' => MARKET_EU, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
+    6 => array('title' => '独',   'ticker' => '^GDAXI',    'unit' => 'pt', 'market' => MARKET_EU, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
+    7 => array('title' => 'ダウ', 'ticker' => '^DJI',      'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
+    8 => array('title' => 'ナス', 'ticker' => '^IXIC',     'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
     );
 //6 => array('title' => 'S&P500', 'ticker' => '^GSPC',     'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true, 'decimals' => 0, 'price' => '', 'change' => ''),
   
@@ -120,8 +126,38 @@ $assets
 $assets[4] = array_merge($assets[4], array('retrieves_from_gogole' => true, 'g_code' => '7521596')); //上海
 $assets[5] = array_merge($assets[5], array('retrieves_from_gogole' => true, 'g_code' => '983582' )); //Dow
 
+// 各時間における表示順
+$order = array( 0 => array(MARKET_US, MARKET_EU, MARKET_JP, MARKET_SH, MARKET_HK),
+                1 => array(MARKET_US, MARKET_EU, MARKET_JP, MARKET_SH, MARKET_HK),
+                2 => array(MARKET_US, MARKET_EU, MARKET_JP, MARKET_SH, MARKET_HK),
+                3 => array(MARKET_US, MARKET_EU, MARKET_JP, MARKET_SH, MARKET_HK),
+                4 => array(MARKET_US, MARKET_EU, MARKET_JP, MARKET_SH, MARKET_HK),
+                5 => array(MARKET_US, MARKET_EU, MARKET_JP, MARKET_SH, MARKET_HK),
+                6 => array(MARKET_US, MARKET_EU, MARKET_JP, MARKET_SH, MARKET_HK),
+                7 => array(MARKET_US, MARKET_EU, MARKET_JP, MARKET_SH, MARKET_HK),
+                8 => array(MARKET_US, MARKET_EU, MARKET_JP, MARKET_SH, MARKET_HK),
+                9 => array(MARKET_JP, MARKET_US, MARKET_EU, MARKET_SH, MARKET_HK),
+               10 => array(MARKET_JP, MARKET_US, MARKET_EU, MARKET_SH, MARKET_HK),
+               11 => array(MARKET_JP, MARKET_SH, MARKET_HK, MARKET_US, MARKET_EU),
+               12 => array(MARKET_JP, MARKET_SH, MARKET_HK, MARKET_US, MARKET_EU),
+               13 => array(MARKET_JP, MARKET_SH, MARKET_HK, MARKET_US, MARKET_EU),
+               14 => array(MARKET_JP, MARKET_SH, MARKET_HK, MARKET_US, MARKET_EU),
+               15 => array(MARKET_JP, MARKET_SH, MARKET_HK, MARKET_US, MARKET_EU),
+               16 => array(MARKET_JP, MARKET_SH, MARKET_HK, MARKET_EU, MARKET_US),
+               17 => array(MARKET_EU, MARKET_SH, MARKET_HK, MARKET_JP, MARKET_US),
+               18 => array(MARKET_EU, MARKET_SH, MARKET_HK, MARKET_JP, MARKET_US),
+               19 => array(MARKET_EU, MARKET_SH, MARKET_HK, MARKET_JP, MARKET_US),
+               20 => array(MARKET_EU, MARKET_SH, MARKET_HK, MARKET_JP, MARKET_US),
+               21 => array(MARKET_EU, MARKET_SH, MARKET_HK, MARKET_JP, MARKET_US),
+               22 => array(MARKET_EU, MARKET_SH, MARKET_HK, MARKET_JP, MARKET_US),
+               23 => array(MARKET_US, MARKET_EU, MARKET_JP, MARKET_SH, MARKET_HK),
+               );
+
 // Yahoo Finace ベースURL
 define('YAHOO_BASE_URL', 'http://finance.yahoo.com/d/quotes.csv');
+
+// Google Finace ベースURL
+define('GOOGLE_BASE_URL', 'https://www.google.com/finance');
 
 // Yahoo Finance パラメータ
 /*
@@ -256,7 +292,7 @@ function retrieveStockPrice($url, &$assets)
 ---------------------*/
 function retrieveStockPriceFromGoogle(&$asset)
 {
-  $html = file_get_contents('https://www.google.com/finance?q=' . $asset['g_code']);
+  $html = file_get_contents(GOOGLE_BASE_URL . '?q=' . $asset['g_code']);
   
   if (preg_match('/<span id="ref_' . $asset['g_code'] . '_l">([\d,.]*)<\/span>/is', $html, $matches))
   {
