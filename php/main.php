@@ -184,7 +184,7 @@ $emojiDict = array('face'  => array('pppppp' => array('unicode' =>  '3297'), // 
 // メイン
 //===============================
 // URLの作成
-$url = createUrl(YAHOO_BASE_URL, $yahooParams, $assets);
+$url = createUrl($yahooParams, $assets);
 
 // 株価の取得
 retrieveStockPrice($url, $assets);
@@ -206,7 +206,7 @@ postTweet($twitterAuth, $tweet);
 /*--------------------
   createUrl
 ---------------------*/
-function createUrl($yahooBaseUrl, $yahooParams, $assets)
+function createUrl($yahooParams, $assets)
 {
   // e.g.) http://finance.yahoo.com/d/quotes.csv?s=INDU+^IXIC+USDJPY=X+^N225&f=snl1c1p2d1t1
   
@@ -217,7 +217,7 @@ function createUrl($yahooBaseUrl, $yahooParams, $assets)
     $tickerString = $tickerString . $asset['ticker'] . '+';
   }
   
-  $url= $yahooBaseUrl . '?s=' . $tickerString . '&f=' . implode('', $yahooParams);
+  $url= YAHOO_BASE_URL . '?s=' . $tickerString . '&f=' . implode('', $yahooParams);
 
   return $url;
 }
@@ -294,7 +294,7 @@ function createTweet($assets)
     // 時間外アセットはツイートの後方に
     if (false == in_array($currentHour, $tweetHours[$asset['market']]))
     {
-      $tweetTail = createTweetOfOneAsset($asset) . ' ' . $tweetTail;
+      $tweetTail =  $tweetTail . createTweetOfOneAsset($asset) . ' ' .;
       continue;
     }
     
