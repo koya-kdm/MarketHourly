@@ -22,6 +22,7 @@ define('MARKET_FX', 'fx'); // 為替
 define('MARKET_JP', 'jp'); // 日本
 define('MARKET_HK', 'hk'); // 香港
 define('MARKET_SH', 'sh'); // 上海
+define('MARKET_EU', 'eu'); // 欧州
 define('MARKET_US', 'us'); // 米国
 
 // ツイートする時間
