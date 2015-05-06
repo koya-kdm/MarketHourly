@@ -18,10 +18,11 @@ use Abraham\TwitterOAuth\TwitterOAuth;
 date_default_timezone_set('Asia/Tokyo');
 
 // 市場
-define('MARKET_FX', 'fx');
-define('MARKET_JP', 'jp');
-define('MARKET_CN', 'cn');
-define('MARKET_US', 'us');
+define('MARKET_FX', 'fx'); // 為替
+define('MARKET_JP', 'jp'); // 日本
+define('MARKET_HK', 'hk'); // 香港
+define('MARKET_SH', 'sh'); // 上海
+define('MARKET_US', 'us'); // 米国
 
 // ツイートする時間
 /*
@@ -35,27 +36,83 @@ NewYork :22:30〜 5:00 (summer time)
 */
 $tweetHours = array(MARKET_FX => array(0, 1, 2, 3 ,4 ,5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,),
                     MARKET_JP => array(                           9, 10, 11, 12, 13, 14, 15, 16,                            ),
-                    MARKET_CN => array(                                  11, 12, 13, 14, 15, 16, 17,                        ),
+                    MARKET_HK => array(                                  11, 12, 13, 14, 15, 16, 17,                        ),
+                    MARKET_SH => array(                                  11, 12, 13, 14, 15, 16, 17,                        ),
                     MARKET_US => array(0, 1, 2, 3 ,4 ,5, 6, 7,                                                           23,),
-                    );
+                   );
 
 // 休場日
-$holidays = array(MARKET_FX => array('2015' => array()),
-                  MARKET_JP => array('2015' => array()),
-                  MARKET_CN => array('2015' => array()),
-                  MARKET_US => array('2015' => array()),
+$holidays = array(MARKET_FX => array(),
+                  MARKET_JP => array('2015-01-01',  //  元日
+                                     '2015-01-02',  //  休場日
+                                     '2015-01-12',  //  成人の日
+                                     '2015-02-11',  //  建国記念の日
+                                     '2015-04-29',  //  昭和の日
+                                     '2015-05-04',  //  みどりの日
+                                     '2015-05-05',  //  こどもの日
+                                     '2015-05-06',  //  振替休日（憲法記念日
+                                     '2015-07-20',  //  海の日
+                                     '2015-09-21',  //  敬老の日
+                                     '2015-09-22',  //  国民の休日
+                                     '2015-09-23',  //  秋分の日
+                                     '2015-10-12',  //  体育の日
+                                     '2015-11-03',  //  文化の日
+                                     '2015-11-23',  //  勤労感謝の日
+                                     '2015-12-23',  //  天皇誕生日
+                                     '2015-12-31',  //  休場日
+                                    ),
+                  MARKET_HK => array('2015-01-01',  //  The first day of January                                    新年
+                                     '2015-02-19',  //  Lunar New Year’s Day                                       旧正月
+                                     '2015-02-20',  //  The second day of Lunar New Year                            旧正月
+                                     '2015-04-03',  //  Good Friday                                                 受難日（聖金曜日）
+                                     '2015-04-06',  //  The day following Ching Ming Festival                       清明節振替
+                                     '2015-04-07',  //  The day following Easter Monday                             イースター・マンデー振替
+                                     '2015-05-01',  //  Labour Day                                                  メーデー
+                                     '2015-05-25',  //  The Birthday of the Buddha                                  仏誕節（灌仏会）
+                                     '2015-07-01',  //  Hong Kong Special Administrative Region Establishment Day   特別行政区成立記念日
+                                     '2015-09-28',  //  The day following the Chinese Mid-Autumn Festival           中秋節振替
+                                     '2015-10-01',  //  National Day                                                建国記念日
+                                     '2015-10-21',  //  Chung Yeung Festival                                        重陽節
+                                     '2015-12-25',  //  Christmas Day                                               クリスマス
+                                    ),
+                  MARKET_SH => array('2015-01-01',  //  新年
+                                     '2015-01-02',  //  新年
+                                     '2015-02-18',  //  旧正月
+                                     '2015-02-19',  //  旧正月
+                                     '2015-02-20',  //  旧正月
+                                     '2015-02-23',  //  旧正月
+                                     '2015-02-24',  //  旧正月
+                                     '2015-04-06',  //  清明節
+                                     '2015-05-01',  //  メーデー
+                                     '2015-06-22',  //  端午節
+                                     '2015-10-01',  //  建国記念日
+                                     '2015-10-02',  //  建国記念日
+                                     '2015-10-05',  //  建国記念日
+                                     '2015-10-06',  //  建国記念日
+                                     '2015-10-07',  //  建国記念日
+                                    ),
+                  MARKET_US => array('2015-01-01',  //  New Years Day
+                                     '2015-01-19',  //  Martin Luther King, Jr. Day
+                                     '2015-02-16',  //  Washington's Birthday
+                                     '2015-04-03',  //  Good Friday
+                                     '2015-05-25',  //  Memorial Day
+                                     '2015-07-03',  //  Independence Day
+                                     '2015-09-07',  //  Labor Day
+                                     '2015-11-26',  //  Thanksgiving Day
+                                     '2015-12-25',  //  Christmas
+                                    ),
                   );
 
 // アセット定義
 $assets
   = array(
-    0 => array('title' => '米',  'ticker' => 'USDJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'decimals' => 2, 'price' => '', 'change' => ''),
-    1 => array('title' => '欧',  'ticker' => 'EURJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'decimals' => 2, 'price' => '', 'change' => ''),
-    2 => array('title' => '日経', 'ticker' => '^N225',     'unit' => '円', 'market' => MARKET_JP, 'displays_change' => true, 'decimals' => 0, 'price' => '', 'change' => ''),
-    3 => array('title' => '香港', 'ticker' => '^HSI',      'unit' => 'pt', 'market' => MARKET_CN, 'displays_change' => true, 'decimals' => 0, 'price' => '', 'change' => ''),
-    4 => array('title' => '上海', 'ticker' => '000001.SS', 'unit' => 'pt', 'market' => MARKET_CN, 'displays_change' => true, 'decimals' => 0, 'price' => '', 'change' => ''),
-    5 => array('title' => 'ダウ', 'ticker' => '^DJI',      'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true, 'decimals' => 0, 'price' => '', 'change' => ''),
-    6 => array('title' => 'ナス', 'ticker' => '^IXIC',     'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true, 'decimals' => 0, 'price' => '', 'change' => ''),
+    0 => array('title' => '米',   'ticker' => 'USDJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'decimals' => 2, 'price' => '', 'change' => ''),
+    1 => array('title' => '欧',   'ticker' => 'EURJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'decimals' => 2, 'price' => '', 'change' => ''),
+    2 => array('title' => '日経', 'ticker' => '^N225',     'unit' => '円', 'market' => MARKET_JP, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
+    3 => array('title' => '香港', 'ticker' => '^HSI',      'unit' => 'pt', 'market' => MARKET_HK, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
+    4 => array('title' => '上海', 'ticker' => '000001.SS', 'unit' => 'pt', 'market' => MARKET_SH, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
+    5 => array('title' => 'ダウ', 'ticker' => '^DJI',      'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
+    6 => array('title' => 'ナス', 'ticker' => '^IXIC',     'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
     );
 //6 => array('title' => 'S&P500', 'ticker' => '^GSPC',     'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true, 'decimals' => 0, 'price' => '', 'change' => ''),
   
@@ -133,7 +190,7 @@ $url = createUrl(YAHOO_BASE_URL, $yahooParams, $assets);
 retrieveStockPrice($url, $assets);
 
 // ツイートの作成
-$tweet = createTweet($assets, $tweetHours, $emojiDict);
+$tweet = createTweet($assets);
 
 // Debug
 //print_r($assets);
@@ -218,8 +275,11 @@ function retrieveStockPriceFromGoogle(&$asset)
 /*--------------------
   createTweet
 ---------------------*/
-function createTweet($assets, $tweetHours, &$emojiDict)
+function createTweet($assets)
 {
+  global $tweetHours;
+  global $emojiDict;
+
   // e.g.) USD=120.21円 EUR=134.64円 日経=19531.63円(△0.06%) 香港=28133pt(▼0.94%) 上海=0pt(N/A) S&P500=2108.29pt(△1.09%) Nasdaq=5005.39pt(△1.29%)
   
   $tweet = '';
@@ -227,18 +287,18 @@ function createTweet($assets, $tweetHours, &$emojiDict)
   $currentHour = (int)date('G');
   
   // 時計アイコン
-  $tweet = getEmoji($emojiDict, 'clock', $currentHour);
+  $tweet = getEmoji('clock', $currentHour);
   
   foreach ($assets as $key => $asset)
   {
     // 時間外アセットはツイートの後方に
     if (false == in_array($currentHour, $tweetHours[$asset['market']]))
     {
-      $tweetTail = $tweetTail . '' . createTweetOfOneAsset($asset, $emojiDict) . ' ';
+      $tweetTail = $tweetTail . '' . createTweetOfOneAsset($asset) . ' ';
       continue;
     }
     
-    $tweet = $tweet . '' . createTweetOfOneAsset($asset, $emojiDict) . ' ';
+    $tweet = $tweet . '' . createTweetOfOneAsset($asset) . ' ';
   }
   
   return $tweet . $tweetTail;
@@ -247,8 +307,10 @@ function createTweet($assets, $tweetHours, &$emojiDict)
 /*--------------------
   createTweetOfOneAsset
 ---------------------*/
-function createTweetOfOneAsset($asset, &$emojiDict)
+function createTweetOfOneAsset($asset)
 {
+  global $emojiDict;
+  
   $tweetOfOneAsset = $asset['title']
                    . ''
                    . number_format($asset['price'], $asset['decimals']);
@@ -273,7 +335,7 @@ function createTweetOfOneAsset($asset, &$emojiDict)
     elseif ($change <= -1) { $key =     'mm'; }
     elseif ($change <   0) { $key =      'm'; }
     
-    $changeIcon = getEmoji($emojiDict, 'face', $key);
+    $changeIcon = getEmoji('face', $key);
     
     $tweetOfOneAsset = $tweetOfOneAsset
                      . '(' . str_replace(array('+', '-'), array('△', '▼'), $asset['change']) . $changeIcon . ')';
@@ -285,8 +347,10 @@ function createTweetOfOneAsset($asset, &$emojiDict)
 /*--------------------
   getEmoji
 ---------------------*/
-function getEmoji(&$emojiDict, $group, $key)
+function getEmoji($group, $key)
 {
+  global $emojiDict;
+  
   if (false == isset($emojiDict[$group][$key]['char']))
   {
     $target = str_repeat('0', 8 - strlen($emojiDict[$group][$key]['unicode']))
