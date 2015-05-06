@@ -294,11 +294,11 @@ function createTweet($assets)
     // 時間外アセットはツイートの後方に
     if (false == in_array($currentHour, $tweetHours[$asset['market']]))
     {
-      $tweetTail = $tweetTail . '' . createTweetOfOneAsset($asset) . ' ';
+      $tweetTail = createTweetOfOneAsset($asset) . ' ' . $tweetTail;
       continue;
     }
     
-    $tweet = $tweet . '' . createTweetOfOneAsset($asset) . ' ';
+    $tweet = $tweet . createTweetOfOneAsset($asset) . ' ';
   }
   
   return $tweet . $tweetTail;
@@ -315,33 +315,51 @@ function createTweetOfOneAsset($asset)
                    . ''
                    . number_format($asset['price'], $asset['decimals']);
   
-  if ($asset['displays_change'])
+  if (isHoliday($asset))
   {
-    
-    //顔アイコン
-    $changeIcon = '';
-    $change = (float) str_replace('%', '', $asset['change']);
-    
-    if     ($change >=  5) { $key = 'pppppp'; }
-    elseif ($change >=  4) { $key =  'ppppp'; }
-    elseif ($change >=  3) { $key =   'pppp'; }
-    elseif ($change >=  2) { $key =    'ppp'; }
-    elseif ($change >=  1) { $key =     'pp'; }
-    elseif ($change >=  0) { $key =      'p'; }
-    elseif ($change <= -5) { $key = 'mmmmmm'; }
-    elseif ($change <= -4) { $key =  'mmmmm'; }
-    elseif ($change <= -3) { $key =   'mmmm'; }
-    elseif ($change <= -2) { $key =    'mmm'; }
-    elseif ($change <= -1) { $key =     'mm'; }
-    elseif ($change <   0) { $key =      'm'; }
-    
-    $changeIcon = getEmoji('face', $key);
-    
-    $tweetOfOneAsset = $tweetOfOneAsset
-                     . '(' . str_replace(array('+', '-'), array('△', '▼'), $asset['change']) . $changeIcon . ')';
+    $tweetOfOneAsset = $tweetOfOneAsset . '(休)';
+  }
+  else
+  {
+    if ($asset['displays_change'])
+    {
+      //顔アイコン
+      $changeIcon = '';
+      $change = (float) str_replace('%', '', $asset['change']);
+      
+      if     ($change >=  5) { $key = 'pppppp'; }
+      elseif ($change >=  4) { $key =  'ppppp'; }
+      elseif ($change >=  3) { $key =   'pppp'; }
+      elseif ($change >=  2) { $key =    'ppp'; }
+      elseif ($change >=  1) { $key =     'pp'; }
+      elseif ($change >=  0) { $key =      'p'; }
+      elseif ($change <= -5) { $key = 'mmmmmm'; }
+      elseif ($change <= -4) { $key =  'mmmmm'; }
+      elseif ($change <= -3) { $key =   'mmmm'; }
+      elseif ($change <= -2) { $key =    'mmm'; }
+      elseif ($change <= -1) { $key =     'mm'; }
+      elseif ($change <   0) { $key =      'm'; }
+      
+      $changeIcon = getEmoji('face', $key);
+      
+      $tweetOfOneAsset = $tweetOfOneAsset
+                       . '(' . str_replace(array('+', '-'), array('△', '▼'), $asset['change']) . $changeIcon . ')';
+    }
   }
   
   return $tweetOfOneAsset;
+}
+
+/*--------------------
+  isHoliday
+---------------------*/
+function isHoliday($asset)
+{
+  global $holidays;
+  
+  $today = date('Y-m-d');
+  
+  return in_array($today, $holidays[$asset['market']], true);
 }
 
 /*--------------------
