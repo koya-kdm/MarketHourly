@@ -393,7 +393,7 @@ function postTweet($twitterAuth, $tweet)
                                  $twitterAuth['access_token'       ],
                                  $twitterAuth['access_token_secret']);
   
-  $res = $connection->post('statuses/update', array('status' => mb_substr($tweet, 0, 140)));
+  $res = $connection->post('statuses/update', array('status' => mb_substr($tweet, 0, 140, 'UTF-8')));
   
   // var_dump($res);
   
