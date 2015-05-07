@@ -177,7 +177,9 @@ $yahooParams  = array('s', 'l1', 'p2');
 
 // 絵文字辞書
 // http://apps.timwhitlock.info/emoji/tables/unicode
-$emojiDict = array('currency' => array('eur' => array('unicode' =>  '20AC')),
+$emojiDict = array('currency' => array('dol' => array('unicode' =>  '0024'),
+                                       'eur' => array('unicode' =>  '20AC'),
+                                       ),
                    'face'  => array('pppppp' => array('unicode' =>  '3297'), // ≧+5% circled ideograph congratulation
                                     'ppppp'  => array('unicode' => '1F60D'), // ≧+4% smiling face with heart-shaped eyes
                                     'pppp'   => array('unicode' => '1F606'), // ≧+3% smiling face with open mouth and tightly-closed eyes
@@ -217,7 +219,7 @@ $emojiDict = array('currency' => array('eur' => array('unicode' =>  '20AC')),
                                           23 => array('unicode' => '1F55A'),),
                    );
 
-
+$assets[0]['title'] = getEmoji('currency', 'dol');
 $assets[1]['title'] = getEmoji('currency', 'eur');
 
 //===============================
