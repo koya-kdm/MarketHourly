@@ -219,6 +219,7 @@ $emojiDict = array('currency' => array('dol' => array('unicode' =>  '0024'),
                                           23 => array('unicode' => '1F55A'),),
                    );
 
+// アセットタイトルの書換え
 $assets[0]['title'] = getEmoji('currency', 'dol');
 $assets[1]['title'] = getEmoji('currency', 'eur');
 
@@ -329,14 +330,14 @@ function createTweet($assets)
   $currentHour = (int)date('G');
   
   // 時計アイコン
-  $tweet = getEmoji('clock', $currentHour);
+  $tweet = getEmoji('clock', $currentHour) . ' ';
   
   foreach ($assets as $key => $asset)
   {
     // 時間外アセットはツイートの後方に
     if (false == in_array($currentHour, $tweetHours[$asset['market']]))
     {
-      $tweetTail =  $tweetTail . createTweetOfOneAsset($asset) . ' ' ;
+      $tweetTail =  $tweetTail . createTweetOfOneAsset($asset) . ' ';
       continue;
     }
     
