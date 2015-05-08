@@ -261,7 +261,7 @@ $tweet = createTweet($assetsByMarket);
 echo $tweet . PHP_EOL;
 
 // ツイートの投稿
-postTweet($twitterAuth, $tweet);
+//postTweet($twitterAuth, $tweet);
 
 //===============================
 // 関数
@@ -309,8 +309,8 @@ function retrieveStockPrice($url, &$assetsByMarket)
       }
       else
       {
-        $asset['price' ] = $data[1];
-        $asset['change'] = $data[2];
+        $assetsByMarket[$market][$key]['price' ] = $data[1];
+        $assetsByMarket[$market][$key]['change'] = $data[2];
       }
     }
   }
