@@ -348,6 +348,7 @@ function createTweet($assetsByMarket)
 {
   global $tweetHours;
   global $emojiDict;
+  global $order;
 
   // e.g.) USD=120.21円 EUR=134.64円 日経=19531.63円(△0.06%) 香港=28133pt(▼0.94%) 上海=0pt(N/A) S&P500=2108.29pt(△1.09%) Nasdaq=5005.39pt(△1.29%)
   
@@ -358,9 +359,9 @@ function createTweet($assetsByMarket)
   // 時計アイコン
   $tweet = getEmoji('clock', $currentHour) . ' ';
   
-  foreach ($assetsByMarket as $market => $assets)
+  foreach ($order[$currentHour] as $market)
   {
-    foreach ($assets as $key => $asset)
+    foreach ($assetsByMarket[$market] as $key => $asset)
     {
       // 時間外アセットはツイートの後方に
       if (false == in_array($currentHour, $tweetHours[$asset['market']]))
