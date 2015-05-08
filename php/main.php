@@ -261,7 +261,7 @@ $tweet = createTweet($assetsByMarket);
 echo $tweet . PHP_EOL;
 
 // ツイートの投稿
-//postTweet($twitterAuth, $tweet);
+postTweet($twitterAuth, $tweet);
 
 //===============================
 // 関数
