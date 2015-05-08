@@ -305,7 +305,7 @@ function retrieveStockPrice($url, &$assetsByMarket)
       if (true == isset($asset['retrieves_from_gogole']) AND
           true ==       $asset['retrieves_from_gogole'])
       {
-        retrieveStockPriceFromGoogle($asset);
+        retrieveStockPriceFromGoogle($assetsByMarket[$market][$key]);
       }
       else
       {
