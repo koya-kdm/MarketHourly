@@ -390,7 +390,7 @@ function createTweetOfOneAsset($asset)
   
   if (isHoliday($asset))
   {
-    $tweetOfOneAsset = $tweetOfOneAsset . '(休)';
+    $tweetOfOneAsset = $tweetOfOneAsset . ' (休)';
   }
   else
   {
@@ -416,7 +416,7 @@ function createTweetOfOneAsset($asset)
       $changeIcon = getEmoji('face', $key);
       
       $tweetOfOneAsset = $tweetOfOneAsset
-                       . '(' . str_replace(array('+', '-'), array('△', '▼'), $asset['change']) . $changeIcon . ')';
+                       . ' (' . str_replace(array('+', '-'), array('△', '▼'), $asset['change']) . $changeIcon . ')';
     }
   }
   
