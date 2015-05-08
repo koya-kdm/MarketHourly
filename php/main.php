@@ -109,6 +109,7 @@ $holidays = array(MARKET_FX => array(),
                   );
 
 // アセット定義
+/*
 $assets
   = array(
     0 => array('title' => '米',   'ticker' => 'USDJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'decimals' => 2, 'price' => '', 'change' => ''),
@@ -121,11 +122,31 @@ $assets
     7 => array('title' => 'ダウ', 'ticker' => '^DJI',      'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
     8 => array('title' => 'ナス', 'ticker' => '^IXIC',     'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
     );
+*/
+$assetsByMarket
+  = array(
+    MARKET_FX => array(0 => array('title' => '米',   'ticker' => 'USDJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'decimals' => 2, 'price' => '', 'change' => ''),
+                       1 => array('title' => '欧',   'ticker' => 'EURJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'decimals' => 2, 'price' => '', 'change' => ''),
+                      ),
+    MARKET_JP => array(0 => array('title' => '日経', 'ticker' => '^N225',     'unit' => '円', 'market' => MARKET_JP, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
+                      ),
+    MARKET_HK => array(0 => array('title' => '香港', 'ticker' => '^HSI',      'unit' => 'pt', 'market' => MARKET_HK, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
+                      ),
+    MARKET_SH => array(0 => array('title' => '上海', 'ticker' => '000001.SS', 'unit' => 'pt', 'market' => MARKET_SH, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
+                      ),
+    MARKET_EU => array(0 => array('title' => '英',   'ticker' => '^FTSE',     'unit' => 'pt', 'market' => MARKET_EU, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
+                       1 => array('title' => '独',   'ticker' => '^GDAXI',    'unit' => 'pt', 'market' => MARKET_EU, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
+                      ),
+    MARKET_US => array(0 => array('title' => 'ダウ', 'ticker' => '^DJI',      'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
+                       1 => array('title' => 'ナス', 'ticker' => '^IXIC',     'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
+                      ),
+    );
+
 //6 => array('title' => 'S&P500', 'ticker' => '^GSPC',     'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true, 'decimals' => 0, 'price' => '', 'change' => ''),
   
 // アセット追加定義（Yahoo非対応アセットはGoogleから取得）
-$assets[4] = array_merge($assets[4], array('retrieves_from_gogole' => true, 'g_code' => '7521596')); //上海
-$assets[7] = array_merge($assets[7], array('retrieves_from_gogole' => true, 'g_code' => '983582' )); //Dow
+$assetsByMarket[MARKET_SH][0] = array_merge($assetsByMarket[MARKET_SH][0], array('retrieves_from_gogole' => true, 'g_code' => '7521596')); //上海
+$assetsByMarket[MARKET_US][0] = array_merge($assetsByMarket[MARKET_US][0], array('retrieves_from_gogole' => true, 'g_code' => '983582' )); //Dow
 
 // 各時間における表示順
 $order = array( 0 => array(MARKET_US, MARKET_EU, MARKET_JP, MARKET_SH, MARKET_HK),
@@ -220,23 +241,23 @@ $emojiDict = array('currency' => array('dol' => array('unicode' =>  '0024'),
                    );
 
 // アセットタイトルの書換え
-$assets[0]['title'] = getEmoji('currency', 'dol');
-$assets[1]['title'] = getEmoji('currency', 'eur');
+$assetsByMarket[MARKET_FX][0]['title'] = getEmoji('currency', 'dol');
+$assetsByMarket[MARKET_FX][1]['title'] = getEmoji('currency', 'eur');
 
 //===============================
 // メイン
 //===============================
 // URLの作成
-$url = createUrl($yahooParams, $assets);
+$url = createUrl($yahooParams, $assetsByMarket);
 
 // 株価の取得
-retrieveStockPrice($url, $assets);
+retrieveStockPrice($url, $assetsByMarket);
 
 // ツイートの作成
-$tweet = createTweet($assets);
+$tweet = createTweet($assetsByMarket);
 
 // Debug
-//print_r($assets);
+//print_r($assetsByMarket);
 echo $tweet . PHP_EOL;
 
 // ツイートの投稿
@@ -249,15 +270,18 @@ postTweet($twitterAuth, $tweet);
 /*--------------------
   createUrl
 ---------------------*/
-function createUrl($yahooParams, $assets)
+function createUrl($yahooParams, $assetsByMarket)
 {
   // e.g.) http://finance.yahoo.com/d/quotes.csv?s=INDU+^IXIC+USDJPY=X+^N225&f=snl1c1p2d1t1
   
   $tickerString = '';
   
-  foreach ($assets as $key => $asset)
+  foreach ($assetsByMarket as $market => $assets)
   {
-    $tickerString = $tickerString . $asset['ticker'] . '+';
+    foreach ($assets as $key => $asset)
+    {
+      $tickerString = $tickerString . $asset['ticker'] . '+';
+    }
   }
   
   $url= YAHOO_BASE_URL . '?s=' . $tickerString . '&f=' . implode('', $yahooParams);
@@ -268,25 +292,27 @@ function createUrl($yahooParams, $assets)
 /*--------------------
   retrieveStockPrice
 ---------------------*/
-function retrieveStockPrice($url, &$assets)
+function retrieveStockPrice($url, &$assetsByMarket)
 {
   $handle = fopen($url, 'r');
-
-  $i = 0;
-  while (false != ($data = fgetcsv($handle, 1000, ',')))
+  
+  foreach ($assetsByMarket as $market => $assets)
   {
-    if (true == isset($assets[$i]['retrieves_from_gogole']) AND
-        true == $assets[$i]['retrieves_from_gogole'])
+    foreach ($assets as $key => $asset)
     {
-      retrieveStockPriceFromGoogle($assets[$i]);
+      $data = fgetcsv($handle, 1000, ',');
+      
+      if (true == isset($asset['retrieves_from_gogole']) AND
+          true ==       $asset['retrieves_from_gogole'])
+      {
+        retrieveStockPriceFromGoogle($asset);
+      }
+      else
+      {
+        $asset['price' ] = $data[1];
+        $asset['change'] = $data[2];
+      }
     }
-    else
-    {
-      $assets[$i]['price' ] = $data[1];
-      $assets[$i]['change'] = $data[2];
-    }
-    
-    $i++;
   }
   
   fclose($handle);
@@ -318,7 +344,7 @@ function retrieveStockPriceFromGoogle(&$asset)
 /*--------------------
   createTweet
 ---------------------*/
-function createTweet($assets)
+function createTweet($assetsByMarket)
 {
   global $tweetHours;
   global $emojiDict;
@@ -332,18 +358,21 @@ function createTweet($assets)
   // 時計アイコン
   $tweet = getEmoji('clock', $currentHour) . ' ';
   
-  foreach ($assets as $key => $asset)
+  foreach (assetsByMarket as $market => assets)
   {
-    // 時間外アセットはツイートの後方に
-    if (false == in_array($currentHour, $tweetHours[$asset['market']]))
+    foreach ($assets as $key => $asset)
     {
-      $tweetTail =  $tweetTail . createTweetOfOneAsset($asset) . ' ';
-      continue;
+      // 時間外アセットはツイートの後方に
+      if (false == in_array($currentHour, $tweetHours[$asset['market']]))
+      {
+        $tweetTail =  $tweetTail . createTweetOfOneAsset($asset) . ' ';
+        continue;
+      }
+      
+      $tweet = $tweet . createTweetOfOneAsset($asset) . ' ';
     }
-    
-    $tweet = $tweet . createTweetOfOneAsset($asset) . ' ';
   }
-  
+    
   return $tweet . $tweetTail;
 }
 
