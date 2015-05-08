@@ -358,7 +358,7 @@ function createTweet($assetsByMarket)
   // 時計アイコン
   $tweet = getEmoji('clock', $currentHour) . ' ';
   
-  foreach (assetsByMarket as $market => assets)
+  foreach ($assetsByMarket as $market => $assets)
   {
     foreach ($assets as $key => $asset)
     {
