@@ -204,7 +204,7 @@ $emojiDict = array('currency' => array('dol' => array('unicode' =>  '0024'),
                    'face'  => array('pppppp' => array('unicode' =>  '3297'), // ≧+5% circled ideograph congratulation
                                     'ppppp'  => array('unicode' => '1F60D'), // ≧+4% smiling face with heart-shaped eyes
                                     'pppp'   => array('unicode' => '1F606'), // ≧+3% smiling face with open mouth and tightly-closed eyes
-                                    'ppp'    => array('unicode' => '1F603'), // ≧+2% smiling face with open mouth
+                                    'ppp'    => array('unicode' => '1F601'), // ≧+2% grinning face with smiling eyes
                                     'pp'     => array('unicode' => '1F619'), // ≧+1% kissing face with smiling eyes
                                     'p'      => array('unicode' => '1F60C'), // ≧+0% relieved face
                                     'm'      => array('unicode' => '1F61E'), // ＜-0% disappointed face
