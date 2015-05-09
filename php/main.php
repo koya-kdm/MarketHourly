@@ -28,7 +28,7 @@ $mm = new MarketManager();
 $em = new EmojiManager();
 
 // 絵文字管理クラス
-$retriever = new /Retriever();
+$retriever = new Retriever();
 
 // アセット定義
 $assetsByMarket = array($mm::FX => array(0 => new Asset( 'USD',   'USDJPY=X', '円', 2, $mm::FX, false, false, null     ),
