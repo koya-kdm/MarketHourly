@@ -125,7 +125,7 @@ class Asset
         elseif ($change <= -1) { $key = 'm1'; }
         elseif ($change <   0) { $key = 'm0'; }
         
-        $changeIcon = $em->getEmoji('face', $key);
+        $changeIcon = $em->getEmojiOfFace($key);
         
         $piece = $piece
                . ' (' 
