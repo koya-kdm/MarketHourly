@@ -43,11 +43,11 @@ class MarketManager
   /*--------------------
     isHoliday
   ---------------------*/
-  public function isHoliday($asset)
+  public function isHoliday($market)
   {
     $today = date('Y-m-d');
     
-    return in_array($today, $this->$holidays[$asset->getMarket()], true);
+    return in_array($today, $this->$holidays[$market], true);
   }
 }
 ?>

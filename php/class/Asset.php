@@ -99,7 +99,7 @@ class Asset
                      . ''
                      . number_format($this->getPrice(), $this->getDecimals());
     
-    if ($mm->isHoliday($this))
+    if ($mm->isHoliday($this->getMarket()))
     {
       $piece = $piece . ' (休)';
     }
