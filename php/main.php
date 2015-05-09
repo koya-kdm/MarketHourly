@@ -145,15 +145,15 @@ $assetsByMarket
                       ),
     );
 */
-$assetsByMarket = array(MARKET_FX => array(0 => new Asset( 'USD',   'USDJPY=X', '円', 2, MARKET_FX, false, false, null    ),
-                                           1 => new Asset( 'EUR',   'EURJPY=X', '円', 2, MARKET_FX, false, false, null    ),),
-                        MARKET_JP => array(0 => new Asset('日経',      '^N225', '円', 0, MARKET_JP,  true, false, null    ),),
-                        MARKET_HK => array(0 => new Asset('香港',       '^HSI', 'pt', 0, MARKET_HK,  true, false, null    ),),
-                        MARKET_SH => array(0 => new Asset('上海',  '000001.SS', 'pt', 0, MARKET_SH,  true, true, '7521596'),),
-                        MARKET_EU => array(0 => new Asset(  '英',  '^FTSE',     'pt', 0, MARKET_EU, false, null           ),
-                                           1 => new Asset(  '独',  '^GDAXI',    'pt', 0, MARKET_EU, false, false, null    ),),
-                        MARKET_US => array(0 => new Asset('ダウ',       '^DJI', 'pt', 0, MARKET_US,  true, true, '983582' ),
-                                           1 => new Asset('ナス',      '^IXIC', 'pt', 0, MARKET_US,  true, false, null    ),),
+$assetsByMarket = array(MARKET_FX => array(0 => new Asset( 'USD',   'USDJPY=X', '円', 2, MARKET_FX, false, false, null     ),
+                                           1 => new Asset( 'EUR',   'EURJPY=X', '円', 2, MARKET_FX, false, false, null     ),),
+                        MARKET_JP => array(0 => new Asset('日経',      '^N225', '円', 0, MARKET_JP,  true, false, null     ),),
+                        MARKET_HK => array(0 => new Asset('香港',       '^HSI', 'pt', 0, MARKET_HK,  true, false, null     ),),
+                        MARKET_SH => array(0 => new Asset('上海',  '000001.SS', 'pt', 0, MARKET_SH,  true,  true, '7521596'),),
+                        MARKET_EU => array(0 => new Asset(  '英',  '^FTSE',     'pt', 0, MARKET_EU,  true, false, null     ),
+                                           1 => new Asset(  '独',  '^GDAXI',    'pt', 0, MARKET_EU,  true, false, null     ),),
+                        MARKET_US => array(0 => new Asset('ダウ',       '^DJI', 'pt', 0, MARKET_US,  true,  true, '983582' ),
+                                           1 => new Asset('ナス',      '^IXIC', 'pt', 0, MARKET_US,  true, false, null     ),),
                        );
 
 
