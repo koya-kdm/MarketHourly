@@ -111,40 +111,6 @@ $holidays = array(MARKET_FX => array(),
                   );
 
 // アセット定義
-/*
-$assets
-  = array(
-    0 => array('title' => '米',   'ticker' => 'USDJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'decimals' => 2, 'price' => '', 'change' => ''),
-    1 => array('title' => '欧',   'ticker' => 'EURJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'decimals' => 2, 'price' => '', 'change' => ''),
-    2 => array('title' => '日経', 'ticker' => '^N225',     'unit' => '円', 'market' => MARKET_JP, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
-    3 => array('title' => '香港', 'ticker' => '^HSI',      'unit' => 'pt', 'market' => MARKET_HK, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
-    4 => array('title' => '上海', 'ticker' => '000001.SS', 'unit' => 'pt', 'market' => MARKET_SH, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
-    5 => array('title' => '英',   'ticker' => '^FTSE',     'unit' => 'pt', 'market' => MARKET_EU, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
-    6 => array('title' => '独',   'ticker' => '^GDAXI',    'unit' => 'pt', 'market' => MARKET_EU, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
-    7 => array('title' => 'ダウ', 'ticker' => '^DJI',      'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
-    8 => array('title' => 'ナス', 'ticker' => '^IXIC',     'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
-    );
-*/
-/*
-$assetsByMarket
-  = array(
-    MARKET_FX => array(0 => array('title' => '米',   'ticker' => 'USDJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'decimals' => 2, 'price' => '', 'change' => ''),
-                       1 => array('title' => '欧',   'ticker' => 'EURJPY=X',  'unit' => '円', 'market' => MARKET_FX, 'displays_change' => false, 'decimals' => 2, 'price' => '', 'change' => ''),
-                      ),
-    MARKET_JP => array(0 => array('title' => '日経', 'ticker' => '^N225',     'unit' => '円', 'market' => MARKET_JP, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
-                      ),
-    MARKET_HK => array(0 => array('title' => '香港', 'ticker' => '^HSI',      'unit' => 'pt', 'market' => MARKET_HK, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
-                      ),
-    MARKET_SH => array(0 => array('title' => '上海', 'ticker' => '000001.SS', 'unit' => 'pt', 'market' => MARKET_SH, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
-                      ),
-    MARKET_EU => array(0 => array('title' => '英',   'ticker' => '^FTSE',     'unit' => 'pt', 'market' => MARKET_EU, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
-                       1 => array('title' => '独',   'ticker' => '^GDAXI',    'unit' => 'pt', 'market' => MARKET_EU, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
-                      ),
-    MARKET_US => array(0 => array('title' => 'ダウ', 'ticker' => '^DJI',      'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
-                       1 => array('title' => 'ナス', 'ticker' => '^IXIC',     'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true,  'decimals' => 0, 'price' => '', 'change' => ''),
-                      ),
-    );
-*/
 $assetsByMarket = array(MARKET_FX => array(0 => new Asset( 'USD',   'USDJPY=X', '円', 2, MARKET_FX, false, false, null     ),
                                            1 => new Asset( 'EUR',   'EURJPY=X', '円', 2, MARKET_FX, false, false, null     ),),
                         MARKET_JP => array(0 => new Asset('日経',      '^N225', '円', 0, MARKET_JP,  true, false, null     ),),
@@ -155,13 +121,6 @@ $assetsByMarket = array(MARKET_FX => array(0 => new Asset( 'USD',   'USDJPY=X', 
                         MARKET_US => array(0 => new Asset('ダウ',       '^DJI', 'pt', 0, MARKET_US,  true,  true, '983582' ),
                                            1 => new Asset('ナス',      '^IXIC', 'pt', 0, MARKET_US,  true, false, null     ),),
                        );
-
-
-//6 => array('title' => 'S&P500', 'ticker' => '^GSPC',     'unit' => 'pt', 'market' => MARKET_US, 'displays_change' => true, 'decimals' => 0, 'price' => '', 'change' => ''),
-  
-// アセット追加定義（Yahoo非対応アセットはGoogleから取得）
-//$assetsByMarket[MARKET_SH][0] = array_merge($assetsByMarket[MARKET_SH][0], array('retrieves_from_gogole' => true, 'g_code' => '7521596')); //上海
-//$assetsByMarket[MARKET_US][0] = array_merge($assetsByMarket[MARKET_US][0], array('retrieves_from_gogole' => true, 'g_code' => '983582' )); //Dow
 
 // 各時間における表示順
 $order = array( 0 => array(MARKET_FX, MARKET_US, MARKET_EU, MARKET_JP, MARKET_SH, MARKET_HK),
@@ -276,7 +235,7 @@ $tweet = createTweet($assetsByMarket);
 echo $tweet . PHP_EOL;
 
 // ツイートの投稿
-//postTweet($twitterAuth, $tweet);
+postTweet($twitterAuth, $tweet);
 
 //===============================
 // 関数
