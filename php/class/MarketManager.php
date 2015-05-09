@@ -34,6 +34,9 @@ class MarketManager
     global $applicationPhpPath;
     
     include $applicationPhpPath . '/class/MarketManager.holidays.php';
+    
+    print_r($configHolidays);
+    
     $this->holidays = $configHolidays;
     
     return;
