@@ -378,7 +378,7 @@ function createTweet($assetsByMarket)
     foreach ($assetsByMarket[$market] as $key => $asset)
     {
       // 時間外アセットはツイートの後方に
-      if (false == in_array($currentHour, $market))
+      if (false == in_array($currentHour, $tweetHours[$market]))
       {
         $tweetTail =  $tweetTail . createTweetOfOneAsset($asset) . ' ';
         continue;
