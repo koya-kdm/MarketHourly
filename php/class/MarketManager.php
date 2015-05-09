@@ -41,9 +41,9 @@ class MarketManager
   }
   
   
-  /*--------------------
+  /*---------------------------
     isHoliday
-  ---------------------*/
+  -----------------------------*/
   public function isHoliday($market)
   {
     $today = date('Y-m-d');

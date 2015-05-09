@@ -7,11 +7,11 @@
 // アプリ格納場所
 $applicationPhpPath = dirname(__FILE__);
 
-// 設定の読込み
+// インクルード
 require_once $applicationPhpPath . '/config.php';
-
 require_once $applicationPhpPath . '/class/Asset.php';
 require_once $applicationPhpPath . '/class/MarketManager.php';
+require_once $applicationPhpPath . '/class/EmojiManager.php';
 
 // OAuthスクリプトの読込み
 require $applicationPhpPath . '/lib/twitteroauth/autoload.php';
@@ -23,6 +23,9 @@ date_default_timezone_set('Asia/Tokyo');
 // マーケット管理クラス
 $mm = new MarketManager();
 
+// 絵文字管理クラス
+$em = new EmojiManager();
+
 
 // アセット定義
 $assetsByMarket = array($mm::FX => array(0 => new Asset( 'USD',   'USDJPY=X', '円', 2, $mm::FX, false, false, null     ),
@@ -30,8 +33,8 @@ $assetsByMarket = array($mm::FX => array(0 => new Asset( 'USD',   'USDJPY=X', '�
                         $mm::JP => array(0 => new Asset('日経',      '^N225', '円', 0, $mm::JP,  true, false, null     ),),
                         $mm::HK => array(0 => new Asset('香港',       '^HSI', 'pt', 0, $mm::HK,  true, false, null     ),),
                         $mm::SH => array(0 => new Asset('上海',  '000001.SS', 'pt', 0, $mm::SH,  true,  true, '7521596'),),
-                        $mm::EU => array(0 => new Asset(  '英',  '^FTSE',     'pt', 0, $mm::EU,  true, false, null     ),
-                                         1 => new Asset(  '独',  '^GDAXI',    'pt', 0, $mm::EU,  true, false, null     ),),
+                        $mm::EU => array(0 => new Asset(  '英',      '^FTSE', 'pt', 0, $mm::EU,  true, false, null     ),
+                                         1 => new Asset(  '独',     '^GDAXI', 'pt', 0, $mm::EU,  true, false, null     ),),
                         $mm::US => array(0 => new Asset('ダウ',       '^DJI', 'pt', 0, $mm::US,  true,  true, '983582' ),
                                          1 => new Asset('ナス',      '^IXIC', 'pt', 0, $mm::US,  true, false, null     ),),
                        );
@@ -84,53 +87,11 @@ p2 = Change in Percent
 */
 $yahooParams  = array('s', 'l1', 'p2');
 
-// 絵文字辞書
-// http://apps.timwhitlock.info/emoji/tables/unicode
-$emojiDict = array('currency' => array('dol' => array('unicode' =>  '0024'),
-                                       'eur' => array('unicode' =>  '20AC'),
-                                       ),
-                   'face'  => array('p5' => array('unicode' =>  '3297'), // ≧+5% circled ideograph congratulation
-                                    'p4' => array('unicode' => '1F60D'), // ≧+4% smiling face with heart-shaped eyes
-                                    'p3' => array('unicode' => '1F606'), // ≧+3% smiling face with open mouth and tightly-closed eyes
-                                    'p2' => array('unicode' => '1F601'), // ≧+2% grinning face with smiling eyes
-                                    'p1' => array('unicode' => '1F619'), // ≧+1% kissing face with smiling eyes
-                                    'p0' => array('unicode' => '1F60C'), // ≧+0% relieved face
-                                    'm0' => array('unicode' => '1F61E'), // ＜-0% disappointed face
-                                    'm1' => array('unicode' => '1F623'), // ≦-1% persevering face
-                                    'm2' => array('unicode' => '1F629'), // ≦-2% weary face
-                                    'm3' => array('unicode' => '1F62D'), // ≦-3% loudly crying face
-                                    'm4' => array('unicode' => '1F631'), // ≦-4% face screaming in fear
-                                    'm5' => array('unicode' => '1F480'), // ≦-5% skull
-                                    ),
-                   'clock' => array(   0 => array('unicode' => '1F55B'),
-                                       1 => array('unicode' => '1F550'),
-                                       2 => array('unicode' => '1F551'),
-                                       3 => array('unicode' => '1F552'),
-                                       4 => array('unicode' => '1F553'),
-                                       5 => array('unicode' => '1F554'),
-                                       6 => array('unicode' => '1F555'),
-                                       7 => array('unicode' => '1F556'),
-                                       8 => array('unicode' => '1F557'),
-                                       9 => array('unicode' => '1F558'),
-                                      10 => array('unicode' => '1F559'),
-                                      11 => array('unicode' => '1F55A'),
-                                      12 => array('unicode' => '1F55B'),
-                                      13 => array('unicode' => '1F550'),
-                                      14 => array('unicode' => '1F551'),
-                                      15 => array('unicode' => '1F552'),
-                                      16 => array('unicode' => '1F553'),
-                                      17 => array('unicode' => '1F554'),
-                                      18 => array('unicode' => '1F555'),
-                                      19 => array('unicode' => '1F556'),
-                                      20 => array('unicode' => '1F557'),
-                                      21 => array('unicode' => '1F558'),
-                                      22 => array('unicode' => '1F559'),
-                                      23 => array('unicode' => '1F55A'),),
-                   );
+
 
 // アセットタイトルの書換え
-$assetsByMarket[$mm::FX][0]->setTitle(getEmoji('currency', 'dol'));
-$assetsByMarket[$mm::FX][1]->setTitle(getEmoji('currency', 'eur'));
+$assetsByMarket[$mm::FX][0]->setTitle($em->getEmoji('currency', 'dol'));
+$assetsByMarket[$mm::FX][1]->setTitle($em->getEmoji('currency', 'eur'));
 
 //===============================
 // メイン
@@ -149,7 +110,7 @@ $tweet = createTweet($assetsByMarket);
 echo $tweet . PHP_EOL;
 
 // ツイートの投稿
-postTweet($twitterAuth, $tweet);
+//postTweet($twitterAuth, $tweet);
 
 //===============================
 // 関数
@@ -212,10 +173,10 @@ function retrieveStockPrice($url, &$assetsByMarket)
 ---------------------*/
 function createTweet($assetsByMarket)
 {
-  global $emojiDict;
   global $order;
   global $mm;
-
+  global $em;
+  
   // e.g.) USD=120.21円 EUR=134.64円 日経=19531.63円(△0.06%) 香港=28133pt(▼0.94%) 上海=0pt(N/A) S&P500=2108.29pt(△1.09%) Nasdaq=5005.39pt(△1.29%)
   
   $tweet = '';
@@ -223,7 +184,7 @@ function createTweet($assetsByMarket)
   $currentHour = (int)date('G');
   
   // 時計アイコン
-  $tweet = getEmoji('clock', $currentHour) . ' ';
+  $tweet = $em->getEmoji('clock', $currentHour) . ' ';
   
   foreach ($order[$currentHour] as $market)
   {
@@ -235,27 +196,6 @@ function createTweet($assetsByMarket)
     
   return $tweet . $tweetTail;
 }
-
-/*--------------------
-  getEmoji
----------------------*/
-function getEmoji($group, $key)
-{
-  global $emojiDict;
-  
-  if (false == isset($emojiDict[$group][$key]['char']))
-  {
-    $target = str_repeat('0', 8 - strlen($emojiDict[$group][$key]['unicode']))
-            . $emojiDict[$group][$key]['unicode'];
-    
-    $bin = pack('H*', $target);
-    
-    $emojiDict[$group][$key]['char'] = mb_convert_encoding($bin, 'UTF-8', 'UTF-32BE');
-  }
-  
-  return $emojiDict[$group][$key]['char'];
-}
-
 
 /*--------------------
   postTweet

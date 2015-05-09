@@ -94,6 +94,7 @@ class Asset
   {
     global $emojiDict;
     global $mm;
+    global $em;
     
     $piece = $this->getTitle()
                      . ''
@@ -124,7 +125,7 @@ class Asset
         elseif ($change <= -1) { $key = 'm1'; }
         elseif ($change <   0) { $key = 'm0'; }
         
-        $changeIcon = getEmoji('face', $key);
+        $changeIcon = $em->getEmoji('face', $key);
         
         $piece = $piece
                . ' (' 
