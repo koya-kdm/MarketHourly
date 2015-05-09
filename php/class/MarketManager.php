@@ -34,7 +34,7 @@ class MarketManager
     global $applicationPhpPath;
     
     require_once $applicationPhpPath . '/class/MarketManager.holidays.php';
-    $this->holidays = $holidays;
+    $this->holidays = $configHolidays;
     
     return;
   }

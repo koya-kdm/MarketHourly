@@ -1,6 +1,6 @@
 <?php
 // 休場日
-$holidays = array(self::FX => array(),
+$configHolidays = array(self::FX => array(),
                   self::JP => array('2015-01-01',  //  元日
                                      '2015-01-02',  //  休場日
                                      '2015-01-12',  //  成人の日
