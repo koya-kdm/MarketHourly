@@ -90,8 +90,8 @@ $yahooParams  = array('s', 'l1', 'p2');
 
 
 // アセットタイトルの書換え
-$assetsByMarket[$mm::FX][0]->setTitle($em->getEmojiofCurrency('dol'));
-$assetsByMarket[$mm::FX][1]->setTitle($em->getEmojiocCurrency('eur'));
+$assetsByMarket[$mm::FX][0]->setTitle($em->getEmojiOfCurrency('dol'));
+$assetsByMarket[$mm::FX][1]->setTitle($em->getEmojiOfCurrency('eur'));
 
 //===============================
 // メイン
