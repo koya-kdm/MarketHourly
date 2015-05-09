@@ -323,8 +323,8 @@ function retrieveStockPrice($url, &$assetsByMarket)
       }
       else
       {
-        $assetsByMarket[$market][$key]['price' ] = $data[1];
-        $assetsByMarket[$market][$key]['change'] = $data[2];
+        $asset->setPrice ($data[1]);
+        $asset->setChange($data[2]);
       }
     }
   }
