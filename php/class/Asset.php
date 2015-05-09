@@ -75,13 +75,13 @@ class Asset
     
     if (preg_match('/<span id="ref_' . $this->getGoogleCode() . '_l">([\d,.]*)<\/span>/is', $html, $matches))
     {
-      $asset->setPrice(str_replace(',', '', $matches[1]));
+      $this->setPrice(str_replace(',', '', $matches[1]));
     }
     
     if (preg_match('/<span class=".*" id="ref_' . $this->getGoogleCode() . '_cp">\(([\d.-]*%)\)<\/span>/is', $html, $matches))
     {
       $this->setChange('+' . $matches[1]);
-      $this->setChange(str_replace('+-', '-', $asset->getChange()));
+      $this->setChange(str_replace('+-', '-', $this->getChange()));
     }
     
     return;
