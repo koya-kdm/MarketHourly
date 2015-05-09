@@ -82,7 +82,7 @@ $assetsByMarket[$mm::FX][1]->setTitle($em->getEmojiOfCurrency('eur'));
 // メイン
 //===============================
 // URLの作成
-$url = $retriever->createUrl($yahooParams, $assetsByMarket);
+$url = $retriever->createUrl($assetsByMarket);
 
 // 株価の取得
 $retriever->retrieveStockPrice($url, $assetsByMarket);
