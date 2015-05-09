@@ -35,9 +35,10 @@ class MarketManager
     
     include $applicationPhpPath . '/class/MarketManager.holidays.php';
     
-    print_r($configHolidays);
     
     $this->holidays = $configHolidays;
+    
+    print_r($this->holidays);
     
     return;
   }
@@ -49,6 +50,8 @@ class MarketManager
   public function isHoliday($market)
   {
     $today = date('Y-m-d');
+    
+    print_r($this->holidays);
     
     return in_array($today, $this->$holidays[$market], true);
   }
