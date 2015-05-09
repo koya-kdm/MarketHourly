@@ -38,7 +38,7 @@ class Retriever
   /*---------------------------
     createUrl
   -----------------------------*/
-  function createUrl($yahooParams, $assetsByMarket)
+  function createUrl($assetsByMarket)
   {
     // e.g.) http://finance.yahoo.com/d/quotes.csv?s=INDU+^IXIC+USDJPY=X+^N225&f=snl1c1p2d1t1
     
@@ -92,7 +92,7 @@ class Retriever
   -----------------------------*/
   public function retrieveStockPriceFromGoogle(&$asset)
   {
-    $html = file_get_contents(GOOGLE_BASE_URL . '?q=' . $asset->getGoogleCode());
+    $html = file_get_contents(self::GOOGLE_BASE_URL . '?q=' . $asset->getGoogleCode());
     
     if (preg_match('/<span id="ref_' . $asset->getGoogleCode() . '_l">([\d,.]*)<\/span>/is', $html, $matches))
     {
