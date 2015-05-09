@@ -27,6 +27,8 @@ $mm = new MarketManager();
 // 絵文字管理クラス
 $em = new EmojiManager();
 
+// 絵文字管理クラス
+$retriever = new /Retriever();
 
 // アセット定義
 $assetsByMarket = array($mm::FX => array(0 => new Asset( 'USD',   'USDJPY=X', '円', 2, $mm::FX, false, false, null     ),
@@ -80,10 +82,10 @@ $assetsByMarket[$mm::FX][1]->setTitle($em->getEmojiOfCurrency('eur'));
 // メイン
 //===============================
 // URLの作成
-$url = createUrl($yahooParams, $assetsByMarket);
+$url = $retriever->createUrl($yahooParams, $assetsByMarket);
 
 // 株価の取得
-retrieveStockPrice($url, $assetsByMarket);
+$retriever->retrieveStockPrice($url, $assetsByMarket);
 
 // ツイートの作成
 $tweet = createTweet($assetsByMarket);
@@ -98,37 +100,6 @@ echo $tweet . PHP_EOL;
 //===============================
 // 関数
 //===============================
-
-
-/*--------------------
-  retrieveStockPrice
----------------------*/
-function retrieveStockPrice($url, &$assetsByMarket)
-{
-  $handle = fopen($url, 'r');
-  
-  foreach ($assetsByMarket as $market => $assets)
-  {
-    foreach ($assets as $key => $asset)
-    {
-      $data = fgetcsv($handle, 1000, ',');
-      
-      if (true == $asset->getRetrievesFromGoogle())
-      {
-        $asset->retrieveStockPriceFromGoogle();
-      }
-      else
-      {
-        $asset->setPrice ($data[1]);
-        $asset->setChange($data[2]);
-      }
-    }
-  }
-  
-  fclose($handle);
-
-  return;
-}
 
 /*--------------------
   createTweet
