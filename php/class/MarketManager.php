@@ -1,6 +1,6 @@
 <?php
 
-class MarketCtl
+class MarketManager
 {
   /*
     取引時間
