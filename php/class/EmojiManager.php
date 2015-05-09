@@ -54,13 +54,6 @@ class EmojiManager
                                      23  => array('unicode' => '1F55A'),),
         );
   
-  /*---------------------------
-    __construct
-  -----------------------------*/
-  public function __construct()
-  {
-    return;
-  }
   
   /*---------------------------
     getEmoji

@@ -8,8 +8,6 @@ class Retriever
   // Google Finace ベースURL
   const GOOGLE_BASE_URL = 'https://www.google.com/finance';
   
-  
-  
   // Yahoo Finance パラメータ
   /*
   s  = Symbol
@@ -25,15 +23,6 @@ class Retriever
   */
   var $yahooParams  = array('s', 'l1', 'p2');
   
-  
-  
-  /*---------------------------
-    __construct
-  -----------------------------*/
-  public function __construct()
-  {
-    return;
-  }
   
   /*---------------------------
     createUrl
@@ -60,8 +49,10 @@ class Retriever
   /*--------------------
     retrieveStockPrice
   ---------------------*/
-  function retrieveStockPrice($url, &$assetsByMarket)
+  function retrieveStockPrice(&$assetsByMarket)
   {
+    $url = $this->createUrl($url);
+    
     $handle = fopen($url, 'r');
     
     foreach ($assetsByMarket as $market => $assets)
