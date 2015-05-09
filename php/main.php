@@ -449,7 +449,7 @@ function isHoliday($asset)
   
   $today = date('Y-m-d');
   
-  return in_array($today, $holidays[$asset->getMarket(), true);
+  return in_array($today, $holidays[$asset->getMarket()], true);
 }
 
 /*--------------------
