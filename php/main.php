@@ -215,7 +215,7 @@ function createTweet($assetsByMarket)
 {
   global $emojiDict;
   global $order;
-  global $mm
+  global $mm;
 
   // e.g.) USD=120.21円 EUR=134.64円 日経=19531.63円(△0.06%) 香港=28133pt(▼0.94%) 上海=0pt(N/A) S&P500=2108.29pt(△1.09%) Nasdaq=5005.39pt(△1.29%)
   
