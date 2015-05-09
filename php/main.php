@@ -21,7 +21,7 @@ use Abraham\TwitterOAuth\TwitterOAuth;
 date_default_timezone_set('Asia/Tokyo');
 
 // マーケット管理クラス
-$mc = new marketCtol();
+$mc = new MarketCtol();
 
 // 市場
 /*
