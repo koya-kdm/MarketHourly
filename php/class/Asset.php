@@ -93,12 +93,13 @@ class Asset
   public function getTweetPiece()
   {
     global $emojiDict;
+    global $mm;
     
     $piece = $this->getTitle()
                      . ''
                      . number_format($this->getPrice(), $this->getDecimals());
     
-    if (isHoliday($this))
+    if ($mm->isHoliday($this))
     {
       $piece = $piece . ' (休)';
     }

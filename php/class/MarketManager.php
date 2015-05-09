@@ -24,16 +24,28 @@ class MarketManager
   const US = 'us'; // 米国 22:30〜 5:00 (summer time)
                    //      23:30〜 6:00
   
-  
+  var $holidays;
   
   /*---------------------------
     __construct
   -----------------------------*/
   public function __construct()
   {
-    
+    require_onece './MarketManager.holidays.php';
+    $this->holidays = $holidays;
     
     return;
+  }
+  
+  
+  /*--------------------
+    isHoliday
+  ---------------------*/
+  public function isHoliday($asset)
+  {
+    $today = date('Y-m-d');
+    
+    return in_array($today, $this->$holidays[$asset->getMarket()], true);
   }
 }
 ?>
