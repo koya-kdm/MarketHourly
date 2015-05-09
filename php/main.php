@@ -11,6 +11,7 @@ $applicationPhpPath = dirname(__FILE__);
 require_once $applicationPhpPath . '/config.php';
 
 require_once $applicationPhpPath . '/class/Asset.php';
+require_once $applicationPhpPath . '/class/MarketCtl.php';
 
 // OAuthスクリプトの読込み
 require $applicationPhpPath . '/lib/twitteroauth/autoload.php';
@@ -19,37 +20,28 @@ use Abraham\TwitterOAuth\TwitterOAuth;
 // タイムゾーン
 date_default_timezone_set('Asia/Tokyo');
 
+// マーケット管理クラス
+$mc = new marketCtol();
+
 // 市場
+/*
 define('MARKET_FX', 'fx'); // 為替
 define('MARKET_JP', 'jp'); // 日本
 define('MARKET_HK', 'hk'); // 香港
 define('MARKET_SH', 'sh'); // 上海
 define('MARKET_EU', 'eu'); // 欧州
 define('MARKET_US', 'us'); // 米国
+*/
 
 // ツイートする時間
-/*
-取引時間
-FX      :24h
-Tokyo   : 9:00〜15:00
-Shanghai:10:30〜16:00
-HongKong:10:30〜16:00
-EU      :16:00〜 0:30 (summer time)
-         17:00〜 1:30
-NewYork :22:30〜 5:00 (summer time)
-         23:30〜 6:00
-*/
-$tweetHours = array(MARKET_FX => array(0, 1, 2, 3 ,4 ,5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,),
-                    MARKET_JP => array(                           9, 10, 11, 12, 13, 14, 15, 16,                            ),
-                    MARKET_HK => array(                                  11, 12, 13, 14, 15, 16, 17,                        ),
-                    MARKET_SH => array(                                  11, 12, 13, 14, 15, 16, 17,                        ),
-                    MARKET_EU => array(0, 1,                                                 16, 17, 18, 19, 20, 21, 22, 23,),
-                    MARKET_US => array(0, 1, 2, 3 ,4 ,5, 6, 7,                                                           23,),
-                   );
 
+/*
+
+
+*/
 // 休場日
-$holidays = array(MARKET_FX => array(),
-                  MARKET_JP => array('2015-01-01',  //  元日
+$holidays = array($mc::FX => array(),
+                  $mc::JP => array('2015-01-01',  //  元日
                                      '2015-01-02',  //  休場日
                                      '2015-01-12',  //  成人の日
                                      '2015-02-11',  //  建国記念の日
@@ -67,7 +59,7 @@ $holidays = array(MARKET_FX => array(),
                                      '2015-12-23',  //  天皇誕生日
                                      '2015-12-31',  //  休場日
                                     ),
-                  MARKET_HK => array('2015-01-01',  //  The first day of January                                    新年
+                  $mc::HK => array('2015-01-01',  //  The first day of January                                    新年
                                      '2015-02-19',  //  Lunar New Year’s Day                                       旧正月
                                      '2015-02-20',  //  The second day of Lunar New Year                            旧正月
                                      '2015-04-03',  //  Good Friday                                                 受難日（聖金曜日）
@@ -81,7 +73,7 @@ $holidays = array(MARKET_FX => array(),
                                      '2015-10-21',  //  Chung Yeung Festival                                        重陽節
                                      '2015-12-25',  //  Christmas Day                                               クリスマス
                                     ),
-                  MARKET_SH => array('2015-01-01',  //  新年
+                  $mc::SH => array('2015-01-01',  //  新年
                                      '2015-01-02',  //  新年
                                      '2015-02-18',  //  旧正月
                                      '2015-02-19',  //  旧正月
@@ -97,8 +89,8 @@ $holidays = array(MARKET_FX => array(),
                                      '2015-10-06',  //  建国記念日
                                      '2015-10-07',  //  建国記念日
                                     ),
-                  MARKET_EU => array(),
-                  MARKET_US => array('2015-01-01',  //  New Years Day
+                  $mc::EU => array(),
+                  $mc::US => array('2015-01-01',  //  New Years Day
                                      '2015-01-19',  //  Martin Luther King, Jr. Day
                                      '2015-02-16',  //  Washington's Birthday
                                      '2015-04-03',  //  Good Friday
@@ -111,42 +103,42 @@ $holidays = array(MARKET_FX => array(),
                   );
 
 // アセット定義
-$assetsByMarket = array(MARKET_FX => array(0 => new Asset( 'USD',   'USDJPY=X', '円', 2, MARKET_FX, false, false, null     ),
-                                           1 => new Asset( 'EUR',   'EURJPY=X', '円', 2, MARKET_FX, false, false, null     ),),
-                        MARKET_JP => array(0 => new Asset('日経',      '^N225', '円', 0, MARKET_JP,  true, false, null     ),),
-                        MARKET_HK => array(0 => new Asset('香港',       '^HSI', 'pt', 0, MARKET_HK,  true, false, null     ),),
-                        MARKET_SH => array(0 => new Asset('上海',  '000001.SS', 'pt', 0, MARKET_SH,  true,  true, '7521596'),),
-                        MARKET_EU => array(0 => new Asset(  '英',  '^FTSE',     'pt', 0, MARKET_EU,  true, false, null     ),
-                                           1 => new Asset(  '独',  '^GDAXI',    'pt', 0, MARKET_EU,  true, false, null     ),),
-                        MARKET_US => array(0 => new Asset('ダウ',       '^DJI', 'pt', 0, MARKET_US,  true,  true, '983582' ),
-                                           1 => new Asset('ナス',      '^IXIC', 'pt', 0, MARKET_US,  true, false, null     ),),
+$assetsByMarket = array($mc::FX => array(0 => new Asset( 'USD',   'USDJPY=X', '円', 2, $mc::FX, false, false, null     ),
+                                           1 => new Asset( 'EUR',   'EURJPY=X', '円', 2, $mc::FX, false, false, null     ),),
+                        $mc::JP => array(0 => new Asset('日経',      '^N225', '円', 0, $mc::JP,  true, false, null     ),),
+                        $mc::HK => array(0 => new Asset('香港',       '^HSI', 'pt', 0, $mc::HK,  true, false, null     ),),
+                        $mc::SH => array(0 => new Asset('上海',  '000001.SS', 'pt', 0, $mc::SH,  true,  true, '7521596'),),
+                        $mc::EU => array(0 => new Asset(  '英',  '^FTSE',     'pt', 0, $mc::EU,  true, false, null     ),
+                                           1 => new Asset(  '独',  '^GDAXI',    'pt', 0, $mc::EU,  true, false, null     ),),
+                        $mc::US => array(0 => new Asset('ダウ',       '^DJI', 'pt', 0, $mc::US,  true,  true, '983582' ),
+                                           1 => new Asset('ナス',      '^IXIC', 'pt', 0, $mc::US,  true, false, null     ),),
                        );
 
 // 各時間における表示順
-$order = array( 0 => array(MARKET_FX, MARKET_US, MARKET_EU, MARKET_JP, MARKET_SH, MARKET_HK),
-                1 => array(MARKET_FX, MARKET_US, MARKET_EU, MARKET_JP, MARKET_SH, MARKET_HK),
-                2 => array(MARKET_FX, MARKET_US, MARKET_EU, MARKET_JP, MARKET_SH, MARKET_HK),
-                3 => array(MARKET_FX, MARKET_US, MARKET_EU, MARKET_JP, MARKET_SH, MARKET_HK),
-                4 => array(MARKET_FX, MARKET_US, MARKET_EU, MARKET_JP, MARKET_SH, MARKET_HK),
-                5 => array(MARKET_FX, MARKET_US, MARKET_EU, MARKET_JP, MARKET_SH, MARKET_HK),
-                6 => array(MARKET_FX, MARKET_US, MARKET_EU, MARKET_JP, MARKET_SH, MARKET_HK),
-                7 => array(MARKET_FX, MARKET_US, MARKET_EU, MARKET_JP, MARKET_SH, MARKET_HK),
-                8 => array(MARKET_FX, MARKET_US, MARKET_EU, MARKET_JP, MARKET_SH, MARKET_HK),
-                9 => array(MARKET_FX, MARKET_JP, MARKET_US, MARKET_EU, MARKET_SH, MARKET_HK),
-               10 => array(MARKET_FX, MARKET_JP, MARKET_US, MARKET_EU, MARKET_SH, MARKET_HK),
-               11 => array(MARKET_FX, MARKET_JP, MARKET_SH, MARKET_HK, MARKET_US, MARKET_EU),
-               12 => array(MARKET_FX, MARKET_JP, MARKET_SH, MARKET_HK, MARKET_US, MARKET_EU),
-               13 => array(MARKET_FX, MARKET_JP, MARKET_SH, MARKET_HK, MARKET_US, MARKET_EU),
-               14 => array(MARKET_FX, MARKET_JP, MARKET_SH, MARKET_HK, MARKET_US, MARKET_EU),
-               15 => array(MARKET_FX, MARKET_JP, MARKET_SH, MARKET_HK, MARKET_US, MARKET_EU),
-               16 => array(MARKET_FX, MARKET_JP, MARKET_SH, MARKET_HK, MARKET_EU, MARKET_US),
-               17 => array(MARKET_FX, MARKET_EU, MARKET_SH, MARKET_HK, MARKET_JP, MARKET_US),
-               18 => array(MARKET_FX, MARKET_EU, MARKET_SH, MARKET_HK, MARKET_JP, MARKET_US),
-               19 => array(MARKET_FX, MARKET_EU, MARKET_SH, MARKET_HK, MARKET_JP, MARKET_US),
-               20 => array(MARKET_FX, MARKET_EU, MARKET_SH, MARKET_HK, MARKET_JP, MARKET_US),
-               21 => array(MARKET_FX, MARKET_EU, MARKET_SH, MARKET_HK, MARKET_JP, MARKET_US),
-               22 => array(MARKET_FX, MARKET_EU, MARKET_SH, MARKET_HK, MARKET_JP, MARKET_US),
-               23 => array(MARKET_FX, MARKET_US, MARKET_EU, MARKET_JP, MARKET_SH, MARKET_HK),
+$order = array( 0 => array($mc::FX, $mc::US, $mc::EU, $mc::JP, $mc::SH, $mc::HK),
+                1 => array($mc::FX, $mc::US, $mc::EU, $mc::JP, $mc::SH, $mc::HK),
+                2 => array($mc::FX, $mc::US, $mc::EU, $mc::JP, $mc::SH, $mc::HK),
+                3 => array($mc::FX, $mc::US, $mc::EU, $mc::JP, $mc::SH, $mc::HK),
+                4 => array($mc::FX, $mc::US, $mc::EU, $mc::JP, $mc::SH, $mc::HK),
+                5 => array($mc::FX, $mc::US, $mc::EU, $mc::JP, $mc::SH, $mc::HK),
+                6 => array($mc::FX, $mc::US, $mc::EU, $mc::JP, $mc::SH, $mc::HK),
+                7 => array($mc::FX, $mc::US, $mc::EU, $mc::JP, $mc::SH, $mc::HK),
+                8 => array($mc::FX, $mc::US, $mc::EU, $mc::JP, $mc::SH, $mc::HK),
+                9 => array($mc::FX, $mc::JP, $mc::US, $mc::EU, $mc::SH, $mc::HK),
+               10 => array($mc::FX, $mc::JP, $mc::US, $mc::EU, $mc::SH, $mc::HK),
+               11 => array($mc::FX, $mc::JP, $mc::SH, $mc::HK, $mc::US, $mc::EU),
+               12 => array($mc::FX, $mc::JP, $mc::SH, $mc::HK, $mc::US, $mc::EU),
+               13 => array($mc::FX, $mc::JP, $mc::SH, $mc::HK, $mc::US, $mc::EU),
+               14 => array($mc::FX, $mc::JP, $mc::SH, $mc::HK, $mc::US, $mc::EU),
+               15 => array($mc::FX, $mc::JP, $mc::SH, $mc::HK, $mc::US, $mc::EU),
+               16 => array($mc::FX, $mc::JP, $mc::SH, $mc::HK, $mc::EU, $mc::US),
+               17 => array($mc::FX, $mc::EU, $mc::SH, $mc::HK, $mc::JP, $mc::US),
+               18 => array($mc::FX, $mc::EU, $mc::SH, $mc::HK, $mc::JP, $mc::US),
+               19 => array($mc::FX, $mc::EU, $mc::SH, $mc::HK, $mc::JP, $mc::US),
+               20 => array($mc::FX, $mc::EU, $mc::SH, $mc::HK, $mc::JP, $mc::US),
+               21 => array($mc::FX, $mc::EU, $mc::SH, $mc::HK, $mc::JP, $mc::US),
+               22 => array($mc::FX, $mc::EU, $mc::SH, $mc::HK, $mc::JP, $mc::US),
+               23 => array($mc::FX, $mc::US, $mc::EU, $mc::JP, $mc::SH, $mc::HK),
                );
 
 // Yahoo Finace ベースURL
@@ -215,8 +207,8 @@ $emojiDict = array('currency' => array('dol' => array('unicode' =>  '0024'),
                    );
 
 // アセットタイトルの書換え
-$assetsByMarket[MARKET_FX][0]->setTitle(getEmoji('currency', 'dol'));
-$assetsByMarket[MARKET_FX][1]->setTitle(getEmoji('currency', 'eur'));
+$assetsByMarket[$mc::FX][0]->setTitle(getEmoji('currency', 'dol'));
+$assetsByMarket[$mc::FX][1]->setTitle(getEmoji('currency', 'eur'));
 
 //===============================
 // メイン
@@ -298,7 +290,6 @@ function retrieveStockPrice($url, &$assetsByMarket)
 ---------------------*/
 function createTweet($assetsByMarket)
 {
-  global $tweetHours;
   global $emojiDict;
   global $order;
 
@@ -315,67 +306,11 @@ function createTweet($assetsByMarket)
   {
     foreach ($assetsByMarket[$market] as $key => $asset)
     {
-      // 時間外アセットはツイートの後方に
-      if (false == in_array($currentHour, $tweetHours[$market]))
-      {
-        $tweetTail =  $tweetTail . $asset->getTweetPiece() . ' ';
-        continue;
-      }
-      
       $tweet = $tweet . $asset->getTweetPiece() . ' ';
     }
   }
     
   return $tweet . $tweetTail;
-}
-
-/*--------------------
-  createTweetOfOneAsset
----------------------*/
-function createTweetOfOneAsset($asset)
-{
-  global $emojiDict;
-  
-  $tweetOfOneAsset = $asset->getTitle()
-                   . ''
-                   . number_format($asset->getPrice(), $asset->getDecimals());
-  
-  if (isHoliday($asset))
-  {
-    $tweetOfOneAsset = $tweetOfOneAsset . ' (休)';
-  }
-  else
-  {
-    if ($asset->getDisplaysChange())
-    {
-      //顔アイコン
-      $changeIcon = '';
-      $change = (float) str_replace('%', '', $asset->getChange());
-      
-      if     ($change >=  5) { $key = 'p5'; }
-      elseif ($change >=  4) { $key = 'p4'; }
-      elseif ($change >=  3) { $key = 'p3'; }
-      elseif ($change >=  2) { $key = 'p2'; }
-      elseif ($change >=  1) { $key = 'p1'; }
-      elseif ($change >=  0) { $key = 'p0'; }
-      elseif ($change <= -5) { $key = 'm5'; }
-      elseif ($change <= -4) { $key = 'm4'; }
-      elseif ($change <= -3) { $key = 'm3'; }
-      elseif ($change <= -2) { $key = 'm2'; }
-      elseif ($change <= -1) { $key = 'm1'; }
-      elseif ($change <   0) { $key = 'm0'; }
-      
-      $changeIcon = getEmoji('face', $key);
-      
-      $tweetOfOneAsset = $tweetOfOneAsset
-                       . ' (' 
-                       . str_replace(array('+', '-'), array('△', '▼'), $asset->getChange()) 
-                       . $changeIcon 
-                       . ')';
-    }
-  }
-  
-  return $tweetOfOneAsset;
 }
 
 /*--------------------
