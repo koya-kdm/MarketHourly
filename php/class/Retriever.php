@@ -51,7 +51,7 @@ class Retriever
   ---------------------*/
   function retrieveStockPrice(&$assetsByMarket)
   {
-    $url = $this->createUrl($url);
+    $url = $this->createUrl($assetsByMarket);
     
     $handle = fopen($url, 'r');
     
