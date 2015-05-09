@@ -12,7 +12,6 @@ require_once $applicationPhpPath . '/config.php';
 
 require_once $applicationPhpPath . '/class/Asset.php';
 require_once $applicationPhpPath . '/class/MarketManager.php';
-require_once $applicationPhpPath . '/class/MarketManager.holidays.php';
 
 // OAuthスクリプトの読込み
 require $applicationPhpPath . '/lib/twitteroauth/autoload.php';

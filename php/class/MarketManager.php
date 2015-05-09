@@ -31,7 +31,9 @@ class MarketManager
   -----------------------------*/
   public function __construct()
   {
-    global $holidays;
+    global $applicationPhpPath;
+    
+    require_once $applicationPhpPath . '/class/MarketManager.holidays.php';
     $this->holidays = $holidays;
     
     return;
