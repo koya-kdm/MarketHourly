@@ -175,43 +175,43 @@ $yahooParams  = array('s', 'l1', 'p2');
 $emojiDict = array('currency' => array('dol' => array('unicode' =>  '0024'),
                                        'eur' => array('unicode' =>  '20AC'),
                                        ),
-                   'face'  => array('pppppp' => array('unicode' =>  '3297'), // ≧+5% circled ideograph congratulation
-                                    'ppppp'  => array('unicode' => '1F60D'), // ≧+4% smiling face with heart-shaped eyes
-                                    'pppp'   => array('unicode' => '1F606'), // ≧+3% smiling face with open mouth and tightly-closed eyes
-                                    'ppp'    => array('unicode' => '1F601'), // ≧+2% grinning face with smiling eyes
-                                    'pp'     => array('unicode' => '1F619'), // ≧+1% kissing face with smiling eyes
-                                    'p'      => array('unicode' => '1F60C'), // ≧+0% relieved face
-                                    'm'      => array('unicode' => '1F61E'), // ＜-0% disappointed face
-                                    'mm'     => array('unicode' => '1F623'), // ≦-1% persevering face
-                                    'mmm'    => array('unicode' => '1F629'), // ≦-2% weary face
-                                    'mmmm'   => array('unicode' => '1F62D'), // ≦-3% loudly crying face
-                                    'mmmmm'  => array('unicode' => '1F631'), // ≦-4% face screaming in fear
-                                    'mmmmmm' => array('unicode' => '1F480'), // ≦-5% skull
+                   'face'  => array('p5' => array('unicode' =>  '3297'), // ≧+5% circled ideograph congratulation
+                                    'p4' => array('unicode' => '1F60D'), // ≧+4% smiling face with heart-shaped eyes
+                                    'p3' => array('unicode' => '1F606'), // ≧+3% smiling face with open mouth and tightly-closed eyes
+                                    'p2' => array('unicode' => '1F601'), // ≧+2% grinning face with smiling eyes
+                                    'p1' => array('unicode' => '1F619'), // ≧+1% kissing face with smiling eyes
+                                    'p0' => array('unicode' => '1F60C'), // ≧+0% relieved face
+                                    'm0' => array('unicode' => '1F61E'), // ＜-0% disappointed face
+                                    'm1' => array('unicode' => '1F623'), // ≦-1% persevering face
+                                    'm2' => array('unicode' => '1F629'), // ≦-2% weary face
+                                    'm3' => array('unicode' => '1F62D'), // ≦-3% loudly crying face
+                                    'm4' => array('unicode' => '1F631'), // ≦-4% face screaming in fear
+                                    'm5' => array('unicode' => '1F480'), // ≦-5% skull
                                     ),
-                   'clock' => array(       0 => array('unicode' => '1F55B'),
-                                           1 => array('unicode' => '1F550'),
-                                           2 => array('unicode' => '1F551'),
-                                           3 => array('unicode' => '1F552'),
-                                           4 => array('unicode' => '1F553'),
-                                           5 => array('unicode' => '1F554'),
-                                           6 => array('unicode' => '1F555'),
-                                           7 => array('unicode' => '1F556'),
-                                           8 => array('unicode' => '1F557'),
-                                           9 => array('unicode' => '1F558'),
-                                          10 => array('unicode' => '1F559'),
-                                          11 => array('unicode' => '1F55A'),
-                                          12 => array('unicode' => '1F55B'),
-                                          13 => array('unicode' => '1F550'),
-                                          14 => array('unicode' => '1F551'),
-                                          15 => array('unicode' => '1F552'),
-                                          16 => array('unicode' => '1F553'),
-                                          17 => array('unicode' => '1F554'),
-                                          18 => array('unicode' => '1F555'),
-                                          19 => array('unicode' => '1F556'),
-                                          20 => array('unicode' => '1F557'),
-                                          21 => array('unicode' => '1F558'),
-                                          22 => array('unicode' => '1F559'),
-                                          23 => array('unicode' => '1F55A'),),
+                   'clock' => array(   0 => array('unicode' => '1F55B'),
+                                       1 => array('unicode' => '1F550'),
+                                       2 => array('unicode' => '1F551'),
+                                       3 => array('unicode' => '1F552'),
+                                       4 => array('unicode' => '1F553'),
+                                       5 => array('unicode' => '1F554'),
+                                       6 => array('unicode' => '1F555'),
+                                       7 => array('unicode' => '1F556'),
+                                       8 => array('unicode' => '1F557'),
+                                       9 => array('unicode' => '1F558'),
+                                      10 => array('unicode' => '1F559'),
+                                      11 => array('unicode' => '1F55A'),
+                                      12 => array('unicode' => '1F55B'),
+                                      13 => array('unicode' => '1F550'),
+                                      14 => array('unicode' => '1F551'),
+                                      15 => array('unicode' => '1F552'),
+                                      16 => array('unicode' => '1F553'),
+                                      17 => array('unicode' => '1F554'),
+                                      18 => array('unicode' => '1F555'),
+                                      19 => array('unicode' => '1F556'),
+                                      20 => array('unicode' => '1F557'),
+                                      21 => array('unicode' => '1F558'),
+                                      22 => array('unicode' => '1F559'),
+                                      23 => array('unicode' => '1F55A'),),
                    );
 
 // アセットタイトルの書換え
@@ -279,8 +279,6 @@ function retrieveStockPrice($url, &$assetsByMarket)
       if (true == $asset->getRetrievesFromGoogle())
       {
         $asset->retrieveStockPriceFromGoogle();
-        
-        //retrieveStockPriceFromGoogle($assetsByMarket[$market][$key]);
       }
       else
       {
@@ -292,27 +290,6 @@ function retrieveStockPrice($url, &$assetsByMarket)
   
   fclose($handle);
 
-  return;
-}
-
-/*--------------------
-  retrieveStockPriceFromGoogle
----------------------*/
-function retrieveStockPriceFromGoogle(&$asset)
-{
-  $html = file_get_contents(GOOGLE_BASE_URL . '?q=' . $asset->getGoogleCode());
-  
-  if (preg_match('/<span id="ref_' . $asset->getGoogleCode() . '_l">([\d,.]*)<\/span>/is', $html, $matches))
-  {
-    $asset->setPrice(str_replace(',', '', $matches[1]));
-  }
-  
-  if (preg_match('/<span class=".*" id="ref_' . $asset->getGoogleCode() . '_cp">\(([\d.-]*%)\)<\/span>/is', $html, $matches))
-  {
-    $asset->setChange('+' . $matches[1]);
-    $asset->setChange(str_replace('+-', '-', $asset->getChange()));
-  }
-  
   return;
 }
 
@@ -341,11 +318,11 @@ function createTweet($assetsByMarket)
       // 時間外アセットはツイートの後方に
       if (false == in_array($currentHour, $tweetHours[$market]))
       {
-        $tweetTail =  $tweetTail . createTweetOfOneAsset($asset) . ' ';
+        $tweetTail =  $tweetTail . $asset->getTweetPiece() . ' ';
         continue;
       }
       
-      $tweet = $tweet . createTweetOfOneAsset($asset) . ' ';
+      $tweet = $tweet . $asset->getTweetOfOneAsset() . ' ';
     }
   }
     
@@ -375,18 +352,18 @@ function createTweetOfOneAsset($asset)
       $changeIcon = '';
       $change = (float) str_replace('%', '', $asset->getChange());
       
-      if     ($change >=  5) { $key = 'pppppp'; }
-      elseif ($change >=  4) { $key =  'ppppp'; }
-      elseif ($change >=  3) { $key =   'pppp'; }
-      elseif ($change >=  2) { $key =    'ppp'; }
-      elseif ($change >=  1) { $key =     'pp'; }
-      elseif ($change >=  0) { $key =      'p'; }
-      elseif ($change <= -5) { $key = 'mmmmmm'; }
-      elseif ($change <= -4) { $key =  'mmmmm'; }
-      elseif ($change <= -3) { $key =   'mmmm'; }
-      elseif ($change <= -2) { $key =    'mmm'; }
-      elseif ($change <= -1) { $key =     'mm'; }
-      elseif ($change <   0) { $key =      'm'; }
+      if     ($change >=  5) { $key = 'p5'; }
+      elseif ($change >=  4) { $key = 'p4'; }
+      elseif ($change >=  3) { $key = 'p3'; }
+      elseif ($change >=  2) { $key = 'p2'; }
+      elseif ($change >=  1) { $key = 'p1'; }
+      elseif ($change >=  0) { $key = 'p0'; }
+      elseif ($change <= -5) { $key = 'm5'; }
+      elseif ($change <= -4) { $key = 'm4'; }
+      elseif ($change <= -3) { $key = 'm3'; }
+      elseif ($change <= -2) { $key = 'm2'; }
+      elseif ($change <= -1) { $key = 'm1'; }
+      elseif ($change <   0) { $key = 'm0'; }
       
       $changeIcon = getEmoji('face', $key);
       

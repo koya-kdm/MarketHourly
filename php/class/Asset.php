@@ -87,5 +87,54 @@ class Asset
     return;
   }
   
+  /*---------------------------
+    getTweetPiece
+  -----------------------------*/
+  public function getTweetPiece()
+  {
+    global $emojiDict;
+    
+    $piece = $this->getTitle()
+                     . ''
+                     . number_format($this->getPrice(), $this->getDecimals());
+    
+    if (isHoliday($this))
+    {
+      $piece = $piece . ' (休)';
+    }
+    else
+    {
+      if ($this->getDisplaysChange())
+      {
+        //顔アイコン
+        $changeIcon = '';
+        $change = (float) str_replace('%', '', $this->getChange());
+        
+        if     ($change >=  5) { $key = 'p5'; }
+        elseif ($change >=  4) { $key = 'p4'; }
+        elseif ($change >=  3) { $key = 'p3'; }
+        elseif ($change >=  2) { $key = 'p2'; }
+        elseif ($change >=  1) { $key = 'p1'; }
+        elseif ($change >=  0) { $key = 'p0'; }
+        elseif ($change <= -5) { $key = 'm5'; }
+        elseif ($change <= -4) { $key = 'm4'; }
+        elseif ($change <= -3) { $key = 'm3'; }
+        elseif ($change <= -2) { $key = 'm2'; }
+        elseif ($change <= -1) { $key = 'm1'; }
+        elseif ($change <   0) { $key = 'm0'; }
+        
+        $changeIcon = getEmoji('face', $key);
+        
+        $piece = $piece
+               . ' (' 
+               . str_replace(array('+', '-'), array('△', '▼'), $this->getChange()) 
+               . $changeIcon 
+               . ')';
+      }
+    }
+    
+    return $piece;
+}
+  
 }
 ?>
