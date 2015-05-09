@@ -3,18 +3,18 @@
 class EmojiManager
 {
   // 絵文字グループ
-  const GRP_CURRENCY = 'currency';
-  const GRP_FACE     = 'face';
-  const GRP_CLOCK    = 'clock';
+  const CURRENCY = 'currency';
+  const FACE     = 'face';
+  const CLOCK    = 'clock';
 
   // 絵文字辞書
   // http://apps.timwhitlock.info/emoji/tables/unicode
   var $dictionary = array(
-        self::GRP_CURRENCY => array('dol' => array('unicode' =>  '0024'),
+        self::CURRENCY => array('dol' => array('unicode' =>  '0024'),
                                     'eur' => array('unicode' =>  '20AC'),
                                    ),
                                    
-        self::GRP_FACE     => array('p5' => array('unicode' =>  '3297'), // ≧+5% circled ideograph congratulation
+        self::FACE     => array('p5' => array('unicode' =>  '3297'), // ≧+5% circled ideograph congratulation
                                     'p4' => array('unicode' => '1F60D'), // ≧+4% smiling face with heart-shaped eyes
                                     'p3' => array('unicode' => '1F606'), // ≧+3% smiling face with open mouth and tightly-closed eyes
                                     'p2' => array('unicode' => '1F601'), // ≧+2% grinning face with smiling eyes
@@ -28,7 +28,7 @@ class EmojiManager
                                     'm5' => array('unicode' => '1F480'), // ≦-5% skull
                                     ),
                                     
-        self::GRP_CLOCK    => array(  0  => array('unicode' => '1F55B'),
+        self::CLOCK    => array(  0  => array('unicode' => '1F55B'),
                                       1  => array('unicode' => '1F550'),
                                       2  => array('unicode' => '1F551'),
                                       3  => array('unicode' => '1F552'),
@@ -85,7 +85,7 @@ class EmojiManager
   -----------------------------*/
   function getEmojiOfCurrency($key)
   {
-    return $this->getEmoji(self::GRP_CURRENCY, $key);
+    return $this->getEmoji(self::CURRENCY, $key);
   }
   
   /*---------------------------
@@ -93,7 +93,7 @@ class EmojiManager
   -----------------------------*/
   function getEmojiOfFace($key)
   {
-    return $this->getEmoji(self::GRP_FACE, $key);
+    return $this->getEmoji(self::FACE, $key);
   }
   
   /*---------------------------
@@ -101,7 +101,7 @@ class EmojiManager
   -----------------------------*/
   function getEmojiOfClock($key)
   {
-    return $this->getEmoji(self::GRP_CLOCK, $key);
+    return $this->getEmoji(self::CLOCK, $key);
   }
 }
 ?>

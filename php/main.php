@@ -12,6 +12,7 @@ require_once $applicationPhpPath . '/config.php';
 require_once $applicationPhpPath . '/class/Asset.php';
 require_once $applicationPhpPath . '/class/MarketManager.php';
 require_once $applicationPhpPath . '/class/EmojiManager.php';
+require_once $applicationPhpPath . '/class/Retriever.php';
 
 // OAuthスクリプトの読込み
 require $applicationPhpPath . '/lib/twitteroauth/autoload.php';
@@ -66,26 +67,8 @@ $order = array( 0 => array($mm::FX, $mm::US, $mm::EU, $mm::JP, $mm::SH, $mm::HK)
                23 => array($mm::FX, $mm::US, $mm::EU, $mm::JP, $mm::SH, $mm::HK),
                );
 
-// Yahoo Finace ベースURL
-define('YAHOO_BASE_URL', 'http://finance.yahoo.com/d/quotes.csv');
 
-// Google Finace ベースURL
-define('GOOGLE_BASE_URL', 'https://www.google.com/finance');
 
-// Yahoo Finance パラメータ
-/*
-s  = Symbol
-n  = Name
-l1 = Last Trade (Price Only)
-d1 = Last Trade Date
-t1 = Last Trade Time
-c  = Change and Percent Change
-v  = Volume
-c6 = Change (Realtime)
-k2 = Change Percent (Realtime)
-p2 = Change in Percent
-*/
-$yahooParams  = array('s', 'l1', 'p2');
 
 
 
@@ -116,27 +99,6 @@ echo $tweet . PHP_EOL;
 // 関数
 //===============================
 
-/*--------------------
-  createUrl
----------------------*/
-function createUrl($yahooParams, $assetsByMarket)
-{
-  // e.g.) http://finance.yahoo.com/d/quotes.csv?s=INDU+^IXIC+USDJPY=X+^N225&f=snl1c1p2d1t1
-  
-  $tickerString = '';
-  
-  foreach ($assetsByMarket as $market => $assets)
-  {
-    foreach ($assets as $key => $asset)
-    {
-      $tickerString = $tickerString . $asset->getTicker() . '+';
-    }
-  }
-  
-  $url= YAHOO_BASE_URL . '?s=' . $tickerString . '&f=' . implode('', $yahooParams);
-
-  return $url;
-}
 
 /*--------------------
   retrieveStockPrice
@@ -190,7 +152,7 @@ function createTweet($assetsByMarket)
   {
     foreach ($assetsByMarket[$market] as $key => $asset)
     {
-      $tweet = $tweet . $asset->getTweetPiece() . ' ';
+      $tweet = $tweet . $asset->getTweetPiece($mm, $em) . ' ';
     }
   }
     

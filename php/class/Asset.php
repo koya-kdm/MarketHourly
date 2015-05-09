@@ -67,35 +67,10 @@ class Asset
   
   
   /*---------------------------
-    retrieveStockPriceFromGoogle
-  -----------------------------*/
-  public function retrieveStockPriceFromGoogle()
-  {
-    $html = file_get_contents(GOOGLE_BASE_URL . '?q=' . $this->getGoogleCode());
-    
-    if (preg_match('/<span id="ref_' . $this->getGoogleCode() . '_l">([\d,.]*)<\/span>/is', $html, $matches))
-    {
-      $this->setPrice(str_replace(',', '', $matches[1]));
-    }
-    
-    if (preg_match('/<span class=".*" id="ref_' . $this->getGoogleCode() . '_cp">\(([\d.-]*%)\)<\/span>/is', $html, $matches))
-    {
-      $this->setChange('+' . $matches[1]);
-      $this->setChange(str_replace('+-', '-', $this->getChange()));
-    }
-    
-    return;
-  }
-  
-  /*---------------------------
     getTweetPiece
   -----------------------------*/
-  public function getTweetPiece()
+  public function getTweetPiece($mm, $em)
   {
-    global $emojiDict;
-    global $mm;
-    global $em;
-    
     $piece = $this->getTitle()
                      . ''
                      . number_format($this->getPrice(), $this->getDecimals());
