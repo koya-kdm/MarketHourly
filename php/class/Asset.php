@@ -64,5 +64,28 @@ class Asset
   public function setGoogleCode         ($var) { $this->googleCode          = $var; return; }
   public function setPrice              ($var) { $this->price               = $var; return; }
   public function setChange             ($var) { $this->change              = $var; return; }
+  
+  
+  /*---------------------------
+    retrieveStockPriceFromGoogle
+  -----------------------------*/
+  public function retrieveStockPriceFromGoogle()
+  {
+    $html = file_get_contents(GOOGLE_BASE_URL . '?q=' . $this->getGoogleCode());
+    
+    if (preg_match('/<span id="ref_' . $this->getGoogleCode() . '_l">([\d,.]*)<\/span>/is', $html, $matches))
+    {
+      $asset->setPrice(str_replace(',', '', $matches[1]));
+    }
+    
+    if (preg_match('/<span class=".*" id="ref_' . $this->getGoogleCode() . '_cp">\(([\d.-]*%)\)<\/span>/is', $html, $matches))
+    {
+      $this->setChange('+' . $matches[1]);
+      $this->setChange(str_replace('+-', '-', $asset->getChange()));
+    }
+    
+    return;
+  }
+  
 }
 ?>

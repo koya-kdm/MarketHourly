@@ -278,7 +278,9 @@ function retrieveStockPrice($url, &$assetsByMarket)
       
       if (true == $asset->getRetrievesFromGoogle())
       {
-        retrieveStockPriceFromGoogle($assetsByMarket[$market][$key]);
+        $asset->retrieveStockPriceFromGoogle();
+        
+        //retrieveStockPriceFromGoogle($assetsByMarket[$market][$key]);
       }
       else
       {
