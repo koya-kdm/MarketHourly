@@ -31,7 +31,7 @@ class MarketManager
   -----------------------------*/
   public function __construct()
   {
-    require_onece './MarketManager.holidays.php';
+    require_once './MarketManager.holidays.php';
     $this->holidays = $holidays;
     
     return;
