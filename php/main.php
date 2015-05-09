@@ -322,7 +322,7 @@ function createTweet($assetsByMarket)
         continue;
       }
       
-      $tweet = $tweet . $asset->getTweetOfOneAsset() . ' ';
+      $tweet = $tweet . $asset->getTweetPiece() . ' ';
     }
   }
     
