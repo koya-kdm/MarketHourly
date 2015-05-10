@@ -53,6 +53,11 @@ if ($argc > 1)
                    MarketManager::US,
                   );
   
+  $tweeter->enableOrder = false;
+  $tweeter->enableClock = false;
+  $tweeter->setHeader   = '【' . date('G:i') . '】';
+  
+  
   for ($i = 0; $i < $argc; $i++)
   {
     if (in_array($argv[$i], $markets))

@@ -42,6 +42,32 @@ class Tweeter
                      23 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
                     );
   
+  // 「表示順を有効にする」フラグ
+  var $enableOrder = true;
+  
+  // 「時計アイコンを有効にする」フラグ
+  var $enableClock = true;
+  
+  // ヘッダー
+  var $header = '';
+  
+  /*---------------------------
+    enableOrder / disableOrder
+  -----------------------------*/
+  public function enableOrder()  { $this->enableOrder = true;  }
+  public function disableOrder() { $this->enableOrder = false; }
+  
+  /*---------------------------
+    enableClock / disableClock
+  -----------------------------*/
+  public function enableClock()  { $this->enableClock = true;  }
+  public function disableClock() { $this->enableClock = false; }
+  
+  /*---------------------------
+    setHeader
+  -----------------------------*/
+  public function setHeader($var) { $this->header = $var; }
+  
   /*---------------------------
     createTweet
   -----------------------------*/
@@ -49,20 +75,32 @@ class Tweeter
   {
     // e.g.) USD=120.21円 EUR=134.64円 日経=19531.63円(△0.06%) 香港=28133pt(▼0.94%) 上海=0pt(N/A) S&P500=2108.29pt(△1.09%) Nasdaq=5005.39pt(△1.29%)
     
-    $tweet = '';
+    $tweet = $this->header;
     $currentHour = (int)date('G');
     
-    // 時計アイコン
-    $tweet = EmojiManager::getClock($currentHour) . ' ';
-    
-    foreach ($this->order[$currentHour] as $market)
+    if ($this->enableClock)
     {
-      if (isset($assetsByMarket[$market]))
+      $tweet = EmojiManager::getClockByHour($currentHour) . ' '; // 時計アイコン
+    }
+    
+    if ($this->enableOrder)
+    {
+      foreach ($this->order[$currentHour] as $market)
       {
-        foreach ($assetsByMarket[$market] as $key => $asset)
+        if (isset($assetsByMarket[$market]))
         {
-          $tweet = $tweet . $this->createTweetPiece($asset) . ' ';
+          foreach ($assetsByMarket[$market] as $key => $asset)
+          {
+            $tweet = $tweet . $this->createTweetPiece($asset) . ' ';
+          }
         }
+      }
+    }
+    else
+    {
+      foreach ($assetsByMarket[$market] as $key => $asset)
+      {
+        $tweet = $tweet . $this->createTweetPiece($asset) . ' ';
       }
     }
     

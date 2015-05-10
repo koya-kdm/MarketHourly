@@ -118,9 +118,9 @@ class EmojiManager
   /*---------------------------
     getClock
   -----------------------------*/
-  public static function getClock($key)
+  public static function getClockByHour($hour)
   {
-    return self::getEmoji(self::CLOCK, $key);
+    return self::getEmoji(self::CLOCK, $hour);
   }
 }
 ?>
