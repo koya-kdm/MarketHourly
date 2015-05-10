@@ -57,9 +57,12 @@ class Tweeter
     
     foreach ($this->order[$currentHour] as $market)
     {
-      foreach ($assetsByMarket[$market] as $key => $asset)
+      if (isset($assetsByMarket[$market]))
       {
-        $tweet = $tweet . $this->createTweetPiece($asset) . ' ';
+        foreach ($assetsByMarket[$market] as $key => $asset)
+        {
+          $tweet = $tweet . $this->createTweetPiece($asset) . ' ';
+        }
       }
     }
     
