@@ -1,5 +1,9 @@
 <?php
 
+// OAuthスクリプトの読込み
+require APPLICATION_PHP_PATH . '/lib/twitteroauth/autoload.php';
+use Abraham\TwitterOAuth\TwitterOAuth;
+
 class Tweeter
 {
   // 各時間における表示順

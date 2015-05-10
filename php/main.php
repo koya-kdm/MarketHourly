@@ -5,19 +5,15 @@
 //===============================
 
 // アプリ格納場所
-$applicationPhpPath = dirname(__FILE__);
+define('APPLICATION_PHP_PATH', dirname(__FILE__));
 
 // インクルード
-require_once $applicationPhpPath . '/config.php';
-require_once $applicationPhpPath . '/class/Asset.php';
-require_once $applicationPhpPath . '/class/MarketManager.php';
-require_once $applicationPhpPath . '/class/EmojiManager.php';
-require_once $applicationPhpPath . '/class/Retriever.php';
-require_once $applicationPhpPath . '/class/Tweeter.php';
-
-// OAuthスクリプトの読込み
-require $applicationPhpPath . '/lib/twitteroauth/autoload.php';
-use Abraham\TwitterOAuth\TwitterOAuth;
+require_once APPLICATION_PHP_PATH . '/config.php';
+require_once APPLICATION_PHP_PATH . '/class/Asset.php';
+require_once APPLICATION_PHP_PATH . '/class/MarketManager.php';
+require_once APPLICATION_PHP_PATH . '/class/EmojiManager.php';
+require_once APPLICATION_PHP_PATH . '/class/Retriever.php';
+require_once APPLICATION_PHP_PATH . '/class/Tweeter.php';
 
 // タイムゾーン
 date_default_timezone_set('Asia/Tokyo');
