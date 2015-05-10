@@ -9,7 +9,7 @@ class EmojiManager
 
   // 絵文字辞書
   // http://apps.timwhitlock.info/emoji/tables/unicode
-  static var $dictionary = array(
+  private static $dictionary = array(
         self::CURRENCY => array('dol' => array('unicode' =>  '0024'),
                                     'eur' => array('unicode' =>  '20AC'),
                                    ),
