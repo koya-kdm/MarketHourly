@@ -57,7 +57,7 @@ if ($argc > 1)
   {
     if (in_array($argv[$i], $markets))
     {
-      $redefined[$argv[$i]] = $assetsByMarket[$argv[$i]]);
+      $redefined[$argv[$i]] = $assetsByMarket[$argv[$i]];
     }
   }
   
