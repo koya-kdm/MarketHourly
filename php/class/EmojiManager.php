@@ -60,23 +60,10 @@ class EmojiManager
   -----------------------------*/
   private static function getEmoji($group, $key)
   {
-  /*
-    if (false == isset(self::dictionary[$group][$key]['char']))
-    {
-      $target = str_repeat('0', 8 - strlen(self::dictionary[$group][$key]['unicode']))
-              . self::dictionary[$group][$key]['unicode'];
-      
-      $bin = pack('H*', $target);
-      
-      self::dictionary[$group][$key]['char'] = mb_convert_encoding($bin, 'UTF-8', 'UTF-32BE');
-    }
+    $emoji = self::$dictionary[$group][$key];
     
-    return self::dictionary[$group][$key]['char'];
-    */
-    
-    
-    $target = str_repeat('0', 8 - strlen(self::dictionary[$group][$key]['unicode']))
-              . self::dictionary[$group][$key]['unicode'];
+    $target = str_repeat('0', 8 - strlen($emoji['unicode']))
+            . $emoji['unicode'];
       
     $bin = pack('H*', $target);
       
