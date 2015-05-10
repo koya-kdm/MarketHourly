@@ -98,9 +98,12 @@ class Tweeter
     }
     else
     {
-      foreach ($assetsByMarket[$market] as $key => $asset)
+      foreach ($assetsByMarket as $market => $assets)
       {
-        $tweet = $tweet . $this->createTweetPiece($asset) . ' ';
+        foreach ($assets as $key => $asset)
+        {
+          $tweet = $tweet . $this->createTweetPiece($asset) . ' ';
+        }
       }
     }
     
