@@ -58,7 +58,7 @@ class EmojiManager
   /*---------------------------
     getEmoji
   -----------------------------*/
-  function getEmoji($group, $key)
+  public function getEmoji($group, $key)
   {
     if (false == isset($this->dictionary[$group][$key]['char']))
     {
@@ -76,7 +76,7 @@ class EmojiManager
   /*---------------------------
     getEmojiOfCurrency
   -----------------------------*/
-  function getEmojiOfCurrency($key)
+  public function getEmojiOfCurrency($key)
   {
     return $this->getEmoji(self::CURRENCY, $key);
   }
@@ -84,7 +84,7 @@ class EmojiManager
   /*---------------------------
     getEmojiOfFace
   -----------------------------*/
-  function getEmojiOfFace($key)
+  public function getEmojiOfFace($key)
   {
     return $this->getEmoji(self::FACE, $key);
   }
@@ -92,7 +92,7 @@ class EmojiManager
   /*---------------------------
     getEmojiOfClock
   -----------------------------*/
-  function getEmojiOfClock($key)
+  public function getEmojiOfClock($key)
   {
     return $this->getEmoji(self::CLOCK, $key);
   }
