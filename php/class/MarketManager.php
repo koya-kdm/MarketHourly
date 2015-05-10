@@ -17,29 +17,16 @@ class MarketManager
   const US = 'us'; // 米   22:30〜 5:00 (summer time)
                    //      23:30〜 6:00
   
-  var $holidays;
-  
-  /*---------------------------
-    __construct
-  -----------------------------*/
-  public function __construct()
-  {
-    include APPLICATION_PHP_PATH . '/class/MarketManager.holidays.php';
-    
-    $this->holidays = $configHolidays;
-    
-    return;
-  }
-  
-  
   /*---------------------------
     isHoliday
   -----------------------------*/
-  public function isHoliday($market)
+  public static function isHoliday($market)
   {
+    include APPLICATION_PHP_PATH . '/class/MarketManager.holidays.php'; // $configHolidays is defined here
+    
     $today = date('Y-m-d');
     
-    return in_array($today, $this->holidays[$market], true);
+    return in_array($today, $configHolidays[$market], true);
   }
 }
 ?>

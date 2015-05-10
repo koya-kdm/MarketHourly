@@ -11,44 +11,35 @@ class Tweeter
   // 各時間における表示順
   var $order;
   
-  // マーケット管理クラス
-  var $marketManager;
-  
-  // 絵文字管理クラス
-  var $emojiManager;
-  
   /*---------------------------
     __construct
   -----------------------------*/
-  public function __construct($mm)
-  {
-    $this->marketManager = $mm;
-    //$this->emojiManager  = $em;
-    
-    $this->order = array( 0 => array($mm::FX, $mm::US, $mm::UK, $mm::GM, $mm::JP, $mm::SH, $mm::HK),
-                          1 => array($mm::FX, $mm::US, $mm::UK, $mm::GM, $mm::JP, $mm::SH, $mm::HK),
-                          2 => array($mm::FX, $mm::US, $mm::UK, $mm::GM, $mm::JP, $mm::SH, $mm::HK),
-                          3 => array($mm::FX, $mm::US, $mm::UK, $mm::GM, $mm::JP, $mm::SH, $mm::HK),
-                          4 => array($mm::FX, $mm::US, $mm::UK, $mm::GM, $mm::JP, $mm::SH, $mm::HK),
-                          5 => array($mm::FX, $mm::US, $mm::UK, $mm::GM, $mm::JP, $mm::SH, $mm::HK),
-                          6 => array($mm::FX, $mm::US, $mm::UK, $mm::GM, $mm::JP, $mm::SH, $mm::HK),
-                          7 => array($mm::FX, $mm::US, $mm::UK, $mm::GM, $mm::JP, $mm::SH, $mm::HK),
-                          8 => array($mm::FX, $mm::US, $mm::UK, $mm::GM, $mm::JP, $mm::SH, $mm::HK),
-                          9 => array($mm::FX, $mm::JP, $mm::US, $mm::UK, $mm::GM, $mm::SH, $mm::HK),
-                         10 => array($mm::FX, $mm::JP, $mm::US, $mm::UK, $mm::GM, $mm::SH, $mm::HK),
-                         11 => array($mm::FX, $mm::JP, $mm::SH, $mm::HK, $mm::US, $mm::UK, $mm::GM),
-                         12 => array($mm::FX, $mm::JP, $mm::SH, $mm::HK, $mm::US, $mm::UK, $mm::GM),
-                         13 => array($mm::FX, $mm::JP, $mm::SH, $mm::HK, $mm::US, $mm::UK, $mm::GM),
-                         14 => array($mm::FX, $mm::JP, $mm::SH, $mm::HK, $mm::US, $mm::UK, $mm::GM),
-                         15 => array($mm::FX, $mm::JP, $mm::SH, $mm::HK, $mm::US, $mm::UK, $mm::GM),
-                         16 => array($mm::FX, $mm::JP, $mm::SH, $mm::HK, $mm::UK, $mm::GM, $mm::US),
-                         17 => array($mm::FX, $mm::UK, $mm::GM, $mm::SH, $mm::HK, $mm::JP, $mm::US),
-                         18 => array($mm::FX, $mm::UK, $mm::GM, $mm::SH, $mm::HK, $mm::JP, $mm::US),
-                         19 => array($mm::FX, $mm::UK, $mm::GM, $mm::SH, $mm::HK, $mm::JP, $mm::US),
-                         20 => array($mm::FX, $mm::UK, $mm::GM, $mm::SH, $mm::HK, $mm::JP, $mm::US),
-                         21 => array($mm::FX, $mm::UK, $mm::GM, $mm::SH, $mm::HK, $mm::JP, $mm::US),
-                         22 => array($mm::FX, $mm::UK, $mm::GM, $mm::SH, $mm::HK, $mm::JP, $mm::US),
-                         23 => array($mm::FX, $mm::US, $mm::UK, $mm::GM, $mm::JP, $mm::SH, $mm::HK),
+  public function __construct()
+  {    
+    $this->order = array( 0 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
+                          1 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
+                          2 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
+                          3 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
+                          4 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
+                          5 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
+                          6 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
+                          7 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
+                          8 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
+                          9 => array(MarketManager::FX, MarketManager::JP, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::SH, MarketManager::HK),
+                         10 => array(MarketManager::FX, MarketManager::JP, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::SH, MarketManager::HK),
+                         11 => array(MarketManager::FX, MarketManager::JP, MarketManager::SH, MarketManager::HK, MarketManager::US, MarketManager::UK, MarketManager::GM),
+                         12 => array(MarketManager::FX, MarketManager::JP, MarketManager::SH, MarketManager::HK, MarketManager::US, MarketManager::UK, MarketManager::GM),
+                         13 => array(MarketManager::FX, MarketManager::JP, MarketManager::SH, MarketManager::HK, MarketManager::US, MarketManager::UK, MarketManager::GM),
+                         14 => array(MarketManager::FX, MarketManager::JP, MarketManager::SH, MarketManager::HK, MarketManager::US, MarketManager::UK, MarketManager::GM),
+                         15 => array(MarketManager::FX, MarketManager::JP, MarketManager::SH, MarketManager::HK, MarketManager::US, MarketManager::UK, MarketManager::GM),
+                         16 => array(MarketManager::FX, MarketManager::JP, MarketManager::SH, MarketManager::HK, MarketManager::UK, MarketManager::GM, MarketManager::US),
+                         17 => array(MarketManager::FX, MarketManager::UK, MarketManager::GM, MarketManager::SH, MarketManager::HK, MarketManager::JP, MarketManager::US),
+                         18 => array(MarketManager::FX, MarketManager::UK, MarketManager::GM, MarketManager::SH, MarketManager::HK, MarketManager::JP, MarketManager::US),
+                         19 => array(MarketManager::FX, MarketManager::UK, MarketManager::GM, MarketManager::SH, MarketManager::HK, MarketManager::JP, MarketManager::US),
+                         20 => array(MarketManager::FX, MarketManager::UK, MarketManager::GM, MarketManager::SH, MarketManager::HK, MarketManager::JP, MarketManager::US),
+                         21 => array(MarketManager::FX, MarketManager::UK, MarketManager::GM, MarketManager::SH, MarketManager::HK, MarketManager::JP, MarketManager::US),
+                         22 => array(MarketManager::FX, MarketManager::UK, MarketManager::GM, MarketManager::SH, MarketManager::HK, MarketManager::JP, MarketManager::US),
+                         23 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
                         );
     
     return;
