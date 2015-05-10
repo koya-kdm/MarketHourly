@@ -156,7 +156,7 @@ class Tweeter
     
     $res = $connection->post('statuses/update', array('status' => mb_substr($tweet, 0, 140, 'UTF-8')));
     
-    var_dump($res);
+    //var_dump($res);
     
     return;
   }
