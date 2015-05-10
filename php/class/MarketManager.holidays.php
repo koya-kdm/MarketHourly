@@ -1,5 +1,7 @@
 <?php
-// 休場日
+/*===============================
+  休場日
+=================================*/
 // http://markets.on.nytimes.com/research/markets/holidays/holidays.asp
 
 $configHolidays = array(

@@ -1,8 +1,11 @@
 <?php
+/*===============================
+  MarketHourly メイン
+=================================*/
 
-//===============================
-// 定義
-//===============================
+/*---------------------------
+  定義
+-----------------------------*/
 
 // アプリ格納場所
 define('APPLICATION_PHP_PATH', dirname(__FILE__));
@@ -31,16 +34,16 @@ $assetsByMarket = array(MarketManager::FX => array(0 => new Asset( 'USD',   'USD
                         MarketManager::UK => array(0 => new Asset(  '英',      '^FTSE', 'pt', 0, MarketManager::UK,  true, false, null     ),),
                         MarketManager::GM => array(0 => new Asset(  '独',     '^GDAXI', 'pt', 0, MarketManager::GM,  true, false, null     ),),
                         MarketManager::US => array(0 => new Asset('ダウ',       '^DJI', 'pt', 0, MarketManager::US,  true,  true, '983582' ),
-                                         1 => new Asset('ナス',      '^IXIC', 'pt', 0, MarketManager::US,  true, false, null     ),),
+                                                   1 => new Asset('ナス',      '^IXIC', 'pt', 0, MarketManager::US,  true, false, null     ),),
                        );
 
 // アセットタイトルの書換え
 $assetsByMarket[MarketManager::FX][0]->setTitle(EmojiManager::getCurrency('dol'));
 $assetsByMarket[MarketManager::FX][1]->setTitle(EmojiManager::getCurrency('eur'));
 
-//===============================
-// メイン
-//===============================
+/*---------------------------
+  メイン
+-----------------------------*/
 
 // 株価の取得
 $retriever->retrieveStockPrice($assetsByMarket);

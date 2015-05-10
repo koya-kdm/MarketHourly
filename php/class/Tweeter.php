@@ -1,8 +1,12 @@
 <?php
+/*===============================
+  ツイート投稿クラス
+=================================*/
 
+// 絵文字管理クラス
 require_once APPLICATION_PHP_PATH . '/class/EmojiManager.php';
 
-// OAuthスクリプトの読込み
+// OAuthスクリプト
 require APPLICATION_PHP_PATH . '/lib/twitteroauth/autoload.php';
 use Abraham\TwitterOAuth\TwitterOAuth;
 
