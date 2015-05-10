@@ -78,7 +78,7 @@ class Tweeter
                      . ''
                      . number_format($asset->getPrice(), $asset->getDecimals());
     
-    if ($this->marketManager->isHoliday($asset->getMarket()))
+    if (MarketManager::isHoliday($asset->getMarket()))
     {
       $piece = $piece . ' (休)';
     }
