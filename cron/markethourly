@@ -1,1 +1,3 @@
-0 * * * 1-5 root /usr/bin/php /home/ec2-user/markethourly/php/main.php
+00  * * * 1-5 root /usr/bin/php /home/ec2-user/markethourly/php/main.php
+05 09 * * 1-5 root /usr/bin/php /home/ec2-user/markethourly/php/main.php jp
+35 22 * * 1-5 root /usr/bin/php /home/ec2-user/markethourly/php/main.php us
