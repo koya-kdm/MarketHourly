@@ -74,16 +74,44 @@ class EmojiManager
   /*---------------------------
     getCurrency
   -----------------------------*/
-  public static function getCurrency($key)
+  private static function getCurrency($key)
   {
     return self::getEmoji(self::CURRENCY, $key);
   }
   
   /*---------------------------
-    getFace
+    getDoller
   -----------------------------*/
-  public static function getFace($key)
+  private static function getDoller()
   {
+    return self::getEmoji(self::CURRENCY, 'dol');
+  }
+  /*---------------------------
+    getEuro
+  -----------------------------*/
+  private static function getEuro()
+  {
+    return self::getEmoji(self::CURRENCY, 'eur');
+  }
+  
+  /*---------------------------
+    getFaceByChange
+  -----------------------------*/
+  public static function getFaceByChange($change)
+  {
+    if     ($change >=  5) { $key = 'p5'; }
+    elseif ($change >=  4) { $key = 'p4'; }
+    elseif ($change >=  3) { $key = 'p3'; }
+    elseif ($change >=  2) { $key = 'p2'; }
+    elseif ($change >=  1) { $key = 'p1'; }
+    elseif ($change >=  0) { $key = 'p0'; }
+    elseif ($change <= -5) { $key = 'm5'; }
+    elseif ($change <= -4) { $key = 'm4'; }
+    elseif ($change <= -3) { $key = 'm3'; }
+    elseif ($change <= -2) { $key = 'm2'; }
+    elseif ($change <= -1) { $key = 'm1'; }
+    elseif ($change <   0) { $key = 'm0'; }
+    
     return self::getEmoji(self::FACE, $key);
   }
   
