@@ -64,10 +64,6 @@ if ($argc > 1)
   $assetsByMarket = $redefined;
 }
 
-// アセットタイトルの書換え
-$assetsByMarket[MarketManager::FX][0]->setTitle(EmojiManager::getDoller());
-$assetsByMarket[MarketManager::FX][1]->setTitle(EmojiManager::getEuro());
-
 /*---------------------------
   処理
 -----------------------------*/
