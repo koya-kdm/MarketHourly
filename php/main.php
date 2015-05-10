@@ -53,7 +53,7 @@ if ($argc > 1)
                    MarketManager::US,
                   );
   
-  for ($i = 1; $i <= $argc; $i++)
+  for ($i = 0; $i < $argc; $i++)
   {
     if (in_array($argv[$i], $markets))
     {
