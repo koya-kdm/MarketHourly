@@ -1,5 +1,7 @@
 <?php
 
+require_once APPLICATION_PHP_PATH . '/class/EmojiManager.php';
+
 // OAuthスクリプトの読込み
 require APPLICATION_PHP_PATH . '/lib/twitteroauth/autoload.php';
 use Abraham\TwitterOAuth\TwitterOAuth;
@@ -18,10 +20,10 @@ class Tweeter
   /*---------------------------
     __construct
   -----------------------------*/
-  public function __construct($mm, $em)
+  public function __construct($mm)
   {
     $this->marketManager = $mm;
-    $this->emojiManager  = $em;
+    //$this->emojiManager  = $em;
     
     $this->order = array( 0 => array($mm::FX, $mm::US, $mm::EU, $mm::JP, $mm::SH, $mm::HK),
                           1 => array($mm::FX, $mm::US, $mm::EU, $mm::JP, $mm::SH, $mm::HK),
@@ -63,7 +65,7 @@ class Tweeter
     $currentHour = (int)date('G');
     
     // 時計アイコン
-    $tweet = $this->emojiManager->getEmojiOfClock($currentHour) . ' ';
+    $tweet = EmojiManager::getClock($currentHour) . ' ';
     
     foreach ($this->order[$currentHour] as $market)
     {
@@ -110,7 +112,7 @@ class Tweeter
         elseif ($change <= -1) { $key = 'm1'; }
         elseif ($change <   0) { $key = 'm0'; }
         
-        $changeIcon = $this->emojiManager->getEmojiOfFace($key);
+        $changeIcon = EmojiManager::getFace($key);
         
         $piece = $piece
                . ' (' 

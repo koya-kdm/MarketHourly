@@ -9,7 +9,7 @@ class EmojiManager
 
   // 絵文字辞書
   // http://apps.timwhitlock.info/emoji/tables/unicode
-  var $dictionary = array(
+  static var $dictionary = array(
         self::CURRENCY => array('dol' => array('unicode' =>  '0024'),
                                     'eur' => array('unicode' =>  '20AC'),
                                    ),
@@ -58,43 +58,43 @@ class EmojiManager
   /*---------------------------
     getEmoji
   -----------------------------*/
-  public function getEmoji($group, $key)
+  private static function getEmoji($group, $key)
   {
-    if (false == isset($this->dictionary[$group][$key]['char']))
+    if (false == isset(self::dictionary[$group][$key]['char']))
     {
-      $target = str_repeat('0', 8 - strlen($this->dictionary[$group][$key]['unicode']))
-              . $this->dictionary[$group][$key]['unicode'];
+      $target = str_repeat('0', 8 - strlen(self::dictionary[$group][$key]['unicode']))
+              . self::dictionary[$group][$key]['unicode'];
       
       $bin = pack('H*', $target);
       
-      $this->dictionary[$group][$key]['char'] = mb_convert_encoding($bin, 'UTF-8', 'UTF-32BE');
+      self::dictionary[$group][$key]['char'] = mb_convert_encoding($bin, 'UTF-8', 'UTF-32BE');
     }
     
-    return $this->dictionary[$group][$key]['char'];
+    return self::dictionary[$group][$key]['char'];
   }
   
   /*---------------------------
-    getEmojiOfCurrency
+    getCurrency
   -----------------------------*/
-  public function getEmojiOfCurrency($key)
+  public static function getCurrency($key)
   {
-    return $this->getEmoji(self::CURRENCY, $key);
+    return self::getEmoji(self::CURRENCY, $key);
   }
   
   /*---------------------------
-    getEmojiOfFace
+    getFace
   -----------------------------*/
-  public function getEmojiOfFace($key)
+  public static function getFace($key)
   {
-    return $this->getEmoji(self::FACE, $key);
+    return self::getEmoji(self::FACE, $key);
   }
   
   /*---------------------------
-    getEmojiOfClock
+    getClock
   -----------------------------*/
-  public function getEmojiOfClock($key)
+  public static function getClock($key)
   {
-    return $this->getEmoji(self::CLOCK, $key);
+    return self::getEmoji(self::CLOCK, $key);
   }
 }
 ?>

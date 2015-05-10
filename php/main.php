@@ -11,7 +11,7 @@ define('APPLICATION_PHP_PATH', dirname(__FILE__));
 require_once APPLICATION_PHP_PATH . '/config.php';
 require_once APPLICATION_PHP_PATH . '/class/Asset.php';
 require_once APPLICATION_PHP_PATH . '/class/MarketManager.php';
-require_once APPLICATION_PHP_PATH . '/class/EmojiManager.php';
+//require_once APPLICATION_PHP_PATH . '/class/EmojiManager.php';
 require_once APPLICATION_PHP_PATH . '/class/Retriever.php';
 require_once APPLICATION_PHP_PATH . '/class/Tweeter.php';
 
@@ -20,9 +20,9 @@ date_default_timezone_set('Asia/Tokyo');
 
 // インスタンス生成
 $mm = new MarketManager();    // マーケット管理クラス
-$em = new EmojiManager();     // 絵文字管理クラス
+//$em = new EmojiManager();     // 絵文字管理クラス
 $retriever = new Retriever(); // 絵文字管理クラス
-$tweeter   = new Tweeter($mm, $em);
+$tweeter   = new Tweeter($mm);
 
 // アセット定義
 $assetsByMarket = array($mm::FX => array(0 => new Asset( 'USD',   'USDJPY=X', '円', 2, $mm::FX, false, false, null     ),
@@ -37,8 +37,8 @@ $assetsByMarket = array($mm::FX => array(0 => new Asset( 'USD',   'USDJPY=X', '�
                        );
 
 // アセットタイトルの書換え
-$assetsByMarket[$mm::FX][0]->setTitle($em->getEmojiOfCurrency('dol'));
-$assetsByMarket[$mm::FX][1]->setTitle($em->getEmojiOfCurrency('eur'));
+$assetsByMarket[$mm::FX][0]->setTitle(EmojiManager::getCurrency('dol'));
+$assetsByMarket[$mm::FX][1]->setTitle(EmojiManager::getCurrency('eur'));
 
 //===============================
 // メイン
