@@ -25,8 +25,9 @@ date_default_timezone_set('Asia/Tokyo');
 $retriever = new Retriever(); // 株価取得クラス
 $tweeter   = new Tweeter();   // ツイート投稿クラス
 
+
 // アセット定義
-$assetsByMarket 
+$assetsByMarket
   = array(MarketManager::FX => array(0 => new Asset( 'USD',   'USDJPY=X', '円', 2, MarketManager::FX, false, false, null     ),
                                      1 => new Asset( 'EUR',   'EURJPY=X', '円', 2, MarketManager::FX, false, false, null     ),),
           MarketManager::JP => array(0 => new Asset('日経',      '^N225', '円', 0, MarketManager::JP,  true, false, null     ),),
@@ -37,6 +38,31 @@ $assetsByMarket
           MarketManager::US => array(0 => new Asset('ダウ',       '^DJI', 'pt', 0, MarketManager::US,  true,  true, '983582' ),
                                      1 => new Asset('ナス',      '^IXIC', 'pt', 0, MarketManager::US,  true, false, null     ),),
          );
+
+// アセット再定義
+if ($argc > 1)
+{
+  $redefined = array();
+  
+  $markets = array(MarketManager::FX,
+                   MarketManager::JP,
+                   MarketManager::HK,
+                   MarketManager::SH,
+                   MarketManager::UK,
+                   MarketManager::GM,
+                   MarketManager::US,
+                  );
+  
+  for ($i = 1; $i <= $argc; $i++)
+  {
+    if (in_array($argv[$i], $markets))
+    {
+      array_push($redefined, $assetsByMarket[$argv[$i]])
+    }
+  }
+  
+  $assetsByMarket = $redefined;
+}
 
 // アセットタイトルの書換え
 $assetsByMarket[MarketManager::FX][0]->setTitle(EmojiManager::getDoller());
