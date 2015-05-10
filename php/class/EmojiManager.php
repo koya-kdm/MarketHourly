@@ -82,14 +82,14 @@ class EmojiManager
   /*---------------------------
     getDoller
   -----------------------------*/
-  private static function getDoller()
+  public static function getDoller()
   {
     return self::getEmoji(self::CURRENCY, 'dol');
   }
   /*---------------------------
     getEuro
   -----------------------------*/
-  private static function getEuro()
+  public static function getEuro()
   {
     return self::getEmoji(self::CURRENCY, 'eur');
   }
