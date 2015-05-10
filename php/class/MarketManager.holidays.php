@@ -1,5 +1,7 @@
 <?php
 // 休場日
+// http://markets.on.nytimes.com/research/markets/holidays/holidays.asp
+
 $configHolidays = array(
 
   self::FX => array(),
@@ -55,7 +57,25 @@ $configHolidays = array(
                      '2015-10-07',  //  建国記念日
                    ),
                     
-  self::EU => array(),
+  self::UK => array( '2015-01-01', // New Year's Day
+                     '2015-04-03', // Good Friday
+                     '2015-04-06', // Easter Monday
+                     '2015-05-04', // Early May Bank Holiday
+                     '2015-05-25', // Late May Bank Holiday
+                     '2015-08-31', // Summer Bank Holiday
+                     '2015-12-25', // Christmas
+                     '2015-12-28', // Boxing Day OBS),
+                    ),
+                    
+  self::GM => array( '2015-01-01', // New Year's Day
+                     '2015-04-03', // Good Friday
+                     '2015-04-06', // Easter Monday
+                     '2015-05-01', // Labour Day
+                     '2015-05-25', // May Holiday
+                     '2015-12-24', // Christmas Eve
+                     '2015-12-25', // Christmas Day
+                     '2015-12-31', // New Year's Eve
+                    ),
   
   self::US => array( '2015-01-01',  //  New Years Day
                      '2015-01-19',  //  Martin Luther King, Jr. Day

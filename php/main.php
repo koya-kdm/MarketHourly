@@ -11,7 +11,7 @@ define('APPLICATION_PHP_PATH', dirname(__FILE__));
 require_once APPLICATION_PHP_PATH . '/config.php';
 require_once APPLICATION_PHP_PATH . '/class/Asset.php';
 require_once APPLICATION_PHP_PATH . '/class/MarketManager.php';
-//require_once APPLICATION_PHP_PATH . '/class/EmojiManager.php';
+require_once APPLICATION_PHP_PATH . '/class/EmojiManager.php';
 require_once APPLICATION_PHP_PATH . '/class/Retriever.php';
 require_once APPLICATION_PHP_PATH . '/class/Tweeter.php';
 
@@ -20,7 +20,6 @@ date_default_timezone_set('Asia/Tokyo');
 
 // インスタンス生成
 $mm = new MarketManager();    // マーケット管理クラス
-//$em = new EmojiManager();     // 絵文字管理クラス
 $retriever = new Retriever(); // 絵文字管理クラス
 $tweeter   = new Tweeter($mm);
 
@@ -30,8 +29,8 @@ $assetsByMarket = array($mm::FX => array(0 => new Asset( 'USD',   'USDJPY=X', '�
                         $mm::JP => array(0 => new Asset('日経',      '^N225', '円', 0, $mm::JP,  true, false, null     ),),
                         $mm::HK => array(0 => new Asset('香港',       '^HSI', 'pt', 0, $mm::HK,  true, false, null     ),),
                         $mm::SH => array(0 => new Asset('上海',  '000001.SS', 'pt', 0, $mm::SH,  true,  true, '7521596'),),
-                        $mm::EU => array(0 => new Asset(  '英',      '^FTSE', 'pt', 0, $mm::EU,  true, false, null     ),
-                                         1 => new Asset(  '独',     '^GDAXI', 'pt', 0, $mm::EU,  true, false, null     ),),
+                        $mm::UK => array(0 => new Asset(  '英',      '^FTSE', 'pt', 0, $mm::UK,  true, false, null     ),),
+                        $mm::GM => array(0 => new Asset(  '独',     '^GDAXI', 'pt', 0, $mm::GM,  true, false, null     ),),
                         $mm::US => array(0 => new Asset('ダウ',       '^DJI', 'pt', 0, $mm::US,  true,  true, '983582' ),
                                          1 => new Asset('ナス',      '^IXIC', 'pt', 0, $mm::US,  true, false, null     ),),
                        );
