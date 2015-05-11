@@ -36,7 +36,7 @@ $assetsByMarket
           MarketManager::UK => array(0 => new Asset(  '英',                     '12590587', 'pt', 0, MarketManager::UK,  true, $retriever::SRC_GOOGLE, ),),
           MarketManager::GM => array(0 => new Asset(  '独',                     '14199910', 'pt', 0, MarketManager::GM,  true, $retriever::SRC_GOOGLE, ),),
           MarketManager::US => array(0 => new Asset('ダウ',                       '983582', 'pt', 0, MarketManager::US,  true, $retriever::SRC_GOOGLE, ),
-                                     1 => new Asset('ナス',                     '13756934', 'pt', 0, MarketManager::US,  true, $retriever::SRC_GOOGLE, ),
+                                     1 => new Asset('ナス',                     '13756934', 'pt', 0, MarketManager::US,  true, $retriever::SRC_GOOGLE, ),),
          );
 
 // アセット再定義
