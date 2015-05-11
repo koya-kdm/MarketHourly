@@ -125,7 +125,7 @@ class Retriever
   {
     $html = file_get_contents(self::URL_NIKKEI);
     
-    $html = str_replace(array("\r", "\n"), '', $html);
+    $html = str_replace(array('\r', '\n'), '', $html);
     
     echo $html . PHP_EOL;;
     
@@ -142,16 +142,17 @@ class Retriever
     */
     
     // 現在値
-    if (preg_match('/<td.*cmn-index_value.*>.*<b>([\d,.]*)<\/b>.*<\/td>/is', $html, $matches))
+    if (preg_match('/<td.*cmn-index_value.*>.*<b>([\d,.]*)<\/b>.*<\/td>/isu', $html, $matches))
     {
       $asset->setPrice(str_replace(',', '', $matches[1]));
     }
     
+    echo 'debug0=' . $matches[0] . PHP_EOL;
     echo 'debug1=' . $matches[1] . PHP_EOL;
     echo 'debug2=' . $asset->getPrice() . PHP_EOL;
     
     // 前日比
-    if (preg_match('/<td.*cmn-index_up.*>.*<b>.*\(([\d.+-]*%)\)<\/b>.*<\/td>/is', $html, $matches))
+    if (preg_match('/<td.*cmn-index_up.*>.*<b>.*\(([\d.+-]*%)\)<\/b>.*<\/td>/isu', $html, $matches))
     {
       $asset->setChange($matches[1]);
     }
