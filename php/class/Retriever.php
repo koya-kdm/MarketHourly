@@ -98,7 +98,7 @@ class Retriever
   /*---------------------------
     retrieveStockPriceFromGoogle
   -----------------------------*/
-  private public function retrieveStockPriceFromGoogle(&$asset)
+  private function retrieveStockPriceFromGoogle(&$asset)
   {
     $html = file_get_contents(self::URL_GOOGLE . '?q=' . $asset->getGoogleCode());
     
@@ -121,7 +121,7 @@ class Retriever
   /*---------------------------
     retrieveStockPriceFromNikkei
   -----------------------------*/
-  private public function retrieveStockPriceFromNikkei(&$asset)
+  private function retrieveStockPriceFromNikkei(&$asset)
   {
     $html = file_get_contents(self::URL_NIKKEI);
     
