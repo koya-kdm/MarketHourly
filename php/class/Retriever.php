@@ -77,7 +77,7 @@ class Retriever
   /*---------------------------
     createYahooUrl
   -----------------------------*/
-  private createYahooUrl createUrl($assetsByMarket)
+  private function createYahooUrl($assetsByMarket)
   {
     // e.g.) http://finance.yahoo.com/d/quotes.csv?s=INDU+^IXIC+USDJPY=X+^N225&f=snl1c1p2d1t1
     
