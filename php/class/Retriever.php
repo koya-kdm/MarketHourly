@@ -125,6 +125,8 @@ class Retriever
   {
     $html = file_get_contents(self::URL_NIKKEI);
     
+    $html = str_replace(array("\r", "\n"), '', $html);
+    
     echo $html . PHP_EOL;;
     
     /* HTML
@@ -146,7 +148,7 @@ class Retriever
     }
     
     echo 'debug1=' . $matches[1] . PHP_EOL;
-    echo 'debug2=' . $asset->getPrice . PHP_EOL;
+    echo 'debug2=' . $asset->getPrice() . PHP_EOL;
     
     // 前日比
     if (preg_match('/<td.*cmn-index_up.*>.*<b>.*\(([\d.+-]*%)\)<\/b>.*<\/td>/is', $html, $matches))
