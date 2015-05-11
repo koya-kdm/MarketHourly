@@ -83,6 +83,6 @@ $tweet = $tweeter->createTweet($assetsByMarket);
 echo $tweet . PHP_EOL;
 
 // ツイートの投稿
-//$tweeter->postTweet($twitterAuth, $tweet);
+$tweeter->postTweet($twitterAuth, $tweet);
 
 ?>
