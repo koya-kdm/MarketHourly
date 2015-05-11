@@ -13,8 +13,6 @@ class Asset
   
   var $source;
   
-  var $googleCode;
-  
   var $price;
   var $change;
   
@@ -27,8 +25,7 @@ class Asset
                               $decimals,
                               $market,
                               $displaysChange,
-                              $source,
-                              $googleCode
+                              $source
                              )
   {
     $this->title          = $title;
@@ -38,7 +35,6 @@ class Asset
     $this->market         = $market;
     $this->displaysChange = $displaysChange;
     $this->source         = $source;
-    $this->googleCode     = $googleCode;
     
     return;
   }
@@ -54,7 +50,6 @@ class Asset
   public function getDisplaysChange() { return $this->displaysChange;}
   public function getSource        () { return $this->source;        }
   
-  public function getGoogleCode    () { return $this->googleCode;    }
   public function getPrice         () { return $this->price;         }
   public function getChange        () { return $this->change;        }
 
@@ -65,7 +60,6 @@ class Asset
   public function setMarket        ($var) { $this->market         = $var; return; }
   public function setDisplaysChange($var) { $this->displaysChange = $var; return; }
   public function setSource        ($var) { $this->source         = $var; return; }
-  public function setGoogleCode    ($var) { $this->googleCode     = $var; return; }
   public function setPrice         ($var) { $this->price          = $var; return; }
   public function setChange        ($var) { $this->change         = $var; return; }
   

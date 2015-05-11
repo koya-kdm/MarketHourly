@@ -103,13 +103,13 @@ class Retriever
     $html = file_get_contents(self::URL_GOOGLE . '?q=' . $asset->getGoogleCode());
     
     // 現在値
-    if (preg_match('/<span id="ref_' . $asset->getGoogleCode() . '_l">([\d,.]*)<\/span>/is', $html, $matches))
+    if (preg_match('/<span id="ref_' . $asset->getTicker() . '_l">([\d,.]*)<\/span>/is', $html, $matches))
     {
       $asset->setPrice(str_replace(',', '', $matches[1]));
     }
     
     // 前日比
-    if (preg_match('/<span class=".*" id="ref_' . $asset->getGoogleCode() . '_cp">\(([\d.-]*%)\)<\/span>/is', $html, $matches))
+    if (preg_match('/<span class=".*" id="ref_' . $asset->getTicker() . '_cp">\(([\d.-]*%)\)<\/span>/is', $html, $matches))
     {
       $asset->setChange('+' . $matches[1]);
       $asset->setChange(str_replace('+-', '-', $asset->getChange()));
