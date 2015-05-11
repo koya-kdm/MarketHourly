@@ -100,7 +100,7 @@ class Retriever
   -----------------------------*/
   private function retrieveStockPriceFromGoogle(&$asset)
   {
-    $html = file_get_contents(self::URL_GOOGLE . '?q=' . $asset->getGoogleCode());
+    $html = file_get_contents(self::URL_GOOGLE . '?q=' . $asset->getTicker());
     
     // 現在値
     if (preg_match('/<span id="ref_' . $asset->getTicker() . '_l">([\d,.]*)<\/span>/is', $html, $matches))
