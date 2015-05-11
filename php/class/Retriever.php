@@ -125,6 +125,8 @@ class Retriever
   {
     $html = file_get_contents(self::URL_NIKKEI);
     
+    echo $html;
+    
     /* HTML
     <td class="cmn-index_value">
       <!--daily_changing--><b>19,653.27</b>
