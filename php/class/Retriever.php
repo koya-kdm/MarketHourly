@@ -4,11 +4,19 @@
 =================================*/
 class Retriever
 {
+  // 取得元
+  const SRC_YAHOO  = 'yh';
+  const SRC_GOOGLE = 'gg';
+  const SRC_NIKKEI = 'nk';
+  
   // Yahoo Finace ベースURL
-  const YAHOO_BASE_URL = 'http://finance.yahoo.com/d/quotes.csv';
+  const URL_YAHOO = 'http://finance.yahoo.com/d/quotes.csv';
 
   // Google Finace ベースURL
-  const GOOGLE_BASE_URL = 'https://www.google.com/finance';
+  const URL_GOOGLE = 'https://www.google.com/finance';
+  
+  // 日経平均URL
+  const URL_NIKKEI = 'http://indexes.nikkei.co.jp/nkave/index/profile?idx=nk225';
   
   // Yahoo Finance パラメータ
   /*
@@ -26,32 +34,10 @@ class Retriever
   var $yahooParams  = array('s', 'l1', 'p2');
   
   
-  /*---------------------------
-    createUrl
-  -----------------------------*/
-  function createUrl($assetsByMarket)
-  {
-    // e.g.) http://finance.yahoo.com/d/quotes.csv?s=INDU+^IXIC+USDJPY=X+^N225&f=snl1c1p2d1t1
-    
-    $tickerString = '';
-    
-    foreach ($assetsByMarket as $market => $assets)
-    {
-      foreach ($assets as $key => $asset)
-      {
-        $tickerString = $tickerString . $asset->getTicker() . '+';
-      }
-    }
-    
-    $url= self::YAHOO_BASE_URL . '?s=' . $tickerString . '&f=' . implode('', $this->yahooParams);
-
-    return $url;
-  }
-  
   /*--------------------
     retrieveStockPrice
   ---------------------*/
-  function retrieveStockPrice(&$assetsByMarket)
+  public function retrieveStockPrice(&$assetsByMarket)
   {
     $url = $this->createUrl($assetsByMarket);
     
@@ -61,16 +47,20 @@ class Retriever
     {
       foreach ($assets as $key => $asset)
       {
-        $data = fgetcsv($handle, 1000, ',');
-        
-        if (true == $asset->getRetrievesFromGoogle())
+        if ($asset->getSource() == self::SRC_YAHOO)
+        {
+          $data = fgetcsv($handle, 1000, ',');
+          
+          $asset->setPrice ($data[1]);
+          $asset->setChange($data[2]);
+        }
+        elseif ($asset->getSource() == self::SRC_GOOGLE)
         {
           $this->retrieveStockPriceFromGoogle($asset);
         }
-        else
+        elseif ($asset->getSource() == self::SRC_NIKKEI)
         {
-          $asset->setPrice ($data[1]);
-          $asset->setChange($data[2]);
+          $this->retrieveStockPriceFromNikkei($asset);
         }
       }
     }
@@ -81,21 +71,80 @@ class Retriever
   }
   
   /*---------------------------
+    createUrl
+  -----------------------------*/
+  private function createUrl($assetsByMarket)
+  {
+    // e.g.) http://finance.yahoo.com/d/quotes.csv?s=INDU+^IXIC+USDJPY=X+^N225&f=snl1c1p2d1t1
+    
+    $tickerString = '';
+    
+    foreach ($assetsByMarket as $market => $assets)
+    {
+      foreach ($assets as $key => $asset)
+      {
+        if ($asset->getSource() == self::SRC_YAHOO)
+        {
+          $tickerString = $tickerString . $asset->getTicker() . '+';
+        }
+      }
+    }
+    
+    $url= self::URL_YAHOO . '?s=' . $tickerString . '&f=' . implode('', $this->yahooParams);
+
+    return $url;
+  }
+  
+  /*---------------------------
     retrieveStockPriceFromGoogle
   -----------------------------*/
-  public function retrieveStockPriceFromGoogle(&$asset)
+  private public function retrieveStockPriceFromGoogle(&$asset)
   {
-    $html = file_get_contents(self::GOOGLE_BASE_URL . '?q=' . $asset->getGoogleCode());
+    $html = file_get_contents(self::URL_GOOGLE . '?q=' . $asset->getGoogleCode());
     
+    // 現在値
     if (preg_match('/<span id="ref_' . $asset->getGoogleCode() . '_l">([\d,.]*)<\/span>/is', $html, $matches))
     {
       $asset->setPrice(str_replace(',', '', $matches[1]));
     }
     
+    // 前日比
     if (preg_match('/<span class=".*" id="ref_' . $asset->getGoogleCode() . '_cp">\(([\d.-]*%)\)<\/span>/is', $html, $matches))
     {
       $asset->setChange('+' . $matches[1]);
       $asset->setChange(str_replace('+-', '-', $asset->getChange()));
+    }
+    
+    return;
+  }
+  
+  /*---------------------------
+    retrieveStockPriceFromNikkei
+  -----------------------------*/
+  private public function retrieveStockPriceFromNikkei(&$asset)
+  {
+    $html = file_get_contents(self::URL_NIKKEI);
+    
+    <td class="cmn-index_value">
+      <!--daily_changing--><b>19,653.27</b>
+    </td>
+    <tr>
+      <!--daily_changing-->
+      <td colspan="2" class="cmn-index_up">
+        <!--daily_changing--><b>+274.08 (+1.41%)</b>
+      </td>
+    </tr>
+    
+    // 現在値
+    if (preg_match('/<td.*cmn-index_value.*>.*<b>([\d,.]*)<\/b>.*<\/td>/is', $html, $matches))
+    {
+      $asset->setPrice(str_replace(',', '', $matches[1]));
+    }
+    
+    // 前日比
+    if (preg_match('/<td.*cmn-index_up.*>.*<b>.*\(([\d.+-]*%)\)<\/b>.*<\/td>/is', $html, $matches))
+    {
+      $asset->setChange($matches[1]);
     }
     
     return;

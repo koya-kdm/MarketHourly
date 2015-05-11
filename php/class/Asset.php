@@ -10,7 +10,9 @@ class Asset
   var $decimals;
   var $market;
   var $displaysChange;
-  var $retrievesFromGoogle;
+  
+  var $source;
+  
   var $googleCode;
   
   var $price;
@@ -25,18 +27,19 @@ class Asset
                               $decimals,
                               $market,
                               $displaysChange,
-                              $retrievesFromGoogle,
+                              $source,
                               $googleCode
                              )
   {
-    $this->title               = $title;
-    $this->ticker              = $ticker;
-    $this->unit                = $unit;
-    $this->decimals            = $decimals;
-    $this->market              = $market;
-    $this->displaysChange      = $displaysChange;
-    $this->retrievesFromGoogle = $retrievesFromGoogle;
-    $this->googleCode          = $googleCode;
+    $this->title          = $title;
+    $this->ticker         = $ticker;
+    $this->unit           = $unit;
+    $this->decimals       = $decimals;
+    $this->market         = $market;
+    $this->displaysChange = $displaysChange;
+    $this->source         = $source
+    
+    $this->googleCode     = $googleCode;
     
     return;
   }
@@ -44,27 +47,28 @@ class Asset
   /*===========================
     アクセッサ
   =============================*/
-  public function getTitle              () { return $this->title;              }
-  public function getTicker             () { return $this->ticker;             }
-  public function getUnit               () { return $this->unit;               }
-  public function getDecimals           () { return $this->decimals;           }
-  public function getMarket             () { return $this->market;             }
-  public function getDisplaysChange     () { return $this->displaysChange;     }
-  public function getRetrievesFromGoogle() { return $this->retrievesFromGoogle;}
-  public function getGoogleCode         () { return $this->googleCode;         }
-  public function getPrice              () { return $this->price;              }
-  public function getChange             () { return $this->change;             }
+  public function getTitle         () { return $this->title;         }
+  public function getTicker        () { return $this->ticker;        }
+  public function getUnit          () { return $this->unit;          }
+  public function getDecimals      () { return $this->decimals;      }
+  public function getMarket        () { return $this->market;        }
+  public function getDisplaysChange() { return $this->displaysChange;}
+  public function getSource        () { return $this->source;        }
+  
+  public function getGoogleCode    () { return $this->googleCode;    }
+  public function getPrice         () { return $this->price;         }
+  public function getChange        () { return $this->change;        }
 
-  public function setTitle              ($var) { $this->title               = $var; return; }
-  public function setTicker             ($var) { $this->ticker              = $var; return; }
-  public function setUnit               ($var) { $this->unit                = $var; return; }
-  public function setDecimals           ($var) { $this->decimals            = $var; return; }
-  public function setMarket             ($var) { $this->market              = $var; return; }
-  public function setDisplaysChange     ($var) { $this->displaysChange      = $var; return; }
-  public function setRetrievesFromGoogle($var) { $this->retrievesFromGoogle = $var; return; }
-  public function setGoogleCode         ($var) { $this->googleCode          = $var; return; }
-  public function setPrice              ($var) { $this->price               = $var; return; }
-  public function setChange             ($var) { $this->change              = $var; return; }
+  public function setTitle         ($var) { $this->title          = $var; return; }
+  public function setTicker        ($var) { $this->ticker         = $var; return; }
+  public function setUnit          ($var) { $this->unit           = $var; return; }
+  public function setDecimals      ($var) { $this->decimals       = $var; return; }
+  public function setMarket        ($var) { $this->market         = $var; return; }
+  public function setDisplaysChange($var) { $this->displaysChange = $var; return; }
+  public function setSource        ($var) { $this->source         = $var; return; }
+  public function setGoogleCode    ($var) { $this->googleCode     = $var; return; }
+  public function setPrice         ($var) { $this->price          = $var; return; }
+  public function setChange        ($var) { $this->change         = $var; return; }
   
 }
 ?>
