@@ -28,15 +28,15 @@ $tweeter   = new Tweeter();   // ツイート投稿クラス
 
 // アセット定義
 $assetsByMarket
-  = array(MarketManager::FX => array(0 => new Asset(EmojiManager::getDoller(),  'USDJPY=X', '円', 2, MarketManager::FX, false, $retriever::SRC_YAHOO,  null     ),
-                                     1 => new Asset(EmojiManager::getEuro(),    'EURJPY=X', '円', 2, MarketManager::FX, false, $retriever::SRC_YAHOO,  null     ),),
-          MarketManager::JP => array(0 => new Asset('日経',                        '^N225', '円', 0, MarketManager::JP,  true, $retriever::SRC_NIKKEI, null     ),),
-          MarketManager::HK => array(0 => new Asset('香港',                         '^HSI', 'pt', 0, MarketManager::HK,  true, $retriever::SRC_YAHOO,  null     ),),
-          MarketManager::SH => array(0 => new Asset('上海',                    '000001.SS', 'pt', 0, MarketManager::SH,  true, $retriever::SRC_GOOGLE, '7521596'),),
-          MarketManager::UK => array(0 => new Asset(  '英',                        '^FTSE', 'pt', 0, MarketManager::UK,  true, $retriever::SRC_YAHOO,  null     ),),
-          MarketManager::GM => array(0 => new Asset(  '独',                       '^GDAXI', 'pt', 0, MarketManager::GM,  true, $retriever::SRC_YAHOO,  null     ),),
-          MarketManager::US => array(0 => new Asset('ダウ',                         '^DJI', 'pt', 0, MarketManager::US,  true, $retriever::SRC_GOOGLE, '983582' ),
-                                     1 => new Asset('ナス',                        '^IXIC', 'pt', 0, MarketManager::US,  true, $retriever::SRC_YAHOO,  null     ),),
+  = array(MarketManager::FX => array(0 => new Asset(EmojiManager::getDoller(),  'USDJPY=X', '円', 2, MarketManager::FX, false, $retriever::SRC_YAHOO,  ),
+                                     1 => new Asset(EmojiManager::getEuro(),    'EURJPY=X', '円', 2, MarketManager::FX, false, $retriever::SRC_YAHOO,  ),),
+          MarketManager::JP => array(0 => new Asset('日経',                        '^N225', '円', 0, MarketManager::JP,  true, $retriever::SRC_NIKKEI, ),),
+          MarketManager::HK => array(0 => new Asset('香港',                     '13414271', 'pt', 0, MarketManager::HK,  true, $retriever::SRC_GOOGLE, ),),
+          MarketManager::SH => array(0 => new Asset('上海',                      '7521596', 'pt', 0, MarketManager::SH,  true, $retriever::SRC_GOOGLE, ),),
+          MarketManager::UK => array(0 => new Asset(  '英',                     '12590587', 'pt', 0, MarketManager::UK,  true, $retriever::SRC_GOOGLE, ),),
+          MarketManager::GM => array(0 => new Asset(  '独',                     '14199910', 'pt', 0, MarketManager::GM,  true, $retriever::SRC_GOOGLE, ),),
+          MarketManager::US => array(0 => new Asset('ダウ',                       '983582', 'pt', 0, MarketManager::US,  true, $retriever::SRC_GOOGLE, ),
+                                     1 => new Asset('ナス',                     '13756934', 'pt', 0, MarketManager::US,  true, $retriever::SRC_GOOGLE, ),
          );
 
 // アセット再定義
@@ -83,6 +83,6 @@ $tweet = $tweeter->createTweet($assetsByMarket);
 echo $tweet . PHP_EOL;
 
 // ツイートの投稿
-$tweeter->postTweet($twitterAuth, $tweet);
+//$tweeter->postTweet($twitterAuth, $tweet);
 
 ?>
