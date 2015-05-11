@@ -37,8 +37,7 @@ class Asset
     $this->decimals       = $decimals;
     $this->market         = $market;
     $this->displaysChange = $displaysChange;
-    $this->source         = $source
-    
+    $this->source         = $source;
     $this->googleCode     = $googleCode;
     
     return;
