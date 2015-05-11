@@ -33,7 +33,7 @@ class MarketManager
   -----------------------------*/
   public static function isValid($market)
   {
-    if (in_array($market, self::markets))
+    if (in_array($market, self::$markets))
     {
       return true;
     }
