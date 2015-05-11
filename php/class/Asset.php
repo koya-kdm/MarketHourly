@@ -4,17 +4,15 @@
 =================================*/
 class Asset
 {
-  var $title;
-  var $ticker;
-  var $unit;
-  var $decimals;
-  var $market;
-  var $displaysChange;
-  
-  var $source;
-  
-  var $price;
-  var $change;
+  private $title;
+  private $ticker;
+  private $unit;
+  private $decimals;
+  private $market;
+  private $displaysChange;
+  private $source;
+  private $price;
+  private $change;
   
   /*---------------------------
     __construct

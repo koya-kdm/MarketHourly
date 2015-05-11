@@ -31,7 +31,7 @@ class Retriever
   k2 = Change Percent (Realtime)
   p2 = Change in Percent
   */
-  var $yahooParams  = array('s', 'l1', 'p2');
+  private $yahooParams  = array('s', 'l1', 'p2');
   
   
   /*--------------------
