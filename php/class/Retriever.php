@@ -125,7 +125,7 @@ class Retriever
   {
     $html = file_get_contents(self::URL_NIKKEI);
     
-    echo $html;
+    echo $html . PHP_EOL;;
     
     /* HTML
     <td class="cmn-index_value">
@@ -142,7 +142,9 @@ class Retriever
     // 現在値
     if (preg_match('/<td.*cmn-index_value.*>.*<b>([\d,.]*)<\/b>.*<\/td>/is', $html, $matches))
     {
+      echo $matches[1] . PHP_EOL;
       $asset->setPrice(str_replace(',', '', $matches[1]));
+      $asset->getPrice . PHP_EOL;
     }
     
     // 前日比
