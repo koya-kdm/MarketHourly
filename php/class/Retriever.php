@@ -125,6 +125,7 @@ class Retriever
   {
     $html = file_get_contents(self::URL_NIKKEI);
     
+    /* HTML
     <td class="cmn-index_value">
       <!--daily_changing--><b>19,653.27</b>
     </td>
@@ -134,6 +135,7 @@ class Retriever
         <!--daily_changing--><b>+274.08 (+1.41%)</b>
       </td>
     </tr>
+    */
     
     // 現在値
     if (preg_match('/<td.*cmn-index_value.*>.*<b>([\d,.]*)<\/b>.*<\/td>/is', $html, $matches))
