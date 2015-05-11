@@ -142,12 +142,11 @@ class Retriever
     // 現在値
     if (preg_match('/<td.*cmn-index_value.*>.*<b>([\d,.]*)<\/b>.*<\/td>/is', $html, $matches))
     {
-      echo 'debug1=' . $matches[1] . PHP_EOL;
-      
       $asset->setPrice(str_replace(',', '', $matches[1]));
-      
-      echo 'debug2=' . $asset->getPrice . PHP_EOL;
     }
+    
+    echo 'debug1=' . $matches[1] . PHP_EOL;
+    echo 'debug2=' . $asset->getPrice . PHP_EOL;
     
     // 前日比
     if (preg_match('/<td.*cmn-index_up.*>.*<b>.*\(([\d.+-]*%)\)<\/b>.*<\/td>/is', $html, $matches))
