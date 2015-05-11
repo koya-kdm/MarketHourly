@@ -47,7 +47,6 @@ class Asset
   public function getMarket        () { return $this->market;        }
   public function getDisplaysChange() { return $this->displaysChange;}
   public function getSource        () { return $this->source;        }
-  
   public function getPrice         () { return $this->price;         }
   public function getChange        () { return $this->change;        }
 

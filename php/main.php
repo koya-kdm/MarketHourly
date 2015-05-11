@@ -25,7 +25,6 @@ date_default_timezone_set('Asia/Tokyo');
 $retriever = new Retriever(); // 株価取得クラス
 $tweeter   = new Tweeter();   // ツイート投稿クラス
 
-
 // アセット定義
 $assetsByMarket
   = array(MarketManager::FX => array(0 => new Asset(EmojiManager::getDoller(),  'USDJPY=X', '円', 2, MarketManager::FX, false, $retriever::SRC_YAHOO ),
@@ -39,27 +38,22 @@ $assetsByMarket
                                      1 => new Asset('ナス',                     '13756934', 'pt', 0, MarketManager::US,  true, $retriever::SRC_GOOGLE),),
          );
 
-// アセット再定義
+// アセット再定義（コマンドライン引数がある場合）
+// * 引数がない場合は全マーケットのアセットをつぶやくが、
+// 　引数でマーケット指定がある場合は、そのマーケットのアセットのみをつぶやく。
 if ($argc > 1)
 {
   $redefined = array();
   
-  $markets = array(MarketManager::FX,
-                   MarketManager::JP,
-                   MarketManager::HK,
-                   MarketManager::SH,
-                   MarketManager::UK,
-                   MarketManager::GM,
-                   MarketManager::US,
-                  );
-  
+  // つぶやきカスタマイズ
   $tweeter->disableOrder();
   $tweeter->disableClock();
   $tweeter->setHeader('【' . date('G:i') . '】');
   
+  // 対象アセット定義の抽出
   for ($i = 0; $i < $argc; $i++)
   {
-    if (in_array($argv[$i], $markets))
+    if (MarketManager::isValid($argv[$i]))
     {
       $redefined[$argv[$i]] = $assetsByMarket[$argv[$i]];
     }

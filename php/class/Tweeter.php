@@ -75,14 +75,18 @@ class Tweeter
   {
     // e.g.) USD=120.21円 EUR=134.64円 日経=19531.63円(△0.06%) 香港=28133pt(▼0.94%) 上海=0pt(N/A) S&P500=2108.29pt(△1.09%) Nasdaq=5005.39pt(△1.29%)
     
+    // ①ヘッダー
     $tweet = $this->header;
-    $currentHour = (int)date('G');
     
+    // ②時計アイコン
+    $currentHour = (int)date('G');
     if ($this->enableClock)
     {
-      $tweet = EmojiManager::getClockByHour($currentHour) . ' '; // 時計アイコン
+      $tweet = EmojiManager::getClockByHour($currentHour) . ' ';
     }
     
+    // ③株価
+    // 表示順考慮
     if ($this->enableOrder)
     {
       foreach ($this->order[$currentHour] as $market)
@@ -96,6 +100,7 @@ class Tweeter
         }
       }
     }
+    // 表示順無視（アセット配列に格納されている順）
     else
     {
       foreach ($assetsByMarket as $market => $assets)
@@ -115,13 +120,18 @@ class Tweeter
   -----------------------------*/
   private function createTweetPiece($asset)
   {
+    // Format: [タイトル][株価] ([△▼前日比%][顔])
+    
+    // ①タイトル
+    // ②株価
     $piece = $asset->getTitle()
                      . ''
                      . number_format($asset->getPrice(), $asset->getDecimals());
     
+    // ③前日比 + 顔
     if (MarketManager::isHoliday($asset->getMarket()))
     {
-      $piece = $piece . ' (休)';
+      $piece = $piece . ' (休)'; // 休場の場合
     }
     else
     {

@@ -19,6 +19,28 @@ class MarketManager
   const US = 'us'; // 米   22:30〜 5:00 (summer time)
                    //      23:30〜 6:00
   
+  private $markets = array(self::FX,
+                           self::JP,
+                           self::HK,
+                           self::SH,
+                           self::UK,
+                           self::GM,
+                           self::US,
+                          );
+  
+  /*---------------------------
+   　isValid
+  -----------------------------*/
+  public static function isValid($market)
+  {
+    if (in_array($market, self::markets))
+    {
+      return true;
+    }
+    
+    return false;
+  }
+  
   /*---------------------------
     isHoliday
   -----------------------------*/

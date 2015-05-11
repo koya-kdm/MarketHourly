@@ -6,8 +6,10 @@
 
 $configHolidays = array(
 
+  // 為替
   self::FX => array(),
 
+  // 日本
   self::JP => array( '2015-01-01',  //  元日
                      '2015-01-02',  //  休場日
                      '2015-01-12',  //  成人の日
@@ -26,7 +28,8 @@ $configHolidays = array(
                      '2015-12-23',  //  天皇誕生日
                      '2015-12-31',  //  休場日
                    ),
-                    
+  
+  // 香港
   self::HK => array( '2015-01-01',  //  The first day of January                                    新年
                      '2015-02-19',  //  Lunar New Year’s Day                                       旧正月
                      '2015-02-20',  //  The second day of Lunar New Year                            旧正月
@@ -41,7 +44,8 @@ $configHolidays = array(
                      '2015-10-21',  //  Chung Yeung Festival                                        重陽節
                      '2015-12-25',  //  Christmas Day                                               クリスマス
                    ),
-                    
+  
+  // 上海
   self::SH => array( '2015-01-01',  //  新年
                      '2015-01-02',  //  新年
                      '2015-02-18',  //  旧正月
@@ -58,7 +62,8 @@ $configHolidays = array(
                      '2015-10-06',  //  建国記念日
                      '2015-10-07',  //  建国記念日
                    ),
-                    
+  
+  // イギリス
   self::UK => array( '2015-01-01', // New Year's Day
                      '2015-04-03', // Good Friday
                      '2015-04-06', // Easter Monday
@@ -68,7 +73,8 @@ $configHolidays = array(
                      '2015-12-25', // Christmas
                      '2015-12-28', // Boxing Day OBS),
                     ),
-                    
+  
+  // ドイツ
   self::GM => array( '2015-01-01', // New Year's Day
                      '2015-04-03', // Good Friday
                      '2015-04-06', // Easter Monday
@@ -79,6 +85,7 @@ $configHolidays = array(
                      '2015-12-31', // New Year's Eve
                     ),
   
+  // アメリカ
   self::US => array( '2015-01-01',  //  New Years Day
                      '2015-01-19',  //  Martin Luther King, Jr. Day
                      '2015-02-16',  //  Washington's Birthday
