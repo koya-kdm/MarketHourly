@@ -39,28 +39,32 @@ class Retriever
   ---------------------*/
   public function retrieveStockPrice(&$assetsByMarket)
   {
-    $url = $this->createUrl($assetsByMarket);
-    
-    $handle = fopen($url, 'r');
+    // YahooはCSV
+    $yahooUrl    = $this->createYahooUrl($assetsByMarket);
+    $yahooHandle = fopen($yahooUrl, 'r');
     
     foreach ($assetsByMarket as $market => $assets)
     {
       foreach ($assets as $key => $asset)
       {
-        if ($asset->getSource() == self::SRC_YAHOO)
+        switch ($asset->getSource())
         {
-          $data = fgetcsv($handle, 1000, ',');
+          // Yahoo
+          case self::SRC_YAHOO:
+            $data = fgetcsv($yahooHandle, 1000, ',');
+            $asset->setPrice ($data[1]);
+            $asset->setChange($data[2]);
+            break;
           
-          $asset->setPrice ($data[1]);
-          $asset->setChange($data[2]);
-        }
-        elseif ($asset->getSource() == self::SRC_GOOGLE)
-        {
-          $this->retrieveStockPriceFromGoogle($asset);
-        }
-        elseif ($asset->getSource() == self::SRC_NIKKEI)
-        {
-          $this->retrieveStockPriceFromNikkei($asset);
+          // Google
+          case self::SRC_GOOGLE:
+            $this->retrieveStockPriceFromGoogle($asset);
+            break;
+          
+          // 日経新聞
+          case self::SRC_NIKKEI:
+            $this->retrieveStockPriceFromNikkei($asset);
+            break;
         }
       }
     }
@@ -71,9 +75,9 @@ class Retriever
   }
   
   /*---------------------------
-    createUrl
+    createYahooUrl
   -----------------------------*/
-  private function createUrl($assetsByMarket)
+  private createYahooUrl createUrl($assetsByMarket)
   {
     // e.g.) http://finance.yahoo.com/d/quotes.csv?s=INDU+^IXIC+USDJPY=X+^N225&f=snl1c1p2d1t1
     
@@ -108,7 +112,7 @@ class Retriever
       $asset->setPrice(str_replace(',', '', $matches[1]));
     }
     
-    // 前日比
+    // 前日比（％）
     if (preg_match('/<span class=".*" id="ref_' . $asset->getTicker() . '_cp">\(([\d.-]*%)\)<\/span>/is', $html, $matches))
     {
       $asset->setChange('+' . $matches[1]);
