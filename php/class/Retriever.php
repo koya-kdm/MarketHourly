@@ -148,7 +148,7 @@ class Retriever
     }
     
     // 前日比
-    if (preg_match('/cmn-index_up.*<b>.*\(([\d.+-]*%)\)<\/b>/is', $html, $matches))
+    if (preg_match('/cmn-index_[up|down].*<b>.*\(([\d.+-]*%)\)<\/b>/is', $html, $matches))
     {
       $asset->setChange($matches[1]);
     }
