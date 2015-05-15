@@ -119,7 +119,7 @@ class Retriever
       // 前日比（％）
       if (preg_match('/<meta itemprop="priceChangePercent".*?content="([\d.-]*)".*?\/>/is', $shareBox, $matches))
       {
-        $asset->setChange('+' . $matches[1]);
+        $asset->setChange('+' . $matches[1] . '%');
         $asset->setChange(str_replace('+-', '-', $asset->getChange()));
       }
     }

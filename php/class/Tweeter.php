@@ -86,7 +86,7 @@ class Tweeter
     }
     
     // ③株価
-    // 表示順考慮
+    // ◇表示順考慮
     if ($this->enableOrder)
     {
       foreach ($this->order[$currentHour] as $market)
@@ -100,7 +100,7 @@ class Tweeter
         }
       }
     }
-    // 表示順無視（アセット配列に格納されている順）
+    // ◇表示順無視（アセット配列に格納されている順）
     else
     {
       foreach ($assetsByMarket as $market => $assets)
@@ -141,13 +141,21 @@ class Tweeter
         $changeIcon = '';
         $change = (float) str_replace('%', '', $asset->getChange());
         
-        $changeIcon = EmojiManager::getFaceByChange($change);
-        
-        $piece = $piece
-               . ' (' 
-               . str_replace(array('+', '-'), array('△', '▼'), $asset->getChange()) 
-               . $changeIcon 
-               . ')';
+        if ($change = 0)
+        {
+          $piece = $piece
+                 . ' (0.00%)';
+        }
+        else
+        {
+          $changeIcon = EmojiManager::getFaceByChange($change);
+          
+          $piece = $piece
+                 . ' (' 
+                 . str_replace(array('+', '-'), array('△', '▼'), $asset->getChange()) 
+                 . $changeIcon 
+                 . ')';
+        }
       }
     }
     
