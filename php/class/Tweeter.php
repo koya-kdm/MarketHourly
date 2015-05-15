@@ -141,7 +141,7 @@ class Tweeter
         $changeIcon = '';
         $change = (float) str_replace('%', '', $asset->getChange());
         
-        if ($change = 0)
+        if ($change == 0)
         {
           $piece = $piece
                  . ' (0.00%)';
