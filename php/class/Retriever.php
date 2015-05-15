@@ -106,17 +106,22 @@ class Retriever
   {
     $html = file_get_contents(self::URL_GOOGLE . '?q=' . $asset->getTicker());
     
-    // 現在値
-    if (preg_match('/<span id="ref_' . $asset->getTicker() . '_l">([\d,.]*)<\/span>/is', $html, $matches))
+    if (preg_match('/<div id="sharebox-data".*?<\/div>/is', $html, $matches))
     {
-      $asset->setPrice(str_replace(',', '', $matches[1]));
-    }
-    
-    // 前日比（％）
-    if (preg_match('/<span class=".*" id="ref_' . $asset->getTicker() . '_cp">\(([\d.-]*%)\)<\/span>/is', $html, $matches))
-    {
-      $asset->setChange('+' . $matches[1]);
-      $asset->setChange(str_replace('+-', '-', $asset->getChange()));
+      $shareBox = $matches[0];
+      
+      // 前日比（％）
+      if (preg_match('/<meta itemprop="price".*?content="([\d,.]*)".*?\/>/is', $shareBox, $matches))
+      {
+        $asset->setPrice(str_replace(',', '', $matches[1]));
+      }
+      
+      // 前日比（％）
+      if (preg_match('/<meta itemprop="priceChangePercent".*?content="([\d.-]*)".*?\/>/is', $shareBox, $matches))
+      {
+        $asset->setChange('+' . $matches[1]);
+        $asset->setChange(str_replace('+-', '-', $asset->getChange()));
+      }
     }
     
     return;
