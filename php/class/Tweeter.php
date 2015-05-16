@@ -15,6 +15,10 @@ use Abraham\TwitterOAuth\TwitterOAuth;
 
 class Tweeter
 {
+  // 絵文字グループ
+  const SIGN_PLUS  = '+';
+  const SIGN_MINUS = '-';
+  
   // 各時間における表示順
   private $order = array(0 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
                          1 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
@@ -152,7 +156,7 @@ class Tweeter
           
           $piece = $piece
                  . ' (' 
-                 . str_replace(array('+', '-'), array('△', '▼'), $asset->getChange()) 
+                 . str_replace(array('+', '-'), array(self::SIGN_PLUS, self::SIGN_MINUS), $asset->getChange()) 
                  . $changeIcon 
                  . ')';
         }
