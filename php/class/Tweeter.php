@@ -148,7 +148,7 @@ class Tweeter
         if ($change == 0)
         {
           $piece = $piece
-                 . ' (0.00%)';
+                 . ' (0%)';
         }
         else
         {
