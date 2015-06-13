@@ -160,5 +160,35 @@ class Retriever
     
     return;
   }
+  
+  
+  /*--------------------
+    retrieveBond
+  ---------------------*/
+  public function retrieveBond()
+  {
+     $html = file_get_contents('https://www.rakuten-sec.co.jp/web/market/data/jp10yt.html');
+    
+    /* HTML
+    
+      
+      <tr>
+        <th scope="row" class="w-20">年利回り</th>
+        <td colspan="3"><em>0.510％</em></td>
+      </tr>
+      
+    */
+    
+    // 現在値
+    if (preg_match('/<th scope="row" class="w-20">年利回り<\/th>\s*<td colspan="3"><em>(.*)<\/em><\/td>/is', $html, $matches))
+    {
+      return $matches[1];
+    }
+    
+    
+    return;
+  }
+
+
 }
 ?>
