@@ -186,7 +186,7 @@ class Retriever
     }
     
     
-    return;
+    return 'err';
   }
 
 
