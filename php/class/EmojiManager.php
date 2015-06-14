@@ -8,6 +8,7 @@ class EmojiManager
   const CURRENCY = 'cr';
   const FACE     = 'fc';
   const CLOCK    = 'cl';
+  const COUNTRY  = 'ct';
 
   // 絵文字辞書
   // http://apps.timwhitlock.info/emoji/tables/unicode
@@ -55,6 +56,11 @@ class EmojiManager
                                   22  => array('unicode' => '1F559'),
                                   23  => array('unicode' => '1F55A'),
                                ),
+        self::COUNTRY  => array( 'us' => array('unicode1' => '1F1FA', 'unicode2' => '1F1F8'),
+                                 'jp' => array('unicode1' => '1F1EF', 'unicode2' => '1F1F5'),
+                                 'de' => array('unicode1' => '1F1E9', 'unicode2' => '1F1EA'),
+                                   
+                               ),
         );
   
   /*---------------------------
@@ -64,8 +70,21 @@ class EmojiManager
   {
     $emoji = self::$dictionary[$group][$key];
     
-    $target = str_repeat('0', 8 - strlen($emoji['unicode']))
-            . $emoji['unicode'];
+    if (isset($emoji['unicode']))
+    {
+      $target  = str_repeat('0', 8 - strlen($emoji['unicode']))
+               . $emoji['unicode'];
+    }
+    else
+    {
+      $target1 = str_repeat('0', 8 - strlen($emoji['unicode1']))
+               . $emoji['unicode1'];
+              
+      $target2 = str_repeat('0', 8 - strlen($emoji['unicode2']))
+               . $emoji['unicode2'];
+               
+      $target  = $target1 . $target2;
+    }
       
     $bin = pack('H*', $target);
       
@@ -122,6 +141,15 @@ class EmojiManager
   public static function getClockByHour($hour)
   {
     return self::getEmoji(self::CLOCK, $hour);
+  }
+  
+  
+  /*---------------------------
+    getFlag
+  -----------------------------*/
+  public static function getFlag($country)
+  {
+    return self::getEmoji(self::COUNTRY, $country);
   }
 }
 ?>

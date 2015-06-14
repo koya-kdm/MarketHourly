@@ -163,30 +163,66 @@ class Retriever
   
   
   /*--------------------
-    retrieveBond
+    retrieveBonds
   ---------------------*/
-  public function retrieveBond()
+  public function retrieveBonds()
   {
-     $html = file_get_contents('https://www.rakuten-sec.co.jp/web/market/data/jp10yt.html');
+    $bonds = array();
+  
+    $html = file_get_contents('http://www.bloomberg.com/markets/rates-bonds');
     
     /* HTML
-    
       
-      <tr>
-        <th scope="row" class="w-20">年利回り</th>
-        <td colspan="3"><em>0.510％</em></td>
-      </tr>
+         {"name":"US TREASURY N/B","longName":"United States","country":"US","coupon":2.125,"price":97.65625,"yield":2.3918054,"yieldChange1Day":0.0145931,"yieldChange1Month":11.02853,"lastUpdateTime":"2015-06-12","id":"CT10:GOV"}
+      {"name":"BUNDESREPUB. DEUTSCHLAND","longName":"Germany","country":"DE","coupon":0.5,"price":96.915,"yield":0.8322577,"yieldChange1Day":-0.04895945,"yieldChange1Month":11.05648483,"lastUpdateTime":"2015-06-12","id":"CTDEM10Y:GOV"}
+             {"name":"JAPAN (10 YR ISSUE)","longName":"Japan","country":"JP","coupon":0.4,"price":98.963,"yield":0.5,"yieldChange1Day":-0.02499998,"lastUpdateTime":"2015-06-12","id":"CTJPY10Y:GOV"}
       
     */
     
-    // 現在値
-    if (preg_match('/<th scope="row" class="w-20">年利回り<\/th>\s*<td colspan="3"><em>(.*)<\/em><\/td>/is', $html, $matches))
+    /*
+    
+    債券の利回り＝｛表面利率＋（額面100－債券価格）／残存期間｝×100／債券価格
+    
+    yield = 
+    */
+    
+    
+    // 米国
+    if (preg_match('/{"name":"US TREASURY N\/B","longName":"United States","country":"US","coupon":([\d.+-]*),"price":([\d.+-]*),"yield":([\d.+-]*),"yieldChange1Day":([\d.+-]*),"yieldChange1Month":([\d.+-]*),"lastUpdateTime":"([\d-]*)","id":"CT10:GOV"}/is', $html, $matches))
     {
-      return $matches[1];
+      $bonds['us'] = array('coupon'          => $matches[1],
+                           'price'           => $matches[2],
+                           'yield'           => $matches[3],
+                           'yieldChange1Day' => $matches[4],
+                           'lastUpdateTime'  => $matches[5],
+                          );
+    }
+    
+    // 日本
+    if (preg_match('/{"name":"JAPAN \(10 YR ISSUE\)","longName":"Japan","country":"JP","coupon":([\d.+-]*),"price":([\d.+-]*),"yield":([\d.+-]*),"yieldChange1Day":([\d.+-]*),"lastUpdateTime":"([\d-]*)","id":"CTJPY10Y:GOV"}/is', $html, $matches))
+    {
+      $bonds['jp'] = array('coupon'          => $matches[1],
+                           'price'           => $matches[2],
+                           'yield'           => $matches[3],
+                           'yieldChange1Day' => $matches[4],
+                           'lastUpdateTime'  => $matches[5],
+                          );
+    } 
+    
+    
+    // ドイツ
+    if (preg_match('/{"name":"BUNDESREPUB\. DEUTSCHLAND","longName":"Germany","country":"DE","coupon":([\d.+-]*),"price":([\d.+-]*),"yield":([\d.+-]*),"yieldChange1Day":([\d.+-]*),"yieldChange1Month":([\d.+-]*),"lastUpdateTime":"([\d-]*)","id":"CTDEM10Y:GOV"}/is', $html, $matches))
+    {
+      $bonds['de'] = array('coupon'          => $matches[1],
+                           'price'           => $matches[2],
+                           'yield'           => $matches[3],
+                           'yieldChange1Day' => $matches[4],
+                           'lastUpdateTime'  => $matches[5],
+                          );
     }
     
     
-    return 'err';
+    return $bonds;
   }
 
 
