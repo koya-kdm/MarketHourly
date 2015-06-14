@@ -168,7 +168,7 @@ class Retriever
   public function retrieveBonds()
   {
     $bonds = array();
-  
+    
     $html = file_get_contents('http://www.bloomberg.com/markets/rates-bonds');
     
     /* HTML
@@ -176,16 +176,7 @@ class Retriever
          {"name":"US TREASURY N/B","longName":"United States","country":"US","coupon":2.125,"price":97.65625,"yield":2.3918054,"yieldChange1Day":0.0145931,"yieldChange1Month":11.02853,"lastUpdateTime":"2015-06-12","id":"CT10:GOV"}
       {"name":"BUNDESREPUB. DEUTSCHLAND","longName":"Germany","country":"DE","coupon":0.5,"price":96.915,"yield":0.8322577,"yieldChange1Day":-0.04895945,"yieldChange1Month":11.05648483,"lastUpdateTime":"2015-06-12","id":"CTDEM10Y:GOV"}
              {"name":"JAPAN (10 YR ISSUE)","longName":"Japan","country":"JP","coupon":0.4,"price":98.963,"yield":0.5,"yieldChange1Day":-0.02499998,"lastUpdateTime":"2015-06-12","id":"CTJPY10Y:GOV"}
-      
     */
-    
-    /*
-    
-    債券の利回り＝｛表面利率＋（額面100－債券価格）／残存期間｝×100／債券価格
-    
-    yield = 
-    */
-    
     
     // 米国
     if (preg_match('/{"name":"US TREASURY N\/B","longName":"United States","country":"US","coupon":([\d.+-]*),"price":([\d.+-]*),"yield":([\d.+-]*),"yieldChange1Day":([\d.+-]*),"yieldChange1Month":([\d.+-]*),"lastUpdateTime":"([\d-]*)","id":"CT10:GOV"}/is', $html, $matches))
@@ -209,7 +200,6 @@ class Retriever
                           );
     } 
     
-    
     // ドイツ
     if (preg_match('/{"name":"BUNDESREPUB\. DEUTSCHLAND","longName":"Germany","country":"DE","coupon":([\d.+-]*),"price":([\d.+-]*),"yield":([\d.+-]*),"yieldChange1Day":([\d.+-]*),"yieldChange1Month":([\d.+-]*),"lastUpdateTime":"([\d-]*)","id":"CTDEM10Y:GOV"}/is', $html, $matches))
     {
@@ -221,10 +211,7 @@ class Retriever
                           );
     }
     
-    
     return $bonds;
   }
-
-
 }
 ?>

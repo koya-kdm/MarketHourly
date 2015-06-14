@@ -188,13 +188,11 @@ class Tweeter
   -----------------------------*/
   public function createTweetOfBonds($bonds)
   {
-    // e.g.) 【10年債】
-    
     $tweet = '【10年債】';
     
     foreach ($bonds as $ct => $bond)
     {
-      $tweet = $tweet . EmojiManager::getFlag($ct) . number_format($bonds[$ct]['yield'], 3) . '%' . ' ';
+      $tweet = $tweet . EmojiManager::getFlag($ct) . number_format($bonds[$ct]['yield'], 2) . '%' . ' ';
     }
     
     return $tweet;
