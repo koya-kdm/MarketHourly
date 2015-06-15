@@ -179,7 +179,8 @@ class Retriever
     */
     
     // 米国
-    if (preg_match('/{"name":"US TREASURY N\/B","longName":"United States","country":"US","coupon":([\d.+-]*),"price":([\d.+-]*),"yield":([\d.+-]*),"yieldChange1Day":([\d.+-]*),"yieldChange1Month":([\d.+-]*),"lastUpdateTime":"([\d-]*)","id":"CT10:GOV"}/is', $html, $matches))
+    //if (preg_match('/{"name":"US TREASURY N\/B","longName":"United States","country":"US","coupon":([\d.+-]*),"price":([\d.+-]*),"yield":([\d.+-]*),"yieldChange1Day":([\d.+-]*),"yieldChange1Month":([\d.+-]*),"lastUpdateTime":"([\d-]*)","id":"CT10:GOV"}/is', $html, $matches))
+    if (preg_match('/{"name":"US TREASURY N\/B","longName":"United States","country":"US","coupon":([\d.+-]*),"price":([\d.+-]*),"yield":([\d.+-]*),"yieldChange1Day":([\d.+-]*),"yieldChange1Month":([\d.+-]*),/is', $html, $matches))
     {
       $bonds['us'] = array('coupon'          => $matches[1],
                            'price'           => $matches[2],
@@ -190,7 +191,8 @@ class Retriever
     }
     
     // 日本
-    if (preg_match('/{"name":"JAPAN \(10 YR ISSUE\)","longName":"Japan","country":"JP","coupon":([\d.+-]*),"price":([\d.+-]*),"yield":([\d.+-]*),"yieldChange1Day":([\d.+-]*),"lastUpdateTime":"([\d-]*)","id":"CTJPY10Y:GOV"}/is', $html, $matches))
+    //if (preg_match('/{"name":"JAPAN \(10 YR ISSUE\)","longName":"Japan","country":"JP","coupon":([\d.+-]*),"price":([\d.+-]*),"yield":([\d.+-]*),"yieldChange1Day":([\d.+-]*),"lastUpdateTime":"([\d-]*)","id":"CTJPY10Y:GOV"}/is', $html, $matches))
+    if (preg_match('/{"name":"JAPAN \(10 YR ISSUE\)","longName":"Japan","country":"JP","coupon":([\d.+-]*),"price":([\d.+-]*),"yield":([\d.+-]*),"yieldChange1Day":([\d.+-]*),/is', $html, $matches))
     {
       $bonds['jp'] = array('coupon'          => $matches[1],
                            'price'           => $matches[2],
@@ -201,7 +203,8 @@ class Retriever
     } 
     
     // ドイツ
-    if (preg_match('/{"name":"BUNDESREPUB\. DEUTSCHLAND","longName":"Germany","country":"DE","coupon":([\d.+-]*),"price":([\d.+-]*),"yield":([\d.+-]*),"yieldChange1Day":([\d.+-]*),"yieldChange1Month":([\d.+-]*),"lastUpdateTime":"([\d-]*)","id":"CTDEM10Y:GOV"}/is', $html, $matches))
+    //if (preg_match('/{"name":"BUNDESREPUB\. DEUTSCHLAND","longName":"Germany","country":"DE","coupon":([\d.+-]*),"price":([\d.+-]*),"yield":([\d.+-]*),"yieldChange1Day":([\d.+-]*),"yieldChange1Month":([\d.+-]*),"lastUpdateTime":"([\d-]*)","id":"CTDEM10Y:GOV"}/is', $html, $matches))
+    if (preg_match('/{"name":"BUNDESREPUB\. DEUTSCHLAND","longName":"Germany","country":"DE","coupon":([\d.+-]*),"price":([\d.+-]*),"yield":([\d.+-]*),"yieldChange1Day":([\d.+-]*),"yieldChange1Month":([\d.+-]*),/is', $html, $matches))
     {
       $bonds['de'] = array('coupon'          => $matches[1],
                            'price'           => $matches[2],
