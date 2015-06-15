@@ -163,9 +163,9 @@ class Retriever
   
   
   /*--------------------
-    retrieveBonds
+    retrieveBondsFromBloomberg
   ---------------------*/
-  public function retrieveBonds()
+  public function retrieveBondsFromBloomberg()
   {
     $bonds = array();
     
@@ -212,6 +212,49 @@ class Retriever
                            'yieldChange1Day' => $matches[4],
                            'lastUpdateTime'  => $matches[5],
                           );
+    }
+    
+    return $bonds;
+  }
+  
+  /*--------------------
+    retrieveBonds
+  ---------------------*/
+  public function retrieveBonds()
+  {
+    $bonds = array();
+    
+    /* HTML
+    var quoteDataObj = [{"symbol":"US10Y","symbolType":"symbol","code":0,"name":"U.S. 10 Year Treasury","shortName":"US 10-YR","last":"2.3595","exchange":"U.S.","source":"Exchange","open":"0.00","high":"0.00","low":"0.00","change":"0.00","currencyCode":"USD","timeZone":"EDT","volume":"0","provider":"CNBC Quote Cache","altSymbol":"US10YT\u003dXX","curmktstatus":"REG_MKT","realTime":"true","assetType":"BOND","noStreaming":"false","encodedSymbol":"US10Y"}]
+    var quoteDataObj = [{"symbol":"JP10Y-JP","symbolType":"symbol","code":0,"name":"Japan 10 Year Treasury","shortName":"JPN 10-YR","last":"0.507","exchange":"Japan","source":"Exchange","open":"0.00","high":"0.00","low":"0.00","change":"0.00","currencyCode":"USD","timeZone":"JST","volume":"0","provider":"CNBC Quote Cache","altSymbol":"20380005","curmktstatus":"REG_MKT","realTime":"true","assetType":"BOND","noStreaming":"false","encodedSymbol":"JP10Y-JP"}]
+    var quoteDataObj = [{"symbol":"DE10Y-DE","symbolType":"symbol","code":0,"name":"Germany 10 Year Bond","shortName":"GER 10-YR","last":"0.827","exchange":"Germany","source":"Exchange","open":"0.812","high":"0.845","low":"0.785","change":"-0.00","currencyCode":"USD","timeZone":"CEST","volume":"0","provider":"CNBC Quote Cache","altSymbol":"5767338","curmktstatus":"REG_MKT","realTime":"true","assetType":"BOND","noStreaming":"false","encodedSymbol":"DE10Y-DE"}]
+    */
+    
+    // 米国
+    $html = file_get_contents('http://data.cnbc.com/quotes/US10Y');
+    if (preg_match('/var quoteDataObj = \[{"symbol":"US10Y","symbolType":"symbol","code":0,"name":"U.S. 10 Year Treasury","shortName":"US 10-YR","last":"([\d.]*)",/is', 
+                   $html, 
+                   $matches))
+    {
+      $bonds['us']['yield'] = $matches[1];
+    }
+    
+    // 日本
+    $html = file_get_contents('http://data.cnbc.com/quotes/JP10Y-JP');
+    if (preg_match('/var quoteDataObj = \[{"symbol":"JP10Y-JP","symbolType":"symbol","code":0,"name":"Japan 10 Year Treasury","shortName":"JPN 10-YR","last":"([\d.]*)",/is', 
+                   $html, 
+                   $matches))
+    {
+      $bonds['jp']['yield'] = $matches[1];
+    }
+    
+    // ドイツ
+    $html = file_get_contents('http://data.cnbc.com/quotes/DE10Y-DE');
+    if (preg_match('/var quoteDataObj = \[{"symbol":"DE10Y-DE","symbolType":"symbol","code":0,"name":"Germany 10 Year Bond","shortName":"GER 10-YR","last":"([\d.]*)",/is', 
+                   $html, 
+                   $matches))
+    {
+      $bonds['de']['yield'] = $matches[1];
     }
     
     return $bonds;
