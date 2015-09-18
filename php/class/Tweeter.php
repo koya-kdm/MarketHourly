@@ -197,5 +197,27 @@ class Tweeter
     
     return $tweet;
   }
+  
+  /*---------------------------
+    createTweetOfCommodities
+  -----------------------------*/
+  public function createTweetOfCommodities($commodities)
+  {
+    $tweet = '';
+    
+    
+    $commodities
+    
+    
+    ¶原油40.6（+1.2pt○）¶金40.6（+1.2pt○）10年債■2.67%（+0.12pt）■2.67%（+0.12pt）■2.67%（+0.12pt）
+    
+    
+    foreach ($commodities as $commodity)
+    {
+      $tweet = $tweet . EmojiManager::getFlag($ct) . number_format($bonds[$ct]['yield'], 2) . '%' . ' ';
+    }
+    
+    return $tweet;
+  }
 }
 ?>

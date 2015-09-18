@@ -259,5 +259,40 @@ class Retriever
     
     return $bonds;
   }
+  
+  /*--------------------
+    retrieveCommodities
+  ---------------------*/
+  public function retrieveCommodities()
+  {
+    $commodities = array();
+    
+    /* HTML
+    var quoteDataObj = [{"symbol":"US10Y","symbolType":"symbol","code":0,"name":"U.S. 10 Year Treasury","shortName":"US 10-YR","last":"2.3595","exchange":"U.S.","source":"Exchange","open":"0.00","high":"0.00","low":"0.00","change":"0.00","currencyCode":"USD","timeZone":"EDT","volume":"0","provider":"CNBC Quote Cache","altSymbol":"US10YT\u003dXX","curmktstatus":"REG_MKT","realTime":"true","assetType":"BOND","noStreaming":"false","encodedSymbol":"US10Y"}]
+    var quoteDataObj = [{"symbol":"JP10Y-JP","symbolType":"symbol","code":0,"name":"Japan 10 Year Treasury","shortName":"JPN 10-YR","last":"0.507","exchange":"Japan","source":"Exchange","open":"0.00","high":"0.00","low":"0.00","change":"0.00","currencyCode":"USD","timeZone":"JST","volume":"0","provider":"CNBC Quote Cache","altSymbol":"20380005","curmktstatus":"REG_MKT","realTime":"true","assetType":"BOND","noStreaming":"false","encodedSymbol":"JP10Y-JP"}]
+    var quoteDataObj = [{"symbol":"DE10Y-DE","symbolType":"symbol","code":0,"name":"Germany 10 Year Bond","shortName":"GER 10-YR","last":"0.827","exchange":"Germany","source":"Exchange","open":"0.812","high":"0.845","low":"0.785","change":"-0.00","currencyCode":"USD","timeZone":"CEST","volume":"0","provider":"CNBC Quote Cache","altSymbol":"5767338","curmktstatus":"REG_MKT","realTime":"true","assetType":"BOND","noStreaming":"false","encodedSymbol":"DE10Y-DE"}]
+    
+    
+    var quoteDataObj = [{"symbol":"@CL.1","symbolType":"symbol","code":0,"name":"WTI Crude Oil (Oct\u002715)","shortName":"OIL","last":"44.78","exchange":"New York Mercantile Exchange","source":"","open":"45.71","high":"45.88","low":"44.16","change":"-1.29","currencyCode":"USD","timeZone":"EDT","volume":"355556","provider":"CNBC Quote Cache","altSymbol":"CL/V5","curmktstatus":"REG_MKT","realTime":"false","assetType":"DERIVATIVE","noStreaming":"false","encodedSymbol":"%40CL.1"}]
+    
+    */
+    
+    // WTI Crude Oil
+    $html = file_get_contents('http://data.cnbc.com/quotes/%40CL.1');
+    if (preg_match('/var quoteDataObj = \[{"symbol":"US10Y","symbolType":"symbol","code":0,"name":"U.S. 10 Year Treasury",      "shortName":"US 10-YR","last":"([\d.]*)",/is', 
+    if (preg_match('/var quoteDataObj = \[{"symbol":"@CL.1","symbolType":"symbol","code":0,"name":".*","shortName":"OIL","last":"([\d.]*)","exchange":"New York Mercantile Exchange","source":"","open":"([\d.]*)","high":"([\d.]*)","low":"([\d.]*)","change":"([\d.+-]*)",/is', 
+                   $html, 
+                   $matches))
+    {
+      $commodities['oil']['last'          ] = $matches[1];
+      $commodities['oil']['change'        ] = $matches[5];
+      $commodities['oil']['change_percent'] = intval($matches[5]) / intval($matches[1]) - intval($matches[5]);
+    }
+    
+    
+    // Gold
+    
+    return $commodities;
+  }
 }
 ?>

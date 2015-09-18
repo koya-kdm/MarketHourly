@@ -5,10 +5,11 @@
 class EmojiManager
 {
   // 絵文字グループ
-  const CURRENCY = 'cr';
-  const FACE     = 'fc';
-  const CLOCK    = 'cl';
-  const COUNTRY  = 'ct';
+  const CURRENCY  = 'cr';
+  const FACE      = 'fc';
+  const CLOCK     = 'cl';
+  const COUNTRY   = 'ct';
+  const COMMODITY = 'cm';
 
   // 絵文字辞書
   // http://apps.timwhitlock.info/emoji/tables/unicode
@@ -59,7 +60,12 @@ class EmojiManager
         self::COUNTRY  => array( 'us' => array('unicode1' => '1F1FA', 'unicode2' => '1F1F8'),
                                  'jp' => array('unicode1' => '1F1EF', 'unicode2' => '1F1F5'),
                                  'de' => array('unicode1' => '1F1E9', 'unicode2' => '1F1EA'),
-                                   
+                               ),
+        self::COMMODITY=> array( 'oil' => array('unicode' =>  '26FD'), // FUEL PUMP
+                                 'gld1' => array('unicode' => '1F31F'), // GLOWING STAR
+                                 'gld2' => array('unicode' => '1F536'), // LARGE ORANGE DIAMOND
+                                 'gld' => array('unicode' => '1F538'), // SMALL ORANGE DIAMOND 
+                                 
                                ),
         );
   
@@ -150,6 +156,22 @@ class EmojiManager
   public static function getFlag($country)
   {
     return self::getEmoji(self::COUNTRY, $country);
+  }
+  
+  /*---------------------------
+    getOil
+  -----------------------------*/
+  public static function getOil()
+  {
+    return self::getEmoji(self::COMMODITY, 'oil');
+  }
+  
+  /*---------------------------
+    getGold
+  -----------------------------*/
+  public static function getGold()
+  {
+    return self::getEmoji(self::COMMODITY, 'gld');
   }
 }
 ?>
