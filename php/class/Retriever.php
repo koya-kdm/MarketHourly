@@ -287,13 +287,24 @@ class Retriever
       $quoteData = $this->getQuoteDataArray($matches[1]);
       $commodities['oil']['last'          ] = $quoteData['last'];
       $commodities['oil']['change'        ] = $quoteData['change'];
-      $commodities['oil']['change_percent'] = intval($quoteData['change'])
-                                              / (  intval($quoteData['last'])
-                                                 - intval($quoteData['change']));
+      $commodities['oil']['change_percent'] = floatval($quoteData['change'])
+                                              / (  floatval($quoteData['last'])
+                                                 - floatval($quoteData['change']));
     }
     
-    
     // Gold
+    $html = file_get_contents('http://data.cnbc.com/quotes/%40GC.1');
+    if (preg_match('/var quoteDataObj = \[{(.*)}]/is',
+                   $html,
+                   $matches))
+    {
+      $quoteData = $this->getQuoteDataArray($matches[1]);
+      $commodities['gold']['last'          ] = $quoteData['last'];
+      $commodities['gold']['change'        ] = $quoteData['change'];
+      $commodities['gold']['change_percent'] = floatval($quoteData['change'])
+                                             / (  floatval($quoteData['last'])
+                                                - floatval($quoteData['change']));
+    }
     
     return $commodities;
     

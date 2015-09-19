@@ -209,12 +209,22 @@ class Tweeter
   {
     $tweet = '';
     
-    $oil = $commodities['oil'];
+    $com = $commodities['oil'];
     
-    $tweet = EmojiManager::getOil()
-           . $oil['last']
-           . '(' . $oil['change_percent'] . '%'
-           . EmojiManager::getFaceByChange($oil['change_percent']) . ')'
+    $tweet = $tweet
+           . EmojiManager::getOil()
+           . $com['last']
+           . '(' . $com['change_percent'] . '%'
+           . EmojiManager::getFaceByChange($com['change_percent']) . ')'
+           . ' ';
+    
+    $com = $commodities['gold'];
+    
+    $tweet = $tweet
+           . EmojiManager::getGold()
+           . $com['last']
+           . '(' . $com['change_percent'] . '%'
+           . EmojiManager::getFaceByChange($com['change_percent']) . ')'
            . ' ';
     
     return $tweet;
