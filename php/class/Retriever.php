@@ -260,6 +260,41 @@ class Retriever
     return $bonds;
   }
   
+  public function retrieveBonds2()
+  {
+    $bonds = array();
+    
+    // 米国
+    $html = file_get_contents('http://data.cnbc.com/quotes/US10Y');
+    if (preg_match('/var quoteDataObj = \[{(.*)}]/is',
+                   $html,
+                   $matches))
+    {
+      // $matches[1] "key1":"value1","key2":"value2"
+      // $tmp        "key1":"value1"
+      $strings1 = explode(',', $matches[1]); // numeric array of '"key1":"value1"'
+                                             //                  '"key2":"value2"'
+      
+      foreach ($strings1 as $string1)
+      {
+        $strings2 = explode(':', $string1);  // numeric array of '"key1"'
+                                             //                  '"value1"'
+                                             //                  '"key2"'
+                                             //                  '"value2"'
+        
+        for ($i = 0; $i < count($strings2); $i ++)
+        {
+          $quoteData[str_replace('"', '', $strings2[$i  ])]
+                   = str_replace('"', '', $strings2[$i++]);
+        }
+      }
+      
+      $bonds['us']['yield'] = $quoteData['last'];
+    }
+    
+    return $bonds;
+  }
+  
   /*--------------------
     retrieveCommodities
   ---------------------*/
@@ -278,6 +313,7 @@ class Retriever
     */
     
     // WTI Crude Oil
+    /*
     $html = file_get_contents('http://data.cnbc.com/quotes/%40CL.1');
     if (preg_match('/var quoteDataObj = \[{"symbol":"US10Y","symbolType":"symbol","code":0,"name":"U.S. 10 Year Treasury",      "shortName":"US 10-YR","last":"([\d.]*)",/is', 
     if (preg_match('/var quoteDataObj = \[{"symbol":"@CL.1","symbolType":"symbol","code":0,"name":".*","shortName":"OIL","last":"([\d.]*)","exchange":"New York Mercantile Exchange","source":"","open":"([\d.]*)","high":"([\d.]*)","low":"([\d.]*)","change":"([\d.+-]*)",/is', 
@@ -293,6 +329,7 @@ class Retriever
     // Gold
     
     return $commodities;
+    */
   }
 }
 ?>
