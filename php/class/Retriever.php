@@ -285,7 +285,7 @@ class Retriever
         for ($i = 0; $i < count($strings2); $i ++)
         {
           $quoteData[str_replace('"', '', $strings2[$i  ])]
-                   = str_replace('"', '', $strings2[$i++]);
+                   = str_replace('"', '', $strings2[++$i]);
         }
       }
       
