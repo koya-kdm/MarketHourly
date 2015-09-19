@@ -289,6 +289,8 @@ class Retriever
         }
       }
       
+      print_r($quoteData);
+      
       $bonds['us']['yield'] = $quoteData['last'];
     }
     
