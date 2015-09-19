@@ -203,6 +203,7 @@ class Tweeter
   -----------------------------*/
   public function createTweetOfCommodities($commodities)
   {
+    /*
     $tweet = '';
     
     
@@ -218,6 +219,7 @@ class Tweeter
     }
     
     return $tweet;
+    */
   }
 }
 ?>
