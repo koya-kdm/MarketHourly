@@ -270,28 +270,28 @@ class Retriever
                    $html,
                    $matches))
     {
-      // $matches[1] "key1":"value1","key2":"value2"
-      // $tmp        "key1":"value1"
-      $strings1 = explode(',', $matches[1]); // numeric array of '"key1":"value1"'
-                                             //                  '"key2":"value2"'
-      
-      foreach ($strings1 as $string1)
-      {
-        $strings2 = explode(':', $string1);  // numeric array of '"key1"'
-                                             //                  '"value1"'
-                                             //                  '"key2"'
-                                             //                  '"value2"'
-        
-        for ($i = 0; $i < count($strings2); $i ++)
-        {
-          $quoteData[str_replace('"', '', $strings2[$i  ])]
-                   = str_replace('"', '', $strings2[++$i]);
-        }
-      }
-      
-      print_r($quoteData);
-      
+      $quoteData = $this->getQuoteDataArray($matches[1]);
       $bonds['us']['yield'] = $quoteData['last'];
+    }
+    
+    // 日本
+    $html = file_get_contents('http://data.cnbc.com/quotes/JP10Y-JP');
+    if (preg_match('/var quoteDataObj = \[{(.*)}]/is',
+                   $html,
+                   $matches))
+    {
+      $quoteData = $this->getQuoteDataArray($matches[1]);
+      $bonds['jp']['yield'] = $quoteData['last'];
+    }
+    
+    // ドイツ
+    $html = file_get_contents('http://data.cnbc.com/quotes/DE10Y-DE');
+    if (preg_match('/var quoteDataObj = \[{(.*)}]/is',
+                   $html,
+                   $matches))
+    {
+      $quoteData = $this->getQuoteDataArray($matches[1]);
+      $bonds['de']['yield'] = $quoteData['last'];
     }
     
     return $bonds;
@@ -332,6 +332,30 @@ class Retriever
     
     return $commodities;
     */
+  }
+  
+  private function getQuoteDataArray($string)
+  {
+    $quoteData = array();
+    
+    $strings1 = explode(',', $string); // numeric array of '"key1":"value1"'
+                                       //                  '"key2":"value2"'
+    
+    foreach ($strings1 as $string1)
+    {
+      $strings2 = explode(':', $string1);  // numeric array of '"key1"'
+                                           //                  '"value1"'
+                                           //                  '"key2"'
+                                           //                  '"value2"'
+      
+      for ($i = 0; $i < count($strings2); $i ++)
+      {
+        $quoteData[str_replace('"', '', $strings2[$i  ])]
+        = str_replace('"', '', $strings2[++$i]);
+      }
+    }
+    
+    return $quoteData;
   }
 }
 ?>
