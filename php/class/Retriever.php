@@ -289,7 +289,8 @@ class Retriever
       $commodities['oil']['change'        ] = $quoteData['change'];
       $commodities['oil']['change_percent'] = floatval($quoteData['change'])
                                               / (  floatval($quoteData['last'])
-                                                 - floatval($quoteData['change']));
+                                                 - floatval($quoteData['change']))
+                                              * 100;
     }
     
     // Gold
@@ -303,7 +304,8 @@ class Retriever
       $commodities['gold']['change'        ] = $quoteData['change'];
       $commodities['gold']['change_percent'] = floatval($quoteData['change'])
                                              / (  floatval($quoteData['last'])
-                                                - floatval($quoteData['change']));
+                                                - floatval($quoteData['change']))
+                                             * 100;
     }
     
     return $commodities;

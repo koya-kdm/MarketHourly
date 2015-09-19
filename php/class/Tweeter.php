@@ -214,7 +214,7 @@ class Tweeter
     $tweet = $tweet
            . EmojiManager::getOil()
            . $com['last']
-           . '(' . $com['change_percent'] . '%'
+           . '(' . number_format($com['change_percent'], 2) . '%'
            . EmojiManager::getFaceByChange($com['change_percent']) . ')'
            . ' ';
     
@@ -223,7 +223,7 @@ class Tweeter
     $tweet = $tweet
            . EmojiManager::getGold()
            . $com['last']
-           . '(' . $com['change_percent'] . '%'
+           . '(' . number_format($com['change_percent'], 2) . '%'
            . EmojiManager::getFaceByChange($com['change_percent']) . ')'
            . ' ';
     
