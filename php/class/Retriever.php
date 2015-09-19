@@ -220,7 +220,7 @@ class Retriever
   /*--------------------
     retrieveBonds
   ---------------------*/
-  public function retrieveBonds()
+  public function retrieveBonds2()
   {
     $bonds = array();
     
@@ -260,7 +260,7 @@ class Retriever
     return $bonds;
   }
   
-  public function retrieveBonds2()
+  public function retrieveBonds()
   {
     $bonds = array();
     
