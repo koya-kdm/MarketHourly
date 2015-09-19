@@ -213,8 +213,9 @@ class Tweeter
     
     $tweet = EmojiManager::getOil()
            . $oil['last']
-           . '(' . $oil['change'] . 'pt'
-           . EmojiManager::getFaceByChange($oil['change_percent']) . ')';
+           . '(' . $oil['change_percent'] . '%'
+           . EmojiManager::getFaceByChange($oil['change_percent']) . ')'
+           . ' ';
     
     return $tweet;
     
