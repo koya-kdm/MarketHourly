@@ -278,23 +278,25 @@ class Retriever
     */
     
     // WTI Crude Oil
-    /*
+    
     $html = file_get_contents('http://data.cnbc.com/quotes/%40CL.1');
-    if (preg_match('/var quoteDataObj = \[{"symbol":"US10Y","symbolType":"symbol","code":0,"name":"U.S. 10 Year Treasury",      "shortName":"US 10-YR","last":"([\d.]*)",/is', 
-    if (preg_match('/var quoteDataObj = \[{"symbol":"@CL.1","symbolType":"symbol","code":0,"name":".*","shortName":"OIL","last":"([\d.]*)","exchange":"New York Mercantile Exchange","source":"","open":"([\d.]*)","high":"([\d.]*)","low":"([\d.]*)","change":"([\d.+-]*)",/is', 
-                   $html, 
+    if (preg_match('/var quoteDataObj = \[{(.*)}]/is',
+                   $html,
                    $matches))
     {
-      $commodities['oil']['last'          ] = $matches[1];
-      $commodities['oil']['change'        ] = $matches[5];
-      $commodities['oil']['change_percent'] = intval($matches[5]) / intval($matches[1]) - intval($matches[5]);
+      $quoteData = $this->getQuoteDataArray($matches[1]);
+      $commodities['oil']['last'          ] = $quoteData['last'];
+      $commodities['oil']['change'        ] = $quoteData['change'];
+      $commodities['oil']['change_percent'] = intval($quoteData['change'])
+                                              / (  intval($quoteData['last'])
+                                                 - intval($quoteData['change']));
     }
     
     
     // Gold
     
     return $commodities;
-    */
+    
   }
   
   private function getQuoteDataArray($string)
