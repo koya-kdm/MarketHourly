@@ -208,14 +208,12 @@ class Retriever
   {
     $cnbcAsset = array();
     
-    $html = file_get_contents('http://data.cnbc.com/quotes/') . $quoteUrl;
+    $html = file_get_contents('http://data.cnbc.com/quotes/' . $quoteUrl;)
     if (preg_match('/var quoteDataObj = \[{(.*)}]/is',
                    $html,
                    $matches))
     {
       $quoteData = $this->getQuoteDataArray($matches[1]);
-      
-      print_r($quoteData);
       
       $cnbcAsset['last'          ] = $quoteData['last'];
       $cnbcAsset['change'        ] = $quoteData['change'];
