@@ -178,8 +178,6 @@ class Retriever
     // ドイツ
     $bonds['de'] = $this->retrieveStockPriceFromCnbc('DE10Y-DE');
     
-    print_r($bonds);
-    
     return $bonds;
   }
   
@@ -195,8 +193,6 @@ class Retriever
     
     // Gold
     $commodities['gold'] = $this->retrieveStockPriceFromCnbc('%40GC.1');
-    
-    print_r($commodities);
     
     return $commodities;
   }
@@ -246,7 +242,7 @@ class Retriever
       for ($i = 0; $i < count($strings2); $i ++)
       {
         $quoteData[str_replace('"', '', $strings2[$i  ])]
-        = str_replace('"', '', $strings2[++$i]);
+                 = str_replace('"', '', $strings2[++$i]);
       }
     }
     
