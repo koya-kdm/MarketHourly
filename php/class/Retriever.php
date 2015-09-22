@@ -178,6 +178,8 @@ class Retriever
     // ドイツ
     $bonds['de'] = $this->retrieveStockPriceFromCnbc('DE10Y-DE');
     
+    print_r($bonds);
+    
     return $bonds;
   }
   
