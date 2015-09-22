@@ -246,6 +246,8 @@ class Retriever
       }
     }
     
+    print_r($quoteData);
+    
     return $quoteData;
   }
 }
