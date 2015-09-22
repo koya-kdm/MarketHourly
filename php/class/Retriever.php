@@ -213,9 +213,9 @@ class Retriever
       $cnbcAsset['last'          ] = $quoteData['last'];
       $cnbcAsset['change'        ] = $quoteData['change'];
       $cnbcAsset['change_percent'] = floatval($quoteData['change'])
-      / (  floatval($quoteData['last'])
-         - floatval($quoteData['change']))
-      * 100;
+                                   / (  floatval($quoteData['last'])
+                                      - floatval($quoteData['change']))
+                                   * 100;
     }
     
     return $cnbcAsset;
