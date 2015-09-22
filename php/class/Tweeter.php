@@ -215,16 +215,18 @@ class Tweeter
            . EmojiManager::getOil()
            . $com['last']
            . '(' . number_format($com['change_percent'], 2) . '%'
-           . EmojiManager::getFaceByChange($com['change_percent']) . ')'
+    /*     . EmojiManager::getFaceByChange($com['change_percent']) */
+           . ')'
            . ' ';
-    
+           
     $com = $commodities['gold'];
     
     $tweet = $tweet
            . EmojiManager::getGold()
            . $com['last']
            . '(' . number_format($com['change_percent'], 2) . '%'
-           . EmojiManager::getFaceByChange($com['change_percent']) . ')'
+    /*     . EmojiManager::getFaceByChange($com['change_percent']) */
+           . ')'
            . ' ';
     
     return $tweet;
