@@ -194,6 +194,8 @@ class Retriever
     // Gold
     $commodities['gold'] = $this->retrieveStockPriceFromCnbc('%40GC.1');
     
+    print_r($commodities);
+    
     return $commodities;
   }
   
