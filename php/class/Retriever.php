@@ -208,7 +208,7 @@ class Retriever
   {
     $cnbcAsset = array();
     
-    $html = file_get_contents('http://data.cnbc.com/quotes/' . $quoteUrl;)
+    $html = file_get_contents('http://data.cnbc.com/quotes/' . $quoteUrl);
     if (preg_match('/var quoteDataObj = \[{(.*)}]/is',
                    $html,
                    $matches))
