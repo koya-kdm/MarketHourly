@@ -214,6 +214,9 @@ class Retriever
                    $matches))
     {
       $quoteData = $this->getQuoteDataArray($matches[1]);
+      
+      print_r($quoteData);
+      
       $cnbcAsset['last'          ] = $quoteData['last'];
       $cnbcAsset['change'        ] = $quoteData['change'];
       $cnbcAsset['change_percent'] = floatval($quoteData['change'])
