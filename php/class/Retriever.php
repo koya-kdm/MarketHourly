@@ -169,14 +169,14 @@ class Retriever
     $bonds = array();
     
     // 米国
-    $bonds['us'] = retrieveStockPriceFromCnbc('US10Y');
+    $bonds['us'] = $this->retrieveStockPriceFromCnbc('US10Y');
     
     
     // 日本
-    $bonds['jp'] = retrieveStockPriceFromCnbc('JP10Y-JP');
+    $bonds['jp'] = $this->retrieveStockPriceFromCnbc('JP10Y-JP');
     
     // ドイツ
-    $bonds['de'] = retrieveStockPriceFromCnbc('DE10Y-DE');
+    $bonds['de'] = $this->retrieveStockPriceFromCnbc('DE10Y-DE');
     
     return $bonds;
   }
