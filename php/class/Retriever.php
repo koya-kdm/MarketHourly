@@ -239,14 +239,22 @@ class Retriever
                                            //                  '"key2"'
                                            //                  '"value2"'
       
-      for ($i = 0; $i < count($strings2); $i ++)
+      for ($i = 0; $i < count($strings2); $i++)
       {
-        $quoteData[str_replace('"', '', $strings2[$i  ])]
-                 = str_replace('"', '', $strings2[++$i]);
+        if (isset($strings2[$i]))
+        {
+          if (isset($strings2[$i+1]))
+          {
+            $quoteData[str_replace('"', '', $strings2[$i])] = str_replace('"', '', $strings2[$i+1]);
+          }
+          else
+          {
+            $quoteData[str_replace('"', '', $strings2[$i])] = '';
+          }
+        }
+        $i++;
       }
     }
-    
-    print_r($quoteData);
     
     return $quoteData;
   }
