@@ -161,62 +161,6 @@ class Retriever
     return;
   }
   
-  
-  /*--------------------
-    retrieveBondsFromBloomberg
-  ---------------------*/
-  public function retrieveBondsFromBloomberg()
-  {
-    $bonds = array();
-    
-    $html = file_get_contents('http://www.bloomberg.com/markets/rates-bonds');
-    
-    /* HTML
-      
-         {"name":"US TREASURY N/B","longName":"United States","country":"US","coupon":2.125,"price":97.65625,"yield":2.3918054,"yieldChange1Day":0.0145931,"yieldChange1Month":11.02853,"lastUpdateTime":"2015-06-12","id":"CT10:GOV"}
-      {"name":"BUNDESREPUB. DEUTSCHLAND","longName":"Germany","country":"DE","coupon":0.5,"price":96.915,"yield":0.8322577,"yieldChange1Day":-0.04895945,"yieldChange1Month":11.05648483,"lastUpdateTime":"2015-06-12","id":"CTDEM10Y:GOV"}
-             {"name":"JAPAN (10 YR ISSUE)","longName":"Japan","country":"JP","coupon":0.4,"price":98.963,"yield":0.5,"yieldChange1Day":-0.02499998,"lastUpdateTime":"2015-06-12","id":"CTJPY10Y:GOV"}
-    */
-    
-    // 米国
-    //if (preg_match('/{"name":"US TREASURY N\/B","longName":"United States","country":"US","coupon":([\d.+-]*),"price":([\d.+-]*),"yield":([\d.+-]*),"yieldChange1Day":([\d.+-]*),"yieldChange1Month":([\d.+-]*),"lastUpdateTime":"([\d-]*)","id":"CT10:GOV"}/is', $html, $matches))
-    if (preg_match('/{"name":"US TREASURY N\/B","longName":"United States","country":"US","coupon":([\d.+-]*),"price":([\d.+-]*),"yield":([\d.+-]*),"yieldChange1Day":([\d.+-]*),"yieldChange1Month":([\d.+-]*),/is', $html, $matches))
-    {
-      $bonds['us'] = array('coupon'          => $matches[1],
-                           'price'           => $matches[2],
-                           'yield'           => $matches[3],
-                           'yieldChange1Day' => $matches[4],
-                           'lastUpdateTime'  => $matches[5],
-                          );
-    }
-    
-    // 日本
-    //if (preg_match('/{"name":"JAPAN \(10 YR ISSUE\)","longName":"Japan","country":"JP","coupon":([\d.+-]*),"price":([\d.+-]*),"yield":([\d.+-]*),"yieldChange1Day":([\d.+-]*),"lastUpdateTime":"([\d-]*)","id":"CTJPY10Y:GOV"}/is', $html, $matches))
-    if (preg_match('/{"name":"JAPAN \(10 YR ISSUE\)","longName":"Japan","country":"JP","coupon":([\d.+-]*),"price":([\d.+-]*),"yield":([\d.+-]*),"yieldChange1Day":([\d.+-]*),/is', $html, $matches))
-    {
-      $bonds['jp'] = array('coupon'          => $matches[1],
-                           'price'           => $matches[2],
-                           'yield'           => $matches[3],
-                           'yieldChange1Day' => $matches[4],
-                           'lastUpdateTime'  => $matches[5],
-                          );
-    } 
-    
-    // ドイツ
-    //if (preg_match('/{"name":"BUNDESREPUB\. DEUTSCHLAND","longName":"Germany","country":"DE","coupon":([\d.+-]*),"price":([\d.+-]*),"yield":([\d.+-]*),"yieldChange1Day":([\d.+-]*),"yieldChange1Month":([\d.+-]*),"lastUpdateTime":"([\d-]*)","id":"CTDEM10Y:GOV"}/is', $html, $matches))
-    if (preg_match('/{"name":"BUNDESREPUB\. DEUTSCHLAND","longName":"Germany","country":"DE","coupon":([\d.+-]*),"price":([\d.+-]*),"yield":([\d.+-]*),"yieldChange1Day":([\d.+-]*),"yieldChange1Month":([\d.+-]*),/is', $html, $matches))
-    {
-      $bonds['de'] = array('coupon'          => $matches[1],
-                           'price'           => $matches[2],
-                           'yield'           => $matches[3],
-                           'yieldChange1Day' => $matches[4],
-                           'lastUpdateTime'  => $matches[5],
-                          );
-    }
-    
-    return $bonds;
-  }
-  
   /*--------------------
     retrieveBonds
   ---------------------*/
@@ -225,37 +169,14 @@ class Retriever
     $bonds = array();
     
     // 米国
-    $html = file_get_contents('http://data.cnbc.com/quotes/US10Y');
-    if (preg_match('/var quoteDataObj = \[{(.*)}]/is',
-                   $html,
-                   $matches))
-    {
-      $quoteData = $this->getQuoteDataArray($matches[1]);
-      $bonds['us']['yield' ] = $quoteData['last'];
-      $bonds['us']['change'] = $quoteData['change'];
-    }
+    $bonds['us'] = retrieveStockPriceFromCnbc('US10Y');
+    
     
     // 日本
-    $html = file_get_contents('http://data.cnbc.com/quotes/JP10Y-JP');
-    if (preg_match('/var quoteDataObj = \[{(.*)}]/is',
-                   $html,
-                   $matches))
-    {
-      $quoteData = $this->getQuoteDataArray($matches[1]);
-      $bonds['jp']['yield' ] = $quoteData['last'];
-      $bonds['jp']['change'] = $quoteData['change'];
-    }
+    $bonds['jp'] = retrieveStockPriceFromCnbc('JP10Y-JP');
     
     // ドイツ
-    $html = file_get_contents('http://data.cnbc.com/quotes/DE10Y-DE');
-    if (preg_match('/var quoteDataObj = \[{(.*)}]/is',
-                   $html,
-                   $matches))
-    {
-      $quoteData = $this->getQuoteDataArray($matches[1]);
-      $bonds['de']['yield' ] = $quoteData['last'];
-      $bonds['de']['change'] = $quoteData['change'];
-    }
+    $bonds['de'] = retrieveStockPriceFromCnbc('DE10Y-DE');
     
     return $bonds;
   }
@@ -267,51 +188,42 @@ class Retriever
   {
     $commodities = array();
     
-    /* HTML
-    var quoteDataObj = [{"symbol":"US10Y","symbolType":"symbol","code":0,"name":"U.S. 10 Year Treasury","shortName":"US 10-YR","last":"2.3595","exchange":"U.S.","source":"Exchange","open":"0.00","high":"0.00","low":"0.00","change":"0.00","currencyCode":"USD","timeZone":"EDT","volume":"0","provider":"CNBC Quote Cache","altSymbol":"US10YT\u003dXX","curmktstatus":"REG_MKT","realTime":"true","assetType":"BOND","noStreaming":"false","encodedSymbol":"US10Y"}]
-    var quoteDataObj = [{"symbol":"JP10Y-JP","symbolType":"symbol","code":0,"name":"Japan 10 Year Treasury","shortName":"JPN 10-YR","last":"0.507","exchange":"Japan","source":"Exchange","open":"0.00","high":"0.00","low":"0.00","change":"0.00","currencyCode":"USD","timeZone":"JST","volume":"0","provider":"CNBC Quote Cache","altSymbol":"20380005","curmktstatus":"REG_MKT","realTime":"true","assetType":"BOND","noStreaming":"false","encodedSymbol":"JP10Y-JP"}]
-    var quoteDataObj = [{"symbol":"DE10Y-DE","symbolType":"symbol","code":0,"name":"Germany 10 Year Bond","shortName":"GER 10-YR","last":"0.827","exchange":"Germany","source":"Exchange","open":"0.812","high":"0.845","low":"0.785","change":"-0.00","currencyCode":"USD","timeZone":"CEST","volume":"0","provider":"CNBC Quote Cache","altSymbol":"5767338","curmktstatus":"REG_MKT","realTime":"true","assetType":"BOND","noStreaming":"false","encodedSymbol":"DE10Y-DE"}]
-    
-    
-    var quoteDataObj = [{"symbol":"@CL.1","symbolType":"symbol","code":0,"name":"WTI Crude Oil (Oct\u002715)","shortName":"OIL","last":"44.78","exchange":"New York Mercantile Exchange","source":"","open":"45.71","high":"45.88","low":"44.16","change":"-1.29","currencyCode":"USD","timeZone":"EDT","volume":"355556","provider":"CNBC Quote Cache","altSymbol":"CL/V5","curmktstatus":"REG_MKT","realTime":"false","assetType":"DERIVATIVE","noStreaming":"false","encodedSymbol":"%40CL.1"}]
-    
-    */
-    
     // WTI Crude Oil
-    
-    $html = file_get_contents('http://data.cnbc.com/quotes/%40CL.1');
-    if (preg_match('/var quoteDataObj = \[{(.*)}]/is',
-                   $html,
-                   $matches))
-    {
-      $quoteData = $this->getQuoteDataArray($matches[1]);
-      $commodities['oil']['last'          ] = $quoteData['last'];
-      $commodities['oil']['change'        ] = $quoteData['change'];
-      $commodities['oil']['change_percent'] = floatval($quoteData['change'])
-                                              / (  floatval($quoteData['last'])
-                                                 - floatval($quoteData['change']))
-                                              * 100;
-    }
+    $commodities['oil' ] = $this->retrieveStockPriceFromCnbc('%40CL.1');
     
     // Gold
-    $html = file_get_contents('http://data.cnbc.com/quotes/%40GC.1');
+    $commodities['gold'] = $this->retrieveStockPriceFromCnbc('%40GC.1');
+    
+    return $commodities;
+  }
+  
+  /*---------------------------
+   retrieveStockPriceFromCnbc
+  -----------------------------*/
+  private function retrieveStockPriceFromCnbc($quoteUrl)
+  {
+    $cnbcAsset = array();
+    
+    $html = file_get_contents('http://data.cnbc.com/quotes/') . $quoteUrl;
     if (preg_match('/var quoteDataObj = \[{(.*)}]/is',
                    $html,
                    $matches))
     {
       $quoteData = $this->getQuoteDataArray($matches[1]);
-      $commodities['gold']['last'          ] = $quoteData['last'];
-      $commodities['gold']['change'        ] = $quoteData['change'];
-      $commodities['gold']['change_percent'] = floatval($quoteData['change'])
-                                             / (  floatval($quoteData['last'])
-                                                - floatval($quoteData['change']))
-                                             * 100;
+      $cnbcAsset['last'          ] = $quoteData['last'];
+      $cnbcAsset['change'        ] = $quoteData['change'];
+      $cnbcAsset['change_percent'] = floatval($quoteData['change'])
+      / (  floatval($quoteData['last'])
+         - floatval($quoteData['change']))
+      * 100;
     }
     
-    return $commodities;
-    
+    return $cnbcAsset;
   }
   
+  /*---------------------------
+   getQuoteDataArray
+  -----------------------------*/
   private function getQuoteDataArray($string)
   {
     $quoteData = array();

@@ -194,7 +194,7 @@ class Tweeter
     {
       $tweet = $tweet
              . EmojiManager::getFlag($ct)
-             .       number_format($bonds[$ct]['yield' ], 2) . '%'
+             .       number_format($bonds[$ct]['last'  ], 2) . '%'
              . '(' . number_format($bonds[$ct]['change'], 2) . '%pt' . ')'
              . ' ';
     }
