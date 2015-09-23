@@ -27,8 +27,13 @@ $tweeter   = new Tweeter();   // ツイート投稿クラス
 
 // アセット定義
 $assetsByMarket
-  = array(MarketManager::FX => array(0 => new Asset(EmojiManager::getDoller(),  'USDJPY=X', '円', 2, MarketManager::FX, false, $retriever::SRC_YAHOO ),
+  = array(/*
+          MarketManager::FX => array(0 => new Asset(EmojiManager::getDoller(),  'USDJPY=X', '円', 2, MarketManager::FX, false, $retriever::SRC_YAHOO ),
                                      1 => new Asset(EmojiManager::getEuro(),    'EURJPY=X', '円', 2, MarketManager::FX, false, $retriever::SRC_YAHOO ),),
+          */
+          MarketManager::FX => array(0 => new Asset(EmojiManager::getDoller(),   '8460793', '円', 2, MarketManager::FX, false, $retriever::SRC_GOOGLE ),
+                                     1 => new Asset(EmojiManager::getEuro(),    '10222480', '円', 2, MarketManager::FX, false, $retriever::SRC_GOOGLE ),),
+          
           MarketManager::JP => array(0 => new Asset('日経',                        '^N225', '円', 0, MarketManager::JP,  true, $retriever::SRC_NIKKEI),),
           MarketManager::HK => array(0 => new Asset('香港',                     '13414271', 'pt', 0, MarketManager::HK,  true, $retriever::SRC_GOOGLE),),
           MarketManager::SH => array(0 => new Asset('上海',                      '7521596', 'pt', 0, MarketManager::SH,  true, $retriever::SRC_GOOGLE),),
@@ -37,7 +42,7 @@ $assetsByMarket
           MarketManager::US => array(0 => new Asset('ダウ',                       '983582', 'pt', 0, MarketManager::US,  true, $retriever::SRC_GOOGLE),
                                      1 => new Asset('ナス',                     '13756934', 'pt', 0, MarketManager::US,  true, $retriever::SRC_GOOGLE),),
          );
-
+content="https://www.google.com/finance?cid=CURRENCY:USDJPY" />
 // アセット再定義（コマンドライン引数がある場合）
 // * 引数がない場合は全マーケットのアセットをつぶやくが、
 // 　引数でマーケット指定がある場合は、そのマーケットのアセットのみをつぶやく。
