@@ -42,7 +42,7 @@ $assetsByMarket
           MarketManager::US => array(0 => new Asset('ダウ',                       '983582', 'pt', 0, MarketManager::US,  true, $retriever::SRC_GOOGLE),
                                      1 => new Asset('ナス',                     '13756934', 'pt', 0, MarketManager::US,  true, $retriever::SRC_GOOGLE),),
          );
-content="https://www.google.com/finance?cid=CURRENCY:USDJPY" />
+
 // アセット再定義（コマンドライン引数がある場合）
 // * 引数がない場合は全マーケットのアセットをつぶやくが、
 // 　引数でマーケット指定がある場合は、そのマーケットのアセットのみをつぶやく。
