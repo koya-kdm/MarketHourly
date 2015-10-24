@@ -110,16 +110,17 @@ class Retriever
     {
       $shareBox = $matches[0];
       
-      // 前日比（％）
+      // 株価
       if (preg_match('/<meta itemprop="price".*?content="([\d,.]*)".*?\/>/is', $shareBox, $matches))
       {
         $asset->setPrice(str_replace(',', '', $matches[1]));
       }
       
-      // 前日比（％）
-      if (preg_match('/<meta itemprop="priceChangePercent".*?content="([\d.-]*)".*?\/>/is', $shareBox, $matches))
+      // 前日比
+      if (preg_match('/<meta itemprop="priceChange".*?content="([\d.+-]*)".*?\/>.*?<meta itemprop="priceChangePercent".*?content="([\d.-]*)".*?\/>/is', $shareBox, $matches))
       {
-        $asset->setChange('+' . $matches[1] . '%');
+        $asset->setChangeByPoint($matches[1]);
+        $asset->setChange('+' . $matches[2] . '%');
         $asset->setChange(str_replace('+-', '-', $asset->getChange()));
       }
     }

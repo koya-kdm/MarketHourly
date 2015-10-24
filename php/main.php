@@ -57,7 +57,8 @@ if ($argc > 1)
     {
       $redefined[$argv[$i]] = $assetsByMarket[$argv[$i]];
       
-      if ($argv[$i] == MarketManager::JP)
+      if ($argv[$i] == MarketManager::JP or
+          $argv[$i] == MarketManager::US    )
       {
         for ($j = 0; $j < count($redefined[$argv[$i]]); $j++)
         $redefined[$argv[$i]][$j]->setDisplaysChangeByPoint(true);
