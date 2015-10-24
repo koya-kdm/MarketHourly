@@ -134,18 +134,6 @@ class Retriever
   {
     $html = file_get_contents(self::URL_NIKKEI);
     
-    /* HTML
-    <td class="cmn-index_value">
-      <!--daily_changing--><b>19,653.27</b>
-    </td>
-    <tr>
-      <!--daily_changing-->
-      <td colspan="2" class="cmn-index_up">
-        <!--daily_changing--><b>+274.08 (+1.41%)</b>
-      </td>
-    </tr>
-    */
-    
     // 現在値
     if (preg_match('/<div class="index-close col-sm-6 col-sm-push-3 col-sm-pull-3">.*?<!--daily_changing-->([\d,.+-]*)/is', $html, $matches))
     {
@@ -153,7 +141,7 @@ class Retriever
     }
     
     // 前日比
-    if (preg_match('/<div class="index-rate col-sm-7 col-sm-push-3 col-sm-pull-3">.*?<!--daily_changing-->([\d,.+-]*) \(([\d.+-]*)%\)/is', $html, $matches))
+    if (preg_match('/<div class="index-rate col-sm-7 col-sm-push-3 col-sm-pull-3">.*?<!--daily_changing-->([\d,.+-]*) \(([\d.+-%]*)%\)/is', $html, $matches))
     {
       $asset->setChangeByPoint($matches[1]);
       $asset->setChange       ($matches[2]);
