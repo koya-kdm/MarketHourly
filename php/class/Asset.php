@@ -13,7 +13,7 @@ class Asset
   private $source;
   private $price;
   private $change;
-  private $changeByPoint
+  private $changeByPoint;
   
   /*---------------------------
     __construct
