@@ -147,7 +147,7 @@ class Tweeter
         
         if ($change == 0)
         {
-          if ($asset->getDisplaysChange())
+          if ($asset->getDisplaysChangeByPoint())
           {
             $changeByPoint = '0 / ';
           }
@@ -162,7 +162,7 @@ class Tweeter
         {
           $changeIcon = EmojiManager::getFaceByChange($change);
           
-          if ($asset->getDisplaysChange())
+          if ($asset->getDisplaysChangeByPoint())
           {
             $changeByPoint = $asset->getChangeByPoint() . ' / ';
           }
