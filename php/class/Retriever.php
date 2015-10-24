@@ -141,7 +141,7 @@ class Retriever
     }
     
     // 前日比
-    if (preg_match('/<div class="index-rate col-sm-7 col-sm-push-3 col-sm-pull-3">.*?<!--daily_changing-->([\d,.+-]*) \(([\d.+-%]*)%\)/is', $html, $matches))
+    if (preg_match('/<div class="index-rate col-sm-7 col-sm-push-3 col-sm-pull-3">.*?<!--daily_changing-->([\d,.+-]*) \(([\d.+-%]*)\)/is', $html, $matches))
     {
       $asset->setChangeByPoint($matches[1]);
       $asset->setChange       ($matches[2]);
