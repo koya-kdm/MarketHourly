@@ -10,6 +10,7 @@ class Asset
   private $decimals;
   private $market;
   private $displaysChange;
+  private $displaysChangeByPoint = false;
   private $source;
   private $price;
   private $change;
@@ -47,6 +48,7 @@ class Asset
   public function getDecimals      () { return $this->decimals;      }
   public function getMarket        () { return $this->market;        }
   public function getDisplaysChange() { return $this->displaysChange;}
+  public function getDisplaysChangeByPoint() { return $this->displaysChangeByPoint;}
   public function getSource        () { return $this->source;        }
   public function getPrice         () { return $this->price;         }
   public function getChange        () { return $this->change;        }
@@ -58,6 +60,7 @@ class Asset
   public function setDecimals      ($var) { $this->decimals       = $var; return; }
   public function setMarket        ($var) { $this->market         = $var; return; }
   public function setDisplaysChange($var) { $this->displaysChange = $var; return; }
+  public function setDisplaysChangeByPoint($var) { $this->displaysChangeByPoint = $var; return; }
   public function setSource        ($var) { $this->source         = $var; return; }
   public function setPrice         ($var) { $this->price          = $var; return; }
   public function setChange        ($var) { $this->change         = $var; return; }

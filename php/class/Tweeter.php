@@ -147,15 +147,33 @@ class Tweeter
         
         if ($change == 0)
         {
-          $piece = $piece
-                 . ' (0%)';
+          if ($asset->getDisplaysChange())
+          {
+            $changeByPoint = '0 / ';
+          }
+          else
+          {
+            $changeByPoint = '';
+          }
+          
+          $piece = $piece . ' (' . $changeByPoint . '0%)';
         }
         else
         {
           $changeIcon = EmojiManager::getFaceByChange($change);
           
+          if ($asset->getDisplaysChange())
+          {
+            $changeByPoint = $asset->getChangeByPoint() . ' / ';
+          }
+          else
+          {
+            $changeByPoint = '';
+          }
+          
           $piece = $piece
                  . ' (' 
+                 . $changeByPoint
                  . str_replace(array('+', '-'), array(self::SIGN_PLUS, self::SIGN_MINUS), $asset->getChange()) 
                  . $changeIcon 
                  . ')';

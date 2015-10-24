@@ -56,6 +56,12 @@ if ($argc > 1)
     if (MarketManager::isValid($argv[$i]))
     {
       $redefined[$argv[$i]] = $assetsByMarket[$argv[$i]];
+      
+      if ($argv[$i] == MarketManager::JP)
+      {
+        $redefined[$argv[$i]]->setDisplaysChangeByPoint(true);
+      }
+      
     }
   }
   
