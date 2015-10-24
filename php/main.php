@@ -59,7 +59,8 @@ if ($argc > 1)
       
       if ($argv[$i] == MarketManager::JP)
       {
-        $redefined[$argv[$i]]->setDisplaysChangeByPoint(true);
+        for ($j = 0; $j < count($redefined[$argv[$i]]); $j++)
+        $redefined[$argv[$i]][$j]->setDisplaysChangeByPoint(true);
       }
       
     }
