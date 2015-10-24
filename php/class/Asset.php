@@ -13,6 +13,7 @@ class Asset
   private $source;
   private $price;
   private $change;
+  private $changeByPoint
   
   /*---------------------------
     __construct
@@ -49,6 +50,7 @@ class Asset
   public function getSource        () { return $this->source;        }
   public function getPrice         () { return $this->price;         }
   public function getChange        () { return $this->change;        }
+  public function getChangeByPoint () { return $this->changeByPoint; }
 
   public function setTitle         ($var) { $this->title          = $var; return; }
   public function setTicker        ($var) { $this->ticker         = $var; return; }
@@ -59,6 +61,7 @@ class Asset
   public function setSource        ($var) { $this->source         = $var; return; }
   public function setPrice         ($var) { $this->price          = $var; return; }
   public function setChange        ($var) { $this->change         = $var; return; }
+  public function setChangeByPoint ($var) { $this->changeByPoint  = $var; return; }
   
 }
 ?>

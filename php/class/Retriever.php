@@ -147,15 +147,16 @@ class Retriever
     */
     
     // 現在値
-    if (preg_match('/cmn-index_value.*<b>([\d,.]*)<\/b>/is', $html, $matches))
+    if (preg_match('/<div class="index-close col-sm-6 col-sm-push-3 col-sm-pull-3">.*?<!--daily_changing-->([\d,.+-]*)/is', $html, $matches))
     {
       $asset->setPrice(str_replace(',', '', $matches[1]));
     }
     
     // 前日比
-    if (preg_match('/cmn-index_[up|down].*<b>.*\(([\d.+-]*%)\)<\/b>/is', $html, $matches))
+    if (preg_match('/<div class="index-rate col-sm-7 col-sm-push-3 col-sm-pull-3">.*?<!--daily_changing-->([\d,.+-]*) \(([\d.+-]*)%\)/is', $html, $matches))
     {
-      $asset->setChange($matches[1]);
+      $asset->setChangeByPoint($matches[1]);
+      $asset->setChange       ($matches[2]);
     }
     
     return;
