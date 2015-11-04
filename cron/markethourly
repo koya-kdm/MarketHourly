@@ -8,6 +8,8 @@
 35    23 * * 1-5 root /usr/bin/php /home/ec2-user/markethourly/php/main.php us
 
 # Bonds
-30   10,19,23 * *   1 root /usr/bin/php /home/ec2-user/markethourly/php/commodity_and_bond.php
-30 6,10,19,23 * * 2-5 root /usr/bin/php /home/ec2-user/markethourly/php/commodity_and_bond.php
-00 6,         * *   6 root /usr/bin/php /home/ec2-user/markethourly/php/commodity_and_bond.php
+30   10,19 * *   1 root /usr/bin/php /home/ec2-user/markethourly/php/commodity_and_bond.php
+30 6,10,19 * * 2-5 root /usr/bin/php /home/ec2-user/markethourly/php/commodity_and_bond.php
+55      23 * *   1 root /usr/bin/php /home/ec2-user/markethourly/php/commodity_and_bond.php
+55      23 * * 2-5 root /usr/bin/php /home/ec2-user/markethourly/php/commodity_and_bond.php
+00 6,      * *   6 root /usr/bin/php /home/ec2-user/markethourly/php/commodity_and_bond.php
