@@ -20,6 +20,8 @@ class Tweeter
   const SIGN_MINUS = '-';
   
   // 各時間における表示順
+  // - Summer Time
+  /*
   private $order = array(0 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
                          1 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
                          2 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
@@ -44,6 +46,33 @@ class Tweeter
                         21 => array(MarketManager::FX, MarketManager::UK, MarketManager::GM, MarketManager::SH, MarketManager::HK, MarketManager::JP, MarketManager::US),
                         22 => array(MarketManager::FX, MarketManager::UK, MarketManager::GM, MarketManager::SH, MarketManager::HK, MarketManager::JP, MarketManager::US),
                         23 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
+                       );
+  */
+  // - Normal Time
+  private $order = array(0 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
+                         1 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
+                         2 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
+                         3 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
+                         4 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
+                         5 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
+                         6 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
+                         7 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
+                         8 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
+                         9 => array(MarketManager::FX, MarketManager::JP, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::SH, MarketManager::HK),
+                        10 => array(MarketManager::FX, MarketManager::JP, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::SH, MarketManager::HK),
+                        11 => array(MarketManager::FX, MarketManager::JP, MarketManager::SH, MarketManager::HK, MarketManager::US, MarketManager::UK, MarketManager::GM),
+                        12 => array(MarketManager::FX, MarketManager::JP, MarketManager::SH, MarketManager::HK, MarketManager::US, MarketManager::UK, MarketManager::GM),
+                        13 => array(MarketManager::FX, MarketManager::JP, MarketManager::SH, MarketManager::HK, MarketManager::US, MarketManager::UK, MarketManager::GM),
+                        14 => array(MarketManager::FX, MarketManager::JP, MarketManager::SH, MarketManager::HK, MarketManager::US, MarketManager::UK, MarketManager::GM),
+                        15 => array(MarketManager::FX, MarketManager::JP, MarketManager::SH, MarketManager::HK, MarketManager::US, MarketManager::UK, MarketManager::GM),
+                        16 => array(MarketManager::FX, MarketManager::JP, MarketManager::SH, MarketManager::HK, MarketManager::UK, MarketManager::GM, MarketManager::US),
+                        17 => array(MarketManager::FX, MarketManager::UK, MarketManager::GM, MarketManager::SH, MarketManager::HK, MarketManager::JP, MarketManager::US),
+                        18 => array(MarketManager::FX, MarketManager::UK, MarketManager::GM, MarketManager::SH, MarketManager::HK, MarketManager::JP, MarketManager::US),
+                        19 => array(MarketManager::FX, MarketManager::UK, MarketManager::GM, MarketManager::SH, MarketManager::HK, MarketManager::JP, MarketManager::US),
+                        20 => array(MarketManager::FX, MarketManager::UK, MarketManager::GM, MarketManager::SH, MarketManager::HK, MarketManager::JP, MarketManager::US),
+                        21 => array(MarketManager::FX, MarketManager::UK, MarketManager::GM, MarketManager::SH, MarketManager::HK, MarketManager::JP, MarketManager::US),
+                        22 => array(MarketManager::FX, MarketManager::UK, MarketManager::GM, MarketManager::SH, MarketManager::HK, MarketManager::JP, MarketManager::US),
+                        23 => array(MarketManager::FX, MarketManager::UK, MarketManager::GM, MarketManager::SH, MarketManager::HK, MarketManager::JP, MarketManager::US),
                        );
   
   // 「表示順を有効にする」フラグ
