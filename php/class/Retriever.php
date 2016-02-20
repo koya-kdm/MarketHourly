@@ -174,7 +174,7 @@ class Retriever
     {
       $asset->setPrice(str_replace(',', '', $matches[1])); // 現在値
       $asset->setChangeByPoint($matches[2]);               // 前日比PT
-      $asset->setChange       ($matches[3]);               // 前日比％
+      $asset->setChange       ($matches[3] . '%');         // 前日比％
     }
     
     return;
