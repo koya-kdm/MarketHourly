@@ -29,7 +29,8 @@ $tweeter   = new Tweeter();   // ツイート投稿クラス
 $assetsByMarket
   = array(MarketManager::FX => array(0 => new Asset(EmojiManager::getDoller(),  'USDJPY=X', '円', 2, MarketManager::FX, false, $retriever::SRC_YAHOO ),
                                      1 => new Asset(EmojiManager::getEuro(),    'EURJPY=X', '円', 2, MarketManager::FX, false, $retriever::SRC_YAHOO ),),
-          MarketManager::JP => array(0 => new Asset('日経',                        '^N225', '円', 0, MarketManager::JP,  true, $retriever::SRC_NIKKEI),),
+          MarketManager::JP => array(0 => new Asset('日経',                        '^N225', '円', 0, MarketManager::JP,  true, $retriever::SRC_NIKKEI),
+                                     1 => new Asset('REIT',                          '155', 'pt', 0, MarketManager::JP,  true, $retriever::SRC_JPX   ),),
           MarketManager::HK => array(0 => new Asset('香港',                     '13414271', 'pt', 0, MarketManager::HK,  true, $retriever::SRC_GOOGLE),),
           MarketManager::SH => array(0 => new Asset('上海',                      '7521596', 'pt', 0, MarketManager::SH,  true, $retriever::SRC_GOOGLE),),
           MarketManager::UK => array(0 => new Asset(  '英',                     '12590587', 'pt', 0, MarketManager::UK,  true, $retriever::SRC_GOOGLE),),
@@ -61,7 +62,7 @@ if ($argc > 1)
           $argv[$i] == MarketManager::US    )
       {
         for ($j = 0; $j < count($redefined[$argv[$i]]); $j++)
-        $redefined[$argv[$i]][$j]->setDisplaysChangeByPoint(true);
+          $redefined[$argv[$i]][$j]->setDisplaysChangeByPoint(true);
       }
       
     }

@@ -8,6 +8,7 @@ class Retriever
   const SRC_YAHOO  = 'yh';
   const SRC_GOOGLE = 'gg';
   const SRC_NIKKEI = 'nk';
+  const SRC_JPX    = 'jx';
   
   // Yahoo Finace ベースURL
   const URL_YAHOO = 'http://finance.yahoo.com/d/quotes.csv';
@@ -17,6 +18,9 @@ class Retriever
   
   // 日経平均URL
   const URL_NIKKEI = 'http://indexes.nikkei.co.jp/nkave/index/profile?idx=nk225';
+  
+  // 日本取引所グループ
+  const URL_JPX = 'http://quote.jpx.co.jp/jpx/template/quote.cgi?F=tmp/real_index&QCODE=';
   
   // Yahoo Finance パラメータ
   /*
@@ -65,6 +69,12 @@ class Retriever
           case self::SRC_NIKKEI:
             $this->retrieveStockPriceFromNikkei($asset);
             break;
+          
+          // 日本取引所グループ
+          case self::SRC_JPX:
+            $this->retrieveStockPriceFromJpx($asset);
+            break;
+          
         }
       }
     }
@@ -146,6 +156,25 @@ class Retriever
     {
       $asset->setChangeByPoint($matches[1]);
       $asset->setChange       ($matches[2]);
+    }
+    
+    return;
+  }
+  
+  /*---------------------------
+    retrieveStockPriceFromJpx
+  -----------------------------*/
+  private function retrieveStockPriceFromJpx(&$asset)
+  {
+    $html = file_get_contents(self::URL_JPX . $asset->getTicker());
+    
+    if (preg_match('/<div class="component-normal-table">.*?<td.*?td>.*?<td.*?td>.*?<td.*?td>.*?<td.*?td>.*?<td.*?>[\n\t]*(.*?)<br \/>.*?<\/td>.*?<td.*?>[\n\t]*(.*?)<br \/>\((.*?)％\).*?<\/td>/is', 
+                   $html,
+                   $matches))
+    {
+      $asset->setPrice(str_replace(',', '', $matches[1])); // 現在値
+      $asset->setChangeByPoint($matches[2]);               // 前日比PT
+      $asset->setChange       ($matches[3]);               // 前日比％
     }
     
     return;
