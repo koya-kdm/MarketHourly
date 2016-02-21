@@ -10,6 +10,7 @@ class EmojiManager
   const CLOCK     = 'cl';
   const COUNTRY   = 'ct';
   const COMMODITY = 'cm';
+  const OTHERS    = 'ot';
 
   // 絵文字辞書
   // http://apps.timwhitlock.info/emoji/tables/unicode
@@ -66,6 +67,8 @@ class EmojiManager
                                  'gld2' => array('unicode' => '1F536'), // LARGE ORANGE DIAMOND
                                  'gld' => array('unicode' => '1F538'), // SMALL ORANGE DIAMOND 
                                  
+                               ),
+        self::OTHERS   => array( 'reit' => array('unicode' =>  '00AE'), // registered sign をREITとして使用
                                ),
         );
   
@@ -172,6 +175,14 @@ class EmojiManager
   public static function getGold()
   {
     return self::getEmoji(self::COMMODITY, 'gld');
+  }
+  
+  /*---------------------------
+    getReit
+  -----------------------------*/
+  public static function getReit()
+  {
+    return self::getEmoji(self::OTHERS, 'reit');
   }
 }
 ?>
