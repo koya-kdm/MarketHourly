@@ -168,7 +168,7 @@ class Retriever
   {
     $html = file_get_contents(self::URL_JPX . $asset->getTicker());
     
-    if (preg_match('/<div class="component-normal-table">.*?<td.*?td>.*?<td.*?td>.*?<td.*?td>.*?<td.*?td>.*?<td.*?>[\n\t]*(.*?)<br \/>.*?<\/td>.*?<td.*?>[\n\t]*(.*?)<br \/>\((.*?)％\).*?<\/td>/is', 
+    if (preg_match('/<div class="component-normal-table">.*?<td.*?td>.*?<td.*?td>.*?<td.*?td>.*?<td.*?td>.*?<td.*?>\s*(.*?)<br \/>.*?<\/td>.*?<td.*?>\s*(.*?)<br \/>\((.*?)％\).*?<\/td>/is', 
                    $html,
                    $matches))
     {
