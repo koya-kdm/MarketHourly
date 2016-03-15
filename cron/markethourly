@@ -5,7 +5,7 @@
 
 # Open: Tokyo, NewYork
 05    09 * * 1-5 root /usr/bin/php /home/ec2-user/markethourly/php/main.php jp
-35    23 * * 1-5 root /usr/bin/php /home/ec2-user/markethourly/php/main.php us
+35    22 * * 1-5 root /usr/bin/php /home/ec2-user/markethourly/php/main.php us
 
 # Bonds
 30   10,19 * *   1 root /usr/bin/php /home/ec2-user/markethourly/php/commodity_and_bond.php
