@@ -9,19 +9,19 @@ class Retriever
   const SRC_GOOGLE = 'gg';
   const SRC_NIKKEI = 'nk';
   const SRC_JPX    = 'jx';
-  
+
   // Yahoo Finace ベースURL
   const URL_YAHOO = 'http://finance.yahoo.com/d/quotes.csv';
 
   // Google Finace ベースURL
   const URL_GOOGLE = 'https://www.google.com/finance';
-  
+
   // 日経平均URL
   const URL_NIKKEI = 'http://indexes.nikkei.co.jp/nkave/index/profile?idx=nk225';
-  
+
   // 日本取引所グループ
   const URL_JPX = 'http://quote.jpx.co.jp/jpx/template/quote.cgi?F=tmp/real_index&QCODE=';
-  
+
   // Yahoo Finance パラメータ
   /*
   s  = Symbol
@@ -36,8 +36,8 @@ class Retriever
   p2 = Change in Percent
   */
   private $yahooParams  = array('s', 'l1', 'p2');
-  
-  
+
+
   /*--------------------
     retrieveStockPrice
   ---------------------*/
@@ -46,7 +46,7 @@ class Retriever
     // YahooはCSV
     $yahooUrl    = $this->createYahooUrl($assetsByMarket);
     $yahooHandle = fopen($yahooUrl, 'r');
-    
+
     foreach ($assetsByMarket as $market => $assets)
     {
       foreach ($assets as $key => $asset)
@@ -59,40 +59,40 @@ class Retriever
             $asset->setPrice ($data[1]);
             $asset->setChange($data[2]);
             break;
-          
+
           // Google
           case self::SRC_GOOGLE:
             $this->retrieveStockPriceFromGoogle($asset);
             break;
-          
+
           // 日経新聞
           case self::SRC_NIKKEI:
             $this->retrieveStockPriceFromNikkei($asset);
             break;
-          
+
           // 日本取引所グループ
           case self::SRC_JPX:
             $this->retrieveStockPriceFromJpx($asset);
             break;
-          
+
         }
       }
     }
-    
+
     fclose($yahooHandle);
 
     return;
   }
-  
+
   /*---------------------------
     createYahooUrl
   -----------------------------*/
   private function createYahooUrl($assetsByMarket)
   {
     // e.g.) http://finance.yahoo.com/d/quotes.csv?s=INDU+^IXIC+USDJPY=X+^N225&f=snl1c1p2d1t1
-    
+
     $tickerString = '';
-    
+
     foreach ($assetsByMarket as $market => $assets)
     {
       foreach ($assets as $key => $asset)
@@ -103,29 +103,29 @@ class Retriever
         }
       }
     }
-    
+
     $url= self::URL_YAHOO . '?s=' . $tickerString . '&f=' . implode('', $this->yahooParams);
 
     return $url;
   }
-  
+
   /*---------------------------
     retrieveStockPriceFromGoogle
   -----------------------------*/
   private function retrieveStockPriceFromGoogle(&$asset)
   {
     $html = file_get_contents(self::URL_GOOGLE . '?q=' . $asset->getTicker());
-    
+
     if (preg_match('/<div id="sharebox-data".*?<\/div>/is', $html, $matches))
     {
       $shareBox = $matches[0];
-      
+
       // 株価
       if (preg_match('/<meta itemprop="price".*?content="([\d,.]*)".*?\/>/is', $shareBox, $matches))
       {
         $asset->setPrice(str_replace(',', '', $matches[1]));
       }
-      
+
       // 前日比
       if (preg_match('/<meta itemprop="priceChange".*?content="([\d.+-]*)".*?\/>.*?<meta itemprop="priceChangePercent".*?content="([\d.-]*)".*?\/>/is', $shareBox, $matches))
       {
@@ -134,41 +134,41 @@ class Retriever
         $asset->setChange(str_replace('+-', '-', $asset->getChange()));
       }
     }
-    
+
     return;
   }
-  
+
   /*---------------------------
     retrieveStockPriceFromNikkei
   -----------------------------*/
   private function retrieveStockPriceFromNikkei(&$asset)
   {
     $html = file_get_contents(self::URL_NIKKEI);
-    
+
     // 現在値
-    if (preg_match('/<div class="index-close col-sm-6 col-sm-push-3 col-sm-pull-3">.*?<!--daily_changing-->([\d,.+-]*)/is', $html, $matches))
+    if (preg_match('/<div class="index-close col-sm-6 col-sm-push-3 col-sm-pull-3" id="price">.*?<!--daily_changing-->([\d,.+-]*)/is', $html, $matches))
     {
       $asset->setPrice(str_replace(',', '', $matches[1]));
     }
-    
+
     // 前日比
-    if (preg_match('/<div class="index-rate col-sm-7 col-sm-push-3 col-sm-pull-3">.*?<!--daily_changing-->([\d,.+-]*) \(([\d.+-]*%)\)/is', $html, $matches))
+    if (preg_match('/<div class="index-rate col-sm-7 col-sm-push-3 col-sm-pull-3" id="diff">.*?<!--daily_changing-->([\d,.+-]*) \(([\d.+-]*%)\)/is', $html, $matches))
     {
       $asset->setChangeByPoint($matches[1]);
       $asset->setChange       ($matches[2]);
     }
-    
+
     return;
   }
-  
+
   /*---------------------------
     retrieveStockPriceFromJpx
   -----------------------------*/
   private function retrieveStockPriceFromJpx(&$asset)
   {
     $html = file_get_contents(self::URL_JPX . $asset->getTicker());
-    
-    if (preg_match('/<div class="component-normal-table">.*?<td.*?td>.*?<td.*?td>.*?<td.*?td>.*?<td.*?td>.*?<td.*?>\s*(.*?)<br \/>.*?<\/td>.*?<td.*?>\s*(.*?)<br \/>\((.*?)％\).*?<\/td>/is', 
+
+    if (preg_match('/<div class="component-normal-table">.*?<td.*?td>.*?<td.*?td>.*?<td.*?td>.*?<td.*?td>.*?<td.*?>\s*(.*?)<br \/>.*?<\/td>.*?<td.*?>\s*(.*?)<br \/>\((.*?)％\).*?<\/td>/is',
                    $html,
                    $matches))
     {
@@ -176,60 +176,60 @@ class Retriever
       $asset->setChangeByPoint($matches[2]);               // 前日比PT
       $asset->setChange       ($matches[3] . '%');         // 前日比％
     }
-    
+
     return;
   }
-  
+
   /*--------------------
     retrieveBonds
   ---------------------*/
   public function retrieveBonds()
   {
     $bonds = array();
-    
+
     // 米国
     $bonds['us'] = $this->retrieveStockPriceFromCnbc('US10Y');
-    
-    
+
+
     // 日本
     $bonds['jp'] = $this->retrieveStockPriceFromCnbc('JP10Y-JP');
-    
+
     // ドイツ
     $bonds['de'] = $this->retrieveStockPriceFromCnbc('DE10Y-DE');
-    
+
     return $bonds;
   }
-  
+
   /*--------------------
     retrieveCommodities
   ---------------------*/
   public function retrieveCommodities()
   {
     $commodities = array();
-    
+
     // WTI Crude Oil
     $commodities['oil' ] = $this->retrieveStockPriceFromCnbc('%40CL.1');
-    
+
     // Gold
     $commodities['gold'] = $this->retrieveStockPriceFromCnbc('%40GC.1');
-    
+
     return $commodities;
   }
-  
+
   /*---------------------------
    retrieveStockPriceFromCnbc
   -----------------------------*/
   private function retrieveStockPriceFromCnbc($quoteUrl)
   {
     $cnbcAsset = array();
-    
+
     $html = file_get_contents('http://data.cnbc.com/quotes/' . $quoteUrl);
     if (preg_match('/var quoteDataObj = \[{(.*)}]/is',
                    $html,
                    $matches))
     {
       $quoteData = $this->getQuoteDataArray($matches[1]);
-      
+
       $cnbcAsset['last'          ] = $quoteData['last'];
       $cnbcAsset['change'        ] = $quoteData['change'];
       $cnbcAsset['change_percent'] = floatval($quoteData['change'])
@@ -237,27 +237,27 @@ class Retriever
                                       - floatval($quoteData['change']))
                                    * 100;
     }
-    
+
     return $cnbcAsset;
   }
-  
+
   /*---------------------------
    getQuoteDataArray
   -----------------------------*/
   private function getQuoteDataArray($string)
   {
     $quoteData = array();
-    
+
     $strings1 = explode(',', $string); // numeric array of '"key1":"value1"'
                                        //                  '"key2":"value2"'
-    
+
     foreach ($strings1 as $string1)
     {
       $strings2 = explode(':', $string1);  // numeric array of '"key1"'
                                            //                  '"value1"'
                                            //                  '"key2"'
                                            //                  '"value2"'
-      
+
       for ($i = 0; $i < count($strings2); $i++)
       {
         if (isset($strings2[$i]))
@@ -274,7 +274,7 @@ class Retriever
         $i++;
       }
     }
-    
+
     return $quoteData;
   }
 }
