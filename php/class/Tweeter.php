@@ -18,10 +18,10 @@ class Tweeter
   // 絵文字グループ
   const SIGN_PLUS  = '+';
   const SIGN_MINUS = '-';
-  
+
   // 各時間における表示順
   // - Summer Time
-  /*
+
   private $order = array(0 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
                          1 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
                          2 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
@@ -47,9 +47,9 @@ class Tweeter
                         22 => array(MarketManager::FX, MarketManager::UK, MarketManager::GM, MarketManager::SH, MarketManager::HK, MarketManager::JP, MarketManager::US),
                         23 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
                        );
-  */
+
   // - Normal Time
-  
+  /*
   private $order = array(0 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
                          1 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
                          2 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
@@ -75,51 +75,51 @@ class Tweeter
                         22 => array(MarketManager::FX, MarketManager::UK, MarketManager::GM, MarketManager::SH, MarketManager::HK, MarketManager::JP, MarketManager::US),
                         23 => array(MarketManager::FX, MarketManager::UK, MarketManager::GM, MarketManager::SH, MarketManager::HK, MarketManager::JP, MarketManager::US),
                        );
-  
-  
+  */
+
   // 「表示順を有効にする」フラグ
   private $enableOrder = true;
-  
+
   // 「時計アイコンを有効にする」フラグ
   private $enableClock = true;
-  
+
   // ヘッダー
   private $header = '';
-  
+
   /*---------------------------
     enableOrder / disableOrder
   -----------------------------*/
   public function enableOrder()  { $this->enableOrder = true;  }
   public function disableOrder() { $this->enableOrder = false; }
-  
+
   /*---------------------------
     enableClock / disableClock
   -----------------------------*/
   public function enableClock()  { $this->enableClock = true;  }
   public function disableClock() { $this->enableClock = false; }
-  
+
   /*---------------------------
     setHeader
   -----------------------------*/
   public function setHeader($var) { $this->header = $var; }
-  
+
   /*---------------------------
     createTweet
   -----------------------------*/
   public function createTweet($assetsByMarket)
   {
     // e.g.) USD=120.21円 EUR=134.64円 日経=19531.63円(△0.06%) 香港=28133pt(▼0.94%) 上海=0pt(N/A) S&P500=2108.29pt(△1.09%) Nasdaq=5005.39pt(△1.29%)
-    
+
     // ①ヘッダー
     $tweet = $this->header;
-    
+
     // ②時計アイコン
     $currentHour = (int)date('G');
     if ($this->enableClock)
     {
       $tweet = EmojiManager::getClockByHour($currentHour) . ' ';
     }
-    
+
     // ③株価
     // ◇表示順考慮
     if ($this->enableOrder)
@@ -146,23 +146,23 @@ class Tweeter
         }
       }
     }
-    
+
     return $tweet;
   }
-  
+
   /*---------------------------
     getTweetPiece
   -----------------------------*/
   private function createTweetPiece($asset)
   {
     // Format: [タイトル][株価] ([△▼前日比%][顔])
-    
+
     // ①タイトル
     // ②株価
     $piece = $asset->getTitle()
                      . ''
                      . number_format($asset->getPrice(), $asset->getDecimals());
-    
+
     // ③前日比 + 顔
     if (MarketManager::isHoliday($asset->getMarket()))
     {
@@ -175,7 +175,7 @@ class Tweeter
         //顔アイコン
         $changeIcon = '';
         $change = (float) str_replace('%', '', $asset->getChange());
-        
+
         if ($change == 0)
         {
           if ($asset->getDisplaysChangeByPoint())
@@ -186,13 +186,13 @@ class Tweeter
           {
             $changeByPoint = '';
           }
-          
+
           $piece = $piece . ' (' . $changeByPoint . '0%)';
         }
         else
         {
           $changeIcon = EmojiManager::getFaceByChange($change);
-          
+
           if ($asset->getDisplaysChangeByPoint())
           {
             $changeByPoint = $asset->getChangeByPoint() . ' / ';
@@ -201,20 +201,20 @@ class Tweeter
           {
             $changeByPoint = '';
           }
-          
+
           $piece = $piece
-                 . ' (' 
+                 . ' ('
                  . $changeByPoint
-                 . str_replace(array('+', '-'), array(self::SIGN_PLUS, self::SIGN_MINUS), $asset->getChange()) 
-                 . $changeIcon 
+                 . str_replace(array('+', '-'), array(self::SIGN_PLUS, self::SIGN_MINUS), $asset->getChange())
+                 . $changeIcon
                  . ')';
         }
       }
     }
-    
+
     return $piece;
   }
-  
+
   /*---------------------------
     postTweet
   -----------------------------*/
@@ -224,21 +224,21 @@ class Tweeter
                                    $twitterAuth['consumer_secret'    ],
                                    $twitterAuth['access_token'       ],
                                    $twitterAuth['access_token_secret']);
-    
+
     $res = $connection->post('statuses/update', array('status' => mb_substr($tweet, 0, 140, 'UTF-8')));
-    
+
     //var_dump($res);
-    
+
     return;
   }
-  
+
   /*---------------------------
     createTweetOfBonds
   -----------------------------*/
   public function createTweetOfBonds($bonds)
   {
     $tweet = '10年債';
-    
+
     foreach ($bonds as $ct => $bond)
     {
       $tweet = $tweet
@@ -247,19 +247,19 @@ class Tweeter
              . '(' . number_format($bond['change'], 2) . '%pt' . ')'
              . ' ';
     }
-    
+
     return $tweet;
   }
-  
+
   /*---------------------------
     createTweetOfCommodities
   -----------------------------*/
   public function createTweetOfCommodities($commodities)
   {
     $tweet = '';
-    
+
     $com = $commodities['oil'];
-    
+
     $tweet = $tweet
            . EmojiManager::getOil()
            . $com['last']
@@ -267,9 +267,9 @@ class Tweeter
     /*     . EmojiManager::getFaceByChange($com['change_percent']) */
            . ')'
            . ' ';
-           
+
     $com = $commodities['gold'];
-    
+
     $tweet = $tweet
            . EmojiManager::getGold()
            . $com['last']
@@ -277,9 +277,9 @@ class Tweeter
     /*     . EmojiManager::getFaceByChange($com['change_percent']) */
            . ')'
            . ' ';
-    
+
     return $tweet;
-    
+
   }
 }
 ?>
