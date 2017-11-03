@@ -79,8 +79,10 @@ class Retriever
       }
     }
 
-    fclose($yahooHandle);
-
+    if (false != $yahooHandle) {
+      fclose($yahooHandle);
+    }
+    
     return;
   }
 
