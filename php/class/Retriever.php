@@ -44,8 +44,11 @@ class Retriever
   public function retrieveStockPrice(&$assetsByMarket)
   {
     // YahooはCSV
+    $yahooHandle = false;
     $yahooUrl    = $this->createYahooUrl($assetsByMarket);
-    $yahooHandle = fopen($yahooUrl, 'r');
+    if (false != $yahooUrl) {
+      $yahooHandle = fopen($yahooUrl, 'r');
+    }
 
     foreach ($assetsByMarket as $market => $assets)
     {
@@ -82,7 +85,7 @@ class Retriever
     if (false != $yahooHandle) {
       fclose($yahooHandle);
     }
-    
+
     return;
   }
 
@@ -104,6 +107,10 @@ class Retriever
           $tickerString = $tickerString . $asset->getTicker() . '+';
         }
       }
+    }
+
+    if ('' == $tickerString) {
+      return false;
     }
 
     $url= self::URL_YAHOO . '?s=' . $tickerString . '&f=' . implode('', $this->yahooParams);
