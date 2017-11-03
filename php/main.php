@@ -27,8 +27,8 @@ $tweeter   = new Tweeter();   // ツイート投稿クラス
 
 // アセット定義
 $assetsByMarket
-  = array(MarketManager::FX => array(0 => new Asset(EmojiManager::getDoller(),  'USDJPY=X', '円', 2, MarketManager::FX, false, $retriever::SRC_YAHOO ),
-                                     1 => new Asset(EmojiManager::getEuro(),    'EURJPY=X', '円', 2, MarketManager::FX, false, $retriever::SRC_YAHOO ),),
+  = array(MarketManager::FX => array(0 => new Asset(EmojiManager::getDoller(),    'USDJPY', '円', 2, MarketManager::FX, false, $retriever::SRC_GOOGLE),
+                                     1 => new Asset(EmojiManager::getEuro(),      'EURJPY', '円', 2, MarketManager::FX, false, $retriever::SRC_GOOGLE),),
           MarketManager::JP => array(0 => new Asset('日経',                        '^N225', '円', 0, MarketManager::JP,  true, $retriever::SRC_NIKKEI),
                                      1 => new Asset(EmojiManager::getReit(),         '155', 'pt', 0, MarketManager::JP,  true, $retriever::SRC_JPX   ),),
           MarketManager::HK => array(0 => new Asset('香港',                     '13414271', 'pt', 0, MarketManager::HK,  true, $retriever::SRC_GOOGLE),),
@@ -45,29 +45,29 @@ $assetsByMarket
 if ($argc > 1)
 {
   $redefined = array();
-  
+
   // つぶやきカスタマイズ
   $tweeter->disableOrder();
   $tweeter->disableClock();
   $tweeter->setHeader('【' . date('G:i') . '】');
-  
+
   // 対象アセット定義の抽出
   for ($i = 0; $i < $argc; $i++)
   {
     if (MarketManager::isValid($argv[$i]))
     {
       $redefined[$argv[$i]] = $assetsByMarket[$argv[$i]];
-      
+
       if ($argv[$i] == MarketManager::JP or
           $argv[$i] == MarketManager::US    )
       {
         for ($j = 0; $j < count($redefined[$argv[$i]]); $j++)
           $redefined[$argv[$i]][$j]->setDisplaysChangeByPoint(true);
       }
-      
+
     }
   }
-  
+
   $assetsByMarket = $redefined;
 }
 
