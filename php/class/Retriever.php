@@ -14,7 +14,7 @@ class Retriever
   const URL_YAHOO = 'http://finance.yahoo.com/d/quotes.csv';
 
   // Google Finace ベースURL
-  const URL_GOOGLE = 'https://www.google.com/finance';
+  const URL_GOOGLE = 'https://finance.google.com/finance';
 
   // 日経平均URL
   const URL_NIKKEI = 'http://indexes.nikkei.co.jp/nkave/index/profile?idx=nk225';
