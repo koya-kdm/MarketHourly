@@ -235,7 +235,6 @@ class Retriever
     // 米国
     $bonds['us'] = $this->retrieveStockPriceFromMarketw2('bond/tmubmusd10y?countrycode=bx');
 
-
     // 日本
     $bonds['jp'] = $this->retrieveStockPriceFromMarketw2('bond/tmbmkjp-10y?countrycode=bx');
 
@@ -304,7 +303,8 @@ class Retriever
     // 前日比
     if (preg_match('/<meta name="priceChange" content="(.*?)">/is', $html, $matches))
     {
-      $asset['change'] = str_replace(',', '', $matches[1]);
+      $asset['change'] = '+' . str_replace(',', '', $matches[1]);
+      $asset['change'] = str_replace('+-', '-', $asset['change']);
     }
     if (preg_match('/<meta name="priceChangePercent" content="(.*?)">/is', $html, $matches))
     {
