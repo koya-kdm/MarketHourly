@@ -7,6 +7,7 @@ class Retriever
   // 取得元
   const SRC_YAHOO  = 'yh';
   const SRC_GOOGLE = 'gg';
+  const SRC_MARKETW = 'mw';
   const SRC_NIKKEI = 'nk';
   const SRC_JPX    = 'jx';
 
@@ -15,6 +16,9 @@ class Retriever
 
   // Google Finace ベースURL
   const URL_GOOGLE = 'https://finance.google.com/finance';
+
+  // MarketWatch ベースURL
+  const URL_MARKETW = 'https://www.marketwatch.com/investing/';
 
   // 日経平均URL
   const URL_NIKKEI = 'http://indexes.nikkei.co.jp/nkave/index/profile?idx=nk225';
@@ -66,6 +70,11 @@ class Retriever
           // Google
           case self::SRC_GOOGLE:
             $this->retrieveStockPriceFromGoogle($asset);
+            break;
+
+          // MarketWatch
+          case self::SRC_MARKETW:
+            $this->retrieveStockPriceFromMarketw($asset);
             break;
 
           // 日経新聞
@@ -142,6 +151,33 @@ class Retriever
         $asset->setChange('+' . $matches[2] . '%');
         $asset->setChange(str_replace('+-', '-', $asset->getChange()));
       }
+    }
+
+    return;
+  }
+
+  /*---------------------------
+    retrieveStockPriceFromMarketw
+  -----------------------------*/
+  private function retrieveStockPriceFromMarketw(&$asset)
+  {
+    $html = file_get_contents(self::URL_MARKETW . $asset->getTicker());
+
+    // 株価
+    if (preg_match('/<meta name="price" content="(.*?)">/is', $html, $matches))
+    {
+      $asset->setPrice(str_replace(',', '', $matches[1]));
+    }
+
+    // 前日比
+    if (preg_match('/<meta name="priceChange" content="(.*?)">/is', $html, $matches))
+    {
+      $asset->setChangeByPoint($matches[2]);
+    }
+    if (preg_match('/<meta name="priceChangePercent" content="(.*?)">/is', $html, $matches))
+    {
+      $asset->setChange('+' . $matches[1]);
+      $asset->setChange(str_replace('+-', '-', $asset->getChange()));
     }
 
     return;
