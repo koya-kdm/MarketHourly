@@ -233,14 +233,14 @@ class Retriever
     $bonds = array();
 
     // 米国
-    $bonds['us'] = $this->retrieveStockPriceFromCnbc('US10Y');
+    $bonds['us'] = $this->retrieveStockPriceFromCnbc('bond/tmubmusd10y?countrycode=bx');
 
 
     // 日本
-    $bonds['jp'] = $this->retrieveStockPriceFromCnbc('JP10Y-JP');
+    $bonds['jp'] = $this->retrieveStockPriceFromCnbc('bond/tmbmkjp-10y?countrycode=bx');
 
     // ドイツ
-    $bonds['de'] = $this->retrieveStockPriceFromCnbc('DE10Y-DE');
+    $bonds['de'] = $this->retrieveStockPriceFromCnbc('bond/tmbmkde-10y?countrycode=bx');
 
     return $bonds;
   }
@@ -253,10 +253,10 @@ class Retriever
     $commodities = array();
 
     // WTI Crude Oil
-    $commodities['oil' ] = $this->retrieveStockPriceFromCnbc('%40CL.1');
+    $commodities['oil' ] = $this->retrieveStockPriceFromCnbc('future/crude%20oil%20-%20electronic');
 
     // Gold
-    $commodities['gold'] = $this->retrieveStockPriceFromCnbc('%40GC.1');
+    $commodities['gold'] = $this->retrieveStockPriceFromCnbc('future/gold');
 
     return $commodities;
   }
@@ -281,6 +281,35 @@ class Retriever
                                    / (  floatval($quoteData['last'])
                                       - floatval($quoteData['change']))
                                    * 100;
+    }
+
+    return $cnbcAsset;
+  }
+
+  /*---------------------------
+   retrieveStockPriceFromMarketw2
+  -----------------------------*/
+  private function retrieveStockPriceFromMarketw2($quoteUrl)
+  {
+    $cnbcAsset = array();
+
+    $html = file_get_contents('https://www.marketwatch.com/investing/' . $quoteUrl);
+
+    // 株価
+    if (preg_match('/<meta name="price" content="(.*?)">/is', $html, $matches))
+    {
+      $asset['last'] = str_replace(',', '', $matches[1]);
+    }
+
+    // 前日比
+    if (preg_match('/<meta name="priceChange" content="(.*?)">/is', $html, $matches))
+    {
+      $asset['change'] = str_replace(',', '', $matches[1]);
+    }
+    if (preg_match('/<meta name="priceChangePercent" content="(.*?)">/is', $html, $matches))
+    {
+      $asset['change_percent'] = '+' . $matches[1];
+      $asset['change_percent'] = str_replace('+-', '-', $asset['change_percent']);
     }
 
     return $cnbcAsset;

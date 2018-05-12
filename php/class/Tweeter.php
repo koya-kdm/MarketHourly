@@ -75,7 +75,7 @@ class Tweeter
                         22 => array(MarketManager::FX, MarketManager::UK, MarketManager::GM, MarketManager::SH, MarketManager::HK, MarketManager::JP, MarketManager::US),
                         23 => array(MarketManager::FX, MarketManager::UK, MarketManager::GM, MarketManager::SH, MarketManager::HK, MarketManager::JP, MarketManager::US),
                        );
-  
+
 
   // 「表示順を有効にする」フラグ
   private $enableOrder = true;
@@ -243,8 +243,8 @@ class Tweeter
     {
       $tweet = $tweet
              . EmojiManager::getFlag($ct)
-             .       number_format($bond['last'  ], 2) . '%'
-             . '(' . number_format($bond['change'], 2) . '%pt' . ')'
+             .       $bond['last'  ]
+             . '(' . $bond['change'] . 'pt' . ')'
              . ' ';
     }
 
@@ -263,7 +263,7 @@ class Tweeter
     $tweet = $tweet
            . EmojiManager::getOil()
            . $com['last']
-           . '(' . number_format($com['change_percent'], 2) . '%'
+           . '(' . $com['change_percent']
     /*     . EmojiManager::getFaceByChange($com['change_percent']) */
            . ')'
            . ' ';
@@ -273,7 +273,7 @@ class Tweeter
     $tweet = $tweet
            . EmojiManager::getGold()
            . $com['last']
-           . '(' . number_format($com['change_percent'], 2) . '%'
+           . '(' . $com['change_percent']
     /*     . EmojiManager::getFaceByChange($com['change_percent']) */
            . ')'
            . ' ';
