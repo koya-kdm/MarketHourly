@@ -233,14 +233,14 @@ class Retriever
     $bonds = array();
 
     // 米国
-    $bonds['us'] = $this->retrieveStockPriceFromCnbc('bond/tmubmusd10y?countrycode=bx');
+    $bonds['us'] = $this->retrieveStockPriceFromMarketw2('bond/tmubmusd10y?countrycode=bx');
 
 
     // 日本
-    $bonds['jp'] = $this->retrieveStockPriceFromCnbc('bond/tmbmkjp-10y?countrycode=bx');
+    $bonds['jp'] = $this->retrieveStockPriceFromMarketw2('bond/tmbmkjp-10y?countrycode=bx');
 
     // ドイツ
-    $bonds['de'] = $this->retrieveStockPriceFromCnbc('bond/tmbmkde-10y?countrycode=bx');
+    $bonds['de'] = $this->retrieveStockPriceFromMarketw2('bond/tmbmkde-10y?countrycode=bx');
 
     return $bonds;
   }
@@ -253,10 +253,10 @@ class Retriever
     $commodities = array();
 
     // WTI Crude Oil
-    $commodities['oil' ] = $this->retrieveStockPriceFromCnbc('future/crude%20oil%20-%20electronic');
+    $commodities['oil' ] = $this->retrieveStockPriceFromMarketw2('future/crude%20oil%20-%20electronic');
 
     // Gold
-    $commodities['gold'] = $this->retrieveStockPriceFromCnbc('future/gold');
+    $commodities['gold'] = $this->retrieveStockPriceFromMarketw2('future/gold');
 
     return $commodities;
   }
