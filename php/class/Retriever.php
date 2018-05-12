@@ -291,7 +291,7 @@ class Retriever
   -----------------------------*/
   private function retrieveStockPriceFromMarketw2($quoteUrl)
   {
-    $cnbcAsset = array();
+    $asset = array();
 
     $html = file_get_contents('https://www.marketwatch.com/investing/' . $quoteUrl);
 
@@ -312,7 +312,7 @@ class Retriever
       $asset['change_percent'] = str_replace('+-', '-', $asset['change_percent']);
     }
 
-    return $cnbcAsset;
+    return $asset;
   }
 
   /*---------------------------
