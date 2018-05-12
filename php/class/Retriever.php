@@ -172,7 +172,7 @@ class Retriever
     // 前日比
     if (preg_match('/<meta name="priceChange" content="(.*?)">/is', $html, $matches))
     {
-      $asset->setChangeByPoint($matches[2]);
+      $asset->setChangeByPoint($matches[1]);
     }
     if (preg_match('/<meta name="priceChangePercent" content="(.*?)">/is', $html, $matches))
     {
