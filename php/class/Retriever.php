@@ -198,7 +198,7 @@ class Retriever
   -----------------------------*/
   private function retrieveStockPriceFromCnbc($quoteUrl)
   {
-    $html = file_get_contents(self::URL_CNBC . $asset->getTicker(), false, $context);
+    $html = file_get_contents(self::URL_CNBC . $asset->getTicker());
 
     if (preg_match('/var symbolInfo.*?"change_pct":"(.*?)".*?"last":"(.*?)".*?"change":"(.*?)"/is', $html, $matches))
     {
