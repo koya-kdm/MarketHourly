@@ -196,7 +196,7 @@ class Retriever
   /*---------------------------
    retrieveStockPriceFromCnbc
   -----------------------------*/
-  private function retrieveStockPriceFromCnbc($quoteUrl)
+  private function retrieveStockPriceFromCnbc(&$asset)
   {
     $html = file_get_contents(self::URL_CNBC . $asset->getTicker());
 
