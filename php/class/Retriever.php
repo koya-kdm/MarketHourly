@@ -10,6 +10,7 @@ class Retriever
   const SRC_MARKETW = 'mw';
   const SRC_NIKKEI = 'nk';
   const SRC_JPX    = 'jx';
+  const SRC_CNBC   = 'cn';
 
   // Yahoo Finace ベースURL
   const URL_YAHOO = 'http://finance.yahoo.com/d/quotes.csv';
@@ -25,6 +26,10 @@ class Retriever
 
   // 日本取引所グループ
   const URL_JPX = 'http://quote.jpx.co.jp/jpx/template/quote.cgi?F=tmp/real_index&QCODE=';
+
+  // CNBC
+  const URL_CNBC = 'https://www.cnbc.com/quotes/?symbol=';
+
 
   // Yahoo Finance パラメータ
   /*
@@ -85,6 +90,11 @@ class Retriever
           // 日本取引所グループ
           case self::SRC_JPX:
             $this->retrieveStockPriceFromJpx($asset);
+            break;
+
+          // CNBC
+          case self::SRC_CNBC:
+            $this->retrieveStockPriceFromCnbc($asset);
             break;
 
         }
@@ -184,6 +194,29 @@ class Retriever
   }
 
   /*---------------------------
+   retrieveStockPriceFromCnbc
+  -----------------------------*/
+  private function retrieveStockPriceFromCnbc($quoteUrl)
+  {
+    $html = file_get_contents(self::URL_CNBC . $asset->getTicker(), false, $context);
+
+    if (preg_match('/var symbolInfo.*?"change_pct":"(.*?)".*?"last":"(.*?)".*?"change":"(.*?)"/is', $html, $matches))
+    {
+      // 株価
+      $asset->setPrice(str_replace(',', '', $matches[2]));
+
+      // 前日比
+      $asset->setChangeByPoint($matches[3]);
+
+      // 前日比（%）
+      $asset->setChange(str_replace('+-', '-', $asset->getChange()));
+
+    }
+
+    return;
+  }
+
+  /*---------------------------
     retrieveStockPriceFromNikkei
   -----------------------------*/
   private function retrieveStockPriceFromNikkei(&$asset)
@@ -247,7 +280,7 @@ class Retriever
   /*--------------------
     retrieveCommodities
   ---------------------*/
-  public function retrieveCommodities()
+  public function retrieveCommodities_old()
   {
     $commodities = array();
 
@@ -260,30 +293,6 @@ class Retriever
     return $commodities;
   }
 
-  /*---------------------------
-   retrieveStockPriceFromCnbc
-  -----------------------------*/
-  private function retrieveStockPriceFromCnbc($quoteUrl)
-  {
-    $cnbcAsset = array();
-
-    $html = file_get_contents('http://data.cnbc.com/quotes/' . $quoteUrl);
-    if (preg_match('/var quoteDataObj = \[{(.*)}]/is',
-                   $html,
-                   $matches))
-    {
-      $quoteData = $this->getQuoteDataArray($matches[1]);
-
-      $cnbcAsset['last'          ] = $quoteData['last'];
-      $cnbcAsset['change'        ] = $quoteData['change'];
-      $cnbcAsset['change_percent'] = floatval($quoteData['change'])
-                                   / (  floatval($quoteData['last'])
-                                      - floatval($quoteData['change']))
-                                   * 100;
-    }
-
-    return $cnbcAsset;
-  }
 
   /*---------------------------
    retrieveStockPriceFromMarketw2

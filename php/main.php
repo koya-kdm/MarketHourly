@@ -27,16 +27,16 @@ $tweeter   = new Tweeter();   // ツイート投稿クラス
 
 // アセット定義
 $assetsByMarket
-  = array(MarketManager::FX => array(0 => new Asset(EmojiManager::getDoller(),    'currency/usdjpy', '円', 2, MarketManager::FX, false, $retriever::SRC_MARKETW),
-                                     1 => new Asset(EmojiManager::getEuro(),      'currency/eurjpy', '円', 2, MarketManager::FX, false, $retriever::SRC_MARKETW),),
+  = array(MarketManager::FX => array(0 => new Asset(EmojiManager::getDoller(),    'JPY%3D', '円', 2, MarketManager::FX, false, $retriever::SRC_CNBC),
+                                     1 => new Asset(EmojiManager::getEuro(),   'EURJPY%3D', '円', 2, MarketManager::FX, false, $retriever::SRC_CNBC),),
           MarketManager::JP => array(0 => new Asset('日経',                        '^N225', '円', 0, MarketManager::JP,  true, $retriever::SRC_NIKKEI),
                                      1 => new Asset(EmojiManager::getReit(),         '155', 'pt', 0, MarketManager::JP,  true, $retriever::SRC_JPX   ),),
-          MarketManager::HK => array(0 => new Asset('香港',      'index/hsi?countrycode=hk', 'pt', 0, MarketManager::HK,  true, $retriever::SRC_MARKETW),),
-          MarketManager::SH => array(0 => new Asset('上海',   'index/shcomp?countrycode=cn', 'pt', 0, MarketManager::SH,  true, $retriever::SRC_MARKETW),),
-          MarketManager::UK => array(0 => new Asset(  '英',      'index/ukx?countrycode=uk', 'pt', 0, MarketManager::UK,  true, $retriever::SRC_MARKETW),),
-          MarketManager::GM => array(0 => new Asset(  '独',      'index/dax?countrycode=dx', 'pt', 0, MarketManager::GM,  true, $retriever::SRC_MARKETW),),
-          MarketManager::US => array(0 => new Asset('ダウ',                    'index/djia', 'pt', 0, MarketManager::US,  true, $retriever::SRC_MARKETW),
-                                     1 => new Asset('ナス',                    'index/comp', 'pt', 0, MarketManager::US,  true, $retriever::SRC_MARKETW),),
+          MarketManager::HK => array(0 => new Asset('香港', '.HSI',   'pt', 0, MarketManager::HK,  true, $retriever::SRC_CNBC),),
+          MarketManager::SH => array(0 => new Asset('上海', '.SSEC',  'pt', 0, MarketManager::SH,  true, $retriever::SRC_CNBC),),
+          MarketManager::UK => array(0 => new Asset(  '英', '.FTSE',  'pt', 0, MarketManager::UK,  true, $retriever::SRC_CNBC),),
+          MarketManager::GM => array(0 => new Asset(  '独', '.GDAXI', 'pt', 0, MarketManager::GM,  true, $retriever::SRC_CNBC),),
+          MarketManager::US => array(0 => new Asset('ダウ', '.DJI',   'pt', 0, MarketManager::US,  true, $retriever::SRC_CNBC),
+                                     1 => new Asset('ナス', '.IXIC',  'pt', 0, MarketManager::US,  true, $retriever::SRC_CNBC),),
          );
 
 // アセット再定義（コマンドライン引数がある場合）
