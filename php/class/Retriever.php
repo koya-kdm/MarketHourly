@@ -209,7 +209,7 @@ class Retriever
       $asset->setChangeByPoint($matches[3]);
 
       // 前日比（%）
-      $asset->setChange(str_replace('+-', '-', $matches[1]));
+      $asset->setChange(str_replace('+-', '-', $matches[1]) . '%');
 
     }
 
