@@ -1,15 +1,15 @@
 # Tue-Fri, Mon, Sat
-00     * * * 2-5 root /usr/bin/php /home/koya/git/MarketHourly/php/main.php
-00 07-23 * *   1 root /usr/bin/php /home/koya/git/MarketHourly/php/main.php
-00 00-08 * *   6 root /usr/bin/php /home/koya/git/MarketHourly/php/main.php
+00     * * * 2-5 root /usr/bin/php /home/ec2-user/git/MarketHourly/php/main.php
+00 07-23 * *   1 root /usr/bin/php /home/ec2-user/git/MarketHourly/php/main.php
+00 00-08 * *   6 root /usr/bin/php /home/ec2-user/git/MarketHourly/php/main.php
 
 # Open: Tokyo, NewYork
-05    09 * * 1-5 root /usr/bin/php /home/koya/git/MarketHourly/php/main.php jp
-35    22 * * 1-5 root /usr/bin/php /home/koya/git/MarketHourly/php/main.php us
+05    09 * * 1-5 root /usr/bin/php /home/ec2-user/git/MarketHourly/php/main.php jp
+35    22 * * 1-5 root /usr/bin/php /home/ec2-user/git/MarketHourly/php/main.php us
 
 # Bonds
-30   10,19 * *   1 root /usr/bin/php /home/koya/git/MarketHourly/php/commodity_and_bond.php
-30 6,10,19 * * 2-5 root /usr/bin/php /home/koya/git/MarketHourly/php/commodity_and_bond.php
-55      23 * *   1 root /usr/bin/php /home/koya/git/MarketHourly/php/commodity_and_bond.php
-55      23 * * 2-5 root /usr/bin/php /home/koya/git/MarketHourly/php/commodity_and_bond.php
-30 6       * *   6 root /usr/bin/php /home/koya/git/MarketHourly/php/commodity_and_bond.php
+#30   10,19 * *   1 root /usr/bin/php /home/ec2-user/git/MarketHourly/php/commodity_and_bond.php
+#30 6,10,19 * * 2-5 root /usr/bin/php /home/ec2-user/git/MarketHourly/php/commodity_and_bond.php
+#55      23 * *   1 root /usr/bin/php /home/ec2-user/git/MarketHourly/php/commodity_and_bond.php
+#55      23 * * 2-5 root /usr/bin/php /home/ec2-user/git/MarketHourly/php/commodity_and_bond.php
+#30 6       * *   6 root /usr/bin/php /home/ec2-user/git/MarketHourly/php/commodity_and_bond.php
