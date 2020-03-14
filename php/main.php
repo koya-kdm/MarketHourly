@@ -29,8 +29,7 @@ $tweeter   = new Tweeter();   // ツイート投稿クラス
 $assetsByMarket
   = array(MarketManager::FX => array(0 => new Asset(EmojiManager::getDoller(),    'JPY%3D', '円', 2, MarketManager::FX, false, $retriever::SRC_CNBC),
                                      1 => new Asset(EmojiManager::getEuro(),   'EURJPY%3D', '円', 2, MarketManager::FX, false, $retriever::SRC_CNBC),),
-          MarketManager::JP => array(0 => new Asset('日経',                        '^N225', '円', 0, MarketManager::JP,  true, $retriever::SRC_NIKKEI),
-                                     1 => new Asset(EmojiManager::getReit(),         '155', 'pt', 0, MarketManager::JP,  true, $retriever::SRC_JPX   ),),
+          MarketManager::JP => array(0 => new Asset('日経', '^N225',  '円', 0, MarketManager::JP,  true, $retriever::SRC_NIKKEI),),
           MarketManager::HK => array(0 => new Asset('香港', '.HSI',   'pt', 0, MarketManager::HK,  true, $retriever::SRC_CNBC),),
           MarketManager::SH => array(0 => new Asset('上海', '.SSEC',  'pt', 0, MarketManager::SH,  true, $retriever::SRC_CNBC),),
           MarketManager::UK => array(0 => new Asset(  '英', '.FTSE',  'pt', 0, MarketManager::UK,  true, $retriever::SRC_CNBC),),
