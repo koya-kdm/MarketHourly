@@ -221,7 +221,15 @@ class Retriever
   -----------------------------*/
   private function retrieveStockPriceFromNikkei(&$asset)
   {
-    $html = file_get_contents(self::URL_NIKKEI);
+    $options = [
+      'http' => [
+        'method' => 'GET',
+        'header' => 'User-Agent: iOS',
+      ],
+    ];
+    $context = stream_context_create($options);
+
+    $html = file_get_contents(self::URL_NIKKEI, false, $context);
 
     // 現在値
     if (preg_match('/<div class="index-close col-sm-6 col-sm-push-3 col-sm-pull-3" id="price">.*?<!--daily_changing-->([\d,.+-]*)/is', $html, $matches))
