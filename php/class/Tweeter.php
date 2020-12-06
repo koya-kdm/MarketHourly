@@ -21,7 +21,7 @@ class Tweeter
 
   // 各時間における表示順
   // - Summer Time
-
+  /*
   private $order = array(0 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
                          1 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
                          2 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
@@ -47,9 +47,9 @@ class Tweeter
                         22 => array(MarketManager::FX, MarketManager::UK, MarketManager::GM, MarketManager::SH, MarketManager::HK, MarketManager::JP, MarketManager::US),
                         23 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
                        );
-
+  */
   // - Normal Time
-  /*
+
   private $order = array(0 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
                          1 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
                          2 => array(MarketManager::FX, MarketManager::US, MarketManager::UK, MarketManager::GM, MarketManager::JP, MarketManager::SH, MarketManager::HK),
@@ -75,7 +75,7 @@ class Tweeter
                         22 => array(MarketManager::FX, MarketManager::UK, MarketManager::GM, MarketManager::SH, MarketManager::HK, MarketManager::JP, MarketManager::US),
                         23 => array(MarketManager::FX, MarketManager::UK, MarketManager::GM, MarketManager::SH, MarketManager::HK, MarketManager::JP, MarketManager::US),
                        );
-  */
+  
 
   // 「表示順を有効にする」フラグ
   private $enableOrder = true;
