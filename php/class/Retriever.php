@@ -28,7 +28,7 @@ class Retriever
   const URL_JPX = 'http://quote.jpx.co.jp/jpx/template/quote.cgi?F=tmp/real_index&QCODE=';
 
   // CNBC
-  const URL_CNBC = 'https://www.cnbc.com/quotes/?symbol=';
+  const URL_CNBC = 'https://www.cnbc.com/quotes/';
 
 
   // Yahoo Finance パラメータ
@@ -200,16 +200,16 @@ class Retriever
   {
     $html = file_get_contents(self::URL_CNBC . $asset->getTicker());
 
-    if (preg_match('/var symbolInfo.*?"change_pct":"(.*?)".*?"last":"(.*?)".*?"change":"(.*?)"/is', $html, $matches))
+    if (preg_match('/"last":"(.*?)".*?"change":"(.*?)".*?"change_pct":"(.*?)"/is', $html, $matches))
     {
       // 株価
-      $asset->setPrice(str_replace(',', '', $matches[2]));
+      $asset->setPrice(str_replace(',', '', $matches[1]));
 
       // 前日比
-      $asset->setChangeByPoint($matches[3]);
+      $asset->setChangeByPoint($matches[2]);
 
       // 前日比（%）
-      $asset->setChange(str_replace('+-', '-', $matches[1]) . '%');
+      $asset->setChange(str_replace('+-', '-', $matches[3]) . '%');
 
     }
 
